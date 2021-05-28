@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.readBookFragment.SummaryFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_summary_fragment"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_below="@id/rcv_summary_fragment"
+        android:layout_height="200dp">
+        <TextView
+            android:id="@+id/text_summary_fragment"
+            android:layout_below="@id/rcv_summary_fragment"
+            android:layout_width="match_parent"
+            android:textSize="18sp"
+            android:layout_height="wrap_content"/>
+    </ScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_like_summary_fragment"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/rcv_summary_fragment"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="210dp"
+        android:textColor="@color/white" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_read_summary_fragment"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/rcv_summary_fragment"
+        android:layout_marginTop="210dp"
+        android:layout_marginRight="40dp"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/white"
+        android:text="Đọc truyện"
+        android:background="@drawable/custom_button_read_book"/>
+</RelativeLayout>

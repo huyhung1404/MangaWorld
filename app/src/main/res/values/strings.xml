@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">MangaWorld</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="home_menu">Trang chủ</string>
+    <string name="bookcase_menu">Tủ sách</string>
+    <string name="info_menu">Hồ sơ</string>
+    <string name="search_menu">Tìm kiếm</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="trang_thai_false">Trạng thái: Đang tiến hành</string>
+    <string name="trang_thai_true">Trạng thái: Hoàn thành</string>
+    <string name="like">Yêu thích</string>
+    <string name="dis_like">Bỏ thích</string>
+
+</resources>
