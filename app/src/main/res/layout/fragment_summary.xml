@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.readBookFragment.SummaryFragment">
+    tools:context=".fragment.ReadMangaFragment.SummaryFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <androidx.recyclerview.widget.RecyclerView
@@ -16,6 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_marginHorizontal="15dp"
         android:layout_below="@id/rcv_summary_fragment"
+        android:scrollbars="none"
         android:layout_height="200dp">
         <TextView
             android:id="@+id/text_summary_fragment"

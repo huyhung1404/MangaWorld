@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.readBookFragment.CommentFragment">
+    tools:context=".fragment.ReadMangaFragment.CommentFragment">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_comment"
         android:layout_marginTop="10dp"

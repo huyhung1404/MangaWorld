@@ -11,5 +11,19 @@
     <string name="trang_thai_true">Trạng thái: Hoàn thành</string>
     <string name="like">Yêu thích</string>
     <string name="dis_like">Bỏ thích</string>
-
+    <string name="personal_information">Thông tin cá nhân</string>
+    <string name="name">Tên:</string>
+    <string name="max_char">Tối đa 25 ký tự</string>
+    <string name="phone_number">Số điện thoại:</string>
+    <string name="log_out">Đăng xuất</string>
+    <string name="replace_password">Đổi mật khẩu</string>
+    <string name="access">Xác nhận</string>
+    <string name="new_pass">Mật khẩu mới:</string>
+    <string name="old_pass">Mật khẩu cũ:</string>
+    <string name="re_input">Nhập lại:</string>
+    <string name="gmail">Gmail:</string>
+    <string name="hint_null">Chưa có</string>
+    <string name="connectFail">Kết nối thất bại</string>
+    <string name="delete">Xoá</string>
+    <string name="viewMore">Xem thêm</string>
 </resources>

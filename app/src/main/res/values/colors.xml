@@ -11,4 +11,8 @@
     <color name="black_trans">#33000000</color>
     <color name="gray">#eaf5f6</color>
     <color name="dark_yellow">#DFFF8F6A</color>
+    <color name="dark_gray">#DF504B49</color>
+    <color name="white_gray">#DF958E8B</color>
+    <color name="endColor">#3EF6A2</color>
+    <color name="startColor">#0DA2FB</color>
 </resources>

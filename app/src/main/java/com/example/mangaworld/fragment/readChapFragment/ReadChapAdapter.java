@@ -30,11 +30,7 @@ public class ReadChapAdapter extends RecyclerView.Adapter<ReadChapAdapter.ReadCh
 
     @Override
     public void onBindViewHolder(@NonNull ReadChapViewHolder holder, int position) {
-        String string = listImg.get(position);
-        if (string == null) {
-            return;
-        }
-        Glide.with(holder.itemImg.getContext()).load(string).into(holder.itemImg);
+        Glide.with(holder.itemImg.getContext()).load(listImg.get(position)).into(holder.itemImg);
     }
 
     @Override
