@@ -10,7 +10,7 @@ import retrofit2.http.Query;
 
 public interface APIHome {
     //Get data danh sách category vào home
-    @GET("api/category")
+    @GET("api/comic/home")
     Call<List<Category>> dataHomeFragment();
     //Get danh sách truyện theo category
     @GET("api/category/get")

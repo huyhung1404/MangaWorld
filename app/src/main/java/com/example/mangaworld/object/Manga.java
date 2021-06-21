@@ -30,7 +30,7 @@ public class Manga implements Serializable {
     private String mangaAuthor;
     @SerializedName("enabled")
     private Boolean status;
-    @SerializedName("listCategory")
+    @SerializedName("listCate")
     private List<ListTagCategory> listTagCategory;
     @SerializedName("description")
     private String summaryManga;

@@ -35,7 +35,7 @@ public class CommentFragment extends Fragment {
         View mView = inflater.inflate(R.layout.fragment_comment, container, false);
         RecyclerView rcvComment = mView.findViewById(R.id.rcv_comment);
         CircleImageView circleImageView = mView.findViewById(R.id.img_my_avatar);
-        Glide.with(getContext()).load("https://scontent-hkg4-1.xx.fbcdn.net/v/t1.6435-9/179204046_1811297539029978_8785896082035732471_n.jpg?_nc_cat=107&ccb=1-3&_nc_sid=e3f864&_nc_ohc=QLDBnvQGal0AX_tU1ON&_nc_ht=scontent-hkg4-1.xx&oh=39960f558ef1cc4c4a7a0a0ada526ee7&oe=60D41CD7").into(circleImageView);
+        Glide.with(requireContext()).load("https://scontent-hkg4-1.xx.fbcdn.net/v/t1.6435-9/179204046_1811297539029978_8785896082035732471_n.jpg?_nc_cat=107&ccb=1-3&_nc_sid=e3f864&_nc_ohc=QLDBnvQGal0AX_tU1ON&_nc_ht=scontent-hkg4-1.xx&oh=39960f558ef1cc4c4a7a0a0ada526ee7&oe=60D41CD7").into(circleImageView);
         CommentAdapter commentAdapter = new CommentAdapter();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rcvComment.setLayoutManager(linearLayoutManager);

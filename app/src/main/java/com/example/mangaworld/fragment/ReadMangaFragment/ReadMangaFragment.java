@@ -6,12 +6,10 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.palette.graphics.Palette;
 import androidx.viewpager.widget.ViewPager;
@@ -26,11 +24,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.mangaworld.R;
 import com.example.mangaworld.activity.MainActivity;
+import com.example.mangaworld.mainActivityAdapter.ViewPagerAdapter;
 import com.example.mangaworld.object.Manga;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
 
-import java.util.ArrayList;
 
 public class ReadMangaFragment extends Fragment {
     public static final String TAG = ReadMangaFragment.class.getName();
@@ -48,7 +46,7 @@ public class ReadMangaFragment extends Fragment {
         if (bundleReceive != null) {
             this.manga = (Manga) bundleReceive.get("object_book");
         }
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        AppCompatActivity activity = (AppCompatActivity) requireActivity();
         activity.setSupportActionBar(mToolBar);
 
         ActionBar actionBar = activity.getSupportActionBar();
@@ -58,7 +56,7 @@ public class ReadMangaFragment extends Fragment {
         }
         setHasOptionsMenu(true);
 
-        ViewPageAdapter viewPageAdapter = new ViewPageAdapter(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        ViewPagerAdapter viewPageAdapter = new ViewPagerAdapter(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         viewPageAdapter.AddFragment(new ChapterFragment(manga.getIdManga()), "Chương");
         viewPageAdapter.AddFragment(new SummaryFragment(manga.getIdManga(), manga.getListTagCategory(), manga.getSummaryManga()), "Giới thiệu");
         viewPageAdapter.AddFragment(new CommentFragment(manga.getIdManga()), "Bình luận");
@@ -74,6 +72,7 @@ public class ReadMangaFragment extends Fragment {
         final CollapsingToolbarLayout collapsingToolbarLayout = mView.findViewById(R.id.collapsing_tool_bar_layout);
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.background_read_book);
         Palette.from(bitmap).generate(palette -> {
+            assert palette != null;
             int myColor = palette.getVibrantColor(getResources().getColor(R.color.gray));
             int myDarkColor = palette.getVibrantColor(getResources().getColor(R.color.black_trans));
             collapsingToolbarLayout.setContentScrimColor(myColor);
@@ -83,7 +82,7 @@ public class ReadMangaFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        getFragmentManager().popBackStack(ReadMangaFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        requireFragmentManager().popBackStack(ReadMangaFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         return true;
     }
 
@@ -96,7 +95,7 @@ public class ReadMangaFragment extends Fragment {
         TextView tvView = mView.findViewById(R.id.text_number_view_read_book);
         TextView tvLike = mView.findViewById(R.id.text_number_like_read_book);
 
-        Glide.with(getContext()).load(manga.getResourceId()).into(imageView);
+        Glide.with(requireContext()).load(manga.getResourceId()).into(imageView);
         tvAuthor.setText("Tác giả: " + manga.getMangaAuthor());
         if (!manga.getStatus()) {
             tvStatus.setText(R.string.trang_thai_false);
@@ -120,34 +119,4 @@ public class ReadMangaFragment extends Fragment {
         MainActivity.showBottomNav();
     }
 
-    private static class ViewPageAdapter extends FragmentPagerAdapter {
-        private final ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
-        private final ArrayList<String> stringArrayList = new ArrayList<>();
-
-        public ViewPageAdapter(@NonNull FragmentManager fm, int behavior) {
-            super(fm, behavior);
-        }
-
-        public void AddFragment(Fragment fragment, String s) {
-            fragmentArrayList.add(fragment);
-            stringArrayList.add(s);
-        }
-
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-            return fragmentArrayList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return fragmentArrayList.size();
-        }
-
-        @Nullable
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return stringArrayList.get(position);
-        }
-    }
 }

@@ -11,5 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class Chapter implements Serializable {
+    private String content;
+    private List<String> linkImage;
     private List<Long> indexChapter;
 }

@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.mangaworld.R;
+import com.example.mangaworld.fragment.BXHFragment.BXHFragment;
+import com.example.mangaworld.fragment.LoginFragment.LoginFragment;
 import com.example.mangaworld.mainActivityAdapter.ScrollHandler;
 import com.example.mangaworld.fragment.CategoryFragment;
 import com.example.mangaworld.fragment.readChapFragment.ReadChapFragment;
@@ -21,13 +23,13 @@ import com.example.mangaworld.fragment.InfoFragment;
 import com.example.mangaworld.fragment.ReadMangaFragment.ReadMangaFragment;
 import com.example.mangaworld.fragment.SearchFragment.SearchFragment;
 import com.example.mangaworld.object.Chapter;
+import com.example.mangaworld.object.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     public static BottomNavigationView bottomNavigationView;
-    private final ArrayList<Fragment> listFragment = new ArrayList<>();
+    public static boolean isLogin = false;
+    public static User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,29 +38,29 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
         layoutParams.setBehavior(new ScrollHandler());
-        listFragment.add(new HomeFragment());
-        listFragment.add(new BookcaseFragment());
-        listFragment.add(new SearchFragment());
-        listFragment.add(new InfoFragment());
         setBottomNavigationView();
     }
 
     @SuppressLint("NonConstantResourceId")
     private void setBottomNavigationView() {
-        loadFragment(listFragment.get(0));
+        loadFragment(new HomeFragment());
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.menuHome:
-                    loadFragment(listFragment.get(0));
+                    loadFragment(new HomeFragment());
                     return true;
                 case R.id.menuBookCase:
-                    loadFragment(listFragment.get(1));
+                    loadFragment(new BookcaseFragment());
                     return true;
                 case R.id.menuSearch:
-                    loadFragment(listFragment.get(2));
+                    loadFragment(new SearchFragment());
                     return true;
                 case R.id.menuInfo:
-                    loadFragment(listFragment.get(3));
+                    if (isLogin){
+                        loadFragment(new InfoFragment(user));
+                        return true;
+                    }
+                    loadFragment(new LoginFragment());
                     return true;
             }
             return false;
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Chuyển fragment
-    private void loadFragment(Fragment fragment) {
+    public void loadFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.main_frame, fragment);
@@ -100,6 +102,15 @@ public class MainActivity extends AppCompatActivity {
         //
         fragmentTransaction.replace(R.id.main_frame, categoryFragment);
         fragmentTransaction.addToBackStack(CategoryFragment.TAG);
+        fragmentTransaction.commit();
+    }
+
+    //Truyền dữ liệu từ Home đến BXH
+    public void nextBXHFragment(float id) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        BXHFragment bxhFragment = new BXHFragment();
+        fragmentTransaction.replace(R.id.main_frame, bxhFragment);
+        fragmentTransaction.addToBackStack(BXHFragment.TAG);
         fragmentTransaction.commit();
     }
 

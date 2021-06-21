@@ -26,8 +26,10 @@ public class SearchManga extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_search_manga, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.rcv_search_manga);
+        View view = inflater.inflate(R.layout.fragment_search_item, container, false);
+        RecyclerView recyclerView = view.findViewById(R.id.rcv_search);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setItemViewCacheSize(10);
         MainActivity mainActivity = (MainActivity) getActivity();
 
         SearchMangaAdapter searchMangaAdapter = new SearchMangaAdapter();
@@ -41,6 +43,11 @@ public class SearchManga extends Fragment {
 
             @Override
             public void onClickItemCategory(Long id) {
+
+            }
+
+            @Override
+            public void onClickItemIcon(float id) {
 
             }
         });

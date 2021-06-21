@@ -33,20 +33,17 @@ public class HomeFragment extends Fragment {
         View mView = inflater.inflate(R.layout.fragment_home, container, false);
         //Init recycler view
         RecyclerView rcvCategory = mView.findViewById(R.id.rcv_category);
-//        rcvCategory.setHasFixedSize(true);
+        rcvCategory.setHasFixedSize(true);
         rcvCategory.setItemViewCacheSize(5);
         //
-        MainActivity mMainActivity = (MainActivity) getActivity();
-        if (mMainActivity != null) {
-            //Recycler view
-            CategoryAdapter categoryAdapter = new CategoryAdapter(mMainActivity);
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mMainActivity, RecyclerView.VERTICAL, false);
-            rcvCategory.setLayoutManager(linearLayoutManager);
-
-            //Set data
-            getHomeData(categoryAdapter, mMainActivity);
-            rcvCategory.setAdapter(categoryAdapter);
-        }
+        MainActivity mMainActivity = (MainActivity) requireActivity();
+        //Recycler view
+        CategoryAdapter categoryAdapter = new CategoryAdapter(mMainActivity);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mMainActivity, RecyclerView.VERTICAL, false);
+        rcvCategory.setLayoutManager(linearLayoutManager);
+        //Set data
+        getHomeData(categoryAdapter, mMainActivity);
+        rcvCategory.setAdapter(categoryAdapter);
         return mView;
     }
 
@@ -64,6 +61,11 @@ public class HomeFragment extends Fragment {
                         @Override
                         public void onClickItemCategory(Long id) {
                             mMainActivity.nextCategoryFragment(id);
+                        }
+
+                        @Override
+                        public void onClickItemIcon(float id) {
+                            mMainActivity.nextBXHFragment(id);
                         }
                     });
                 }

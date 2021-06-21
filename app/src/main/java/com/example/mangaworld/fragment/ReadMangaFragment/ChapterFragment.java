@@ -3,13 +3,11 @@ package com.example.mangaworld.fragment.ReadMangaFragment;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +19,6 @@ import com.example.mangaworld.api.APIClient;
 import com.example.mangaworld.object.Chapter;
 import com.example.mangaworld.fragment.ReadMangaFragment.ReadMangaAdapter.ChapAdapter;
 
-import java.util.Collection;
 import java.util.Collections;
 
 import retrofit2.Call;
@@ -40,10 +37,8 @@ public class ChapterFragment extends Fragment {
         RecyclerView rcvChap = mView.findViewById(R.id.rcv_chap);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rcvChap.setLayoutManager(linearLayoutManager);
-        MainActivity mainActivity = (MainActivity) getActivity();
-        if (mainActivity!= null){
-            getChapterData(rcvChap,mainActivity);
-        }
+
+        getChapterData(rcvChap, (MainActivity) requireActivity());
         return mView;
     }
     private void getChapterData(RecyclerView rcvChap, MainActivity mainActivity){

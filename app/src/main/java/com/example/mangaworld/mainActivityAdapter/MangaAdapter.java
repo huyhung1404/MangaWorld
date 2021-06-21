@@ -19,11 +19,14 @@ import java.util.List;
 public class MangaAdapter extends RecyclerView.Adapter<MangaAdapter.BookViewHolder> {
     private List<Manga> mMangas;
     private CategoryAdapter.IClickItem iClickItem;
-    private Long idCategory;
+    private final boolean isHasLoadMore;
 
-    public void setData(List<Manga> mMangas,Long idCategory, CategoryAdapter.IClickItem iClickItem) {
+    public MangaAdapter(boolean isHasLoadMore) {
+        this.isHasLoadMore = isHasLoadMore;
+    }
+
+    public void setData(List<Manga> mMangas, CategoryAdapter.IClickItem iClickItem) {
         this.mMangas = mMangas;
-        this.idCategory = idCategory;
         this.iClickItem = iClickItem;
         notifyDataSetChanged();
     }
@@ -38,21 +41,26 @@ public class MangaAdapter extends RecyclerView.Adapter<MangaAdapter.BookViewHold
     @Override
     public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
         if (position == mMangas.size()) {
-            holder.itemViewMore.setOnClickListener(v -> iClickItem.onClickItemCategory(idCategory));
+//            holder.itemViewMore.setOnClickListener(v -> iClickItem.onClickItemCategory(idCategory));
             return;
         }
         Glide.with(holder.imgBook.getContext()).load(mMangas.get(position).getResourceId()).into(holder.imgBook);
         holder.textLikeBook.setText(String.valueOf(mMangas.get(position).getLikeManga()));
         holder.textViewBook.setText(String.valueOf(mMangas.get(position).getViewManga()));
+//        String string = mMangas.get(position).getNameManga();
+//        if (string.length() >= 45){
+//            holder.textNameBook.setText(string.substring(0,45).concat("..."));
+//            holder.imgBook.setOnClickListener(v -> iClickItem.onClickItemBook(mMangas.get(position)));
+//            return;
+//        }
         holder.textNameBook.setText(mMangas.get(position).getNameManga());
         holder.imgBook.setOnClickListener(v -> iClickItem.onClickItemBook(mMangas.get(position)));
     }
 
     @Override
     public int getItemCount() {
-        if (mMangas != null) {
-            return mMangas.size() + 1;
-        }
+        if (mMangas != null && isHasLoadMore) return mMangas.size() + 1;
+        if (mMangas != null) return mMangas.size();
         return 0;
     }
 

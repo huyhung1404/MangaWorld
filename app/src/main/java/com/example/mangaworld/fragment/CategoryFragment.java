@@ -24,6 +24,8 @@ import com.example.mangaworld.object.Category;
 import com.example.mangaworld.object.Manga;
 
 
+import java.util.Objects;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -65,8 +67,7 @@ public class CategoryFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.rcv_category_fragment);
         androidx.appcompat.widget.Toolbar mToolBar = view.findViewById(R.id.tool_bar_category_fragment);
         //ToolBar
-        MainActivity mMainActivity = (MainActivity) getActivity();
-        assert mMainActivity != null;
+        MainActivity mMainActivity = (MainActivity) requireActivity();
         mMainActivity.setSupportActionBar(mToolBar);
         ActionBar actionBar = mMainActivity.getSupportActionBar();
         assert actionBar != null;
@@ -91,15 +92,18 @@ public class CategoryFragment extends Fragment {
             public void onClickItemCategory(Long id) {
 
             }
+
+            @Override
+            public void onClickItemIcon(float id) {
+
+            }
         });
         recyclerView.setAdapter(mangaAdapter);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (getFragmentManager() != null) {
-            getFragmentManager().popBackStack(CategoryFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        }
+        requireFragmentManager().popBackStack(CategoryFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         return true;
     }
 }

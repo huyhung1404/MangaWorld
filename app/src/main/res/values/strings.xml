@@ -26,4 +26,15 @@
     <string name="connectFail">Kết nối thất bại</string>
     <string name="delete">Xoá</string>
     <string name="viewMore">Xem thêm</string>
+    <string name="bxh">Bảng xếp hạng</string>
+    <string name="taikhoan">Tài khoản</string>
+    <string name="password">Mật khẩu</string>
+    <string name="login">Đăng nhập</string>
+    <string name="dont_have_account">Chưa có tài khoản?</string>
+    <string name="sign_up">Đăng kí</string>
+    <string name="re_password">Nhập lại mật khẩu</string>
+    <string name="forgot_password"><u>Quên mật khẩu</u></string>
+    <string name="u_sign_up"><u>Đăng kí</u></string>
+    <string name="u_login"><u>Đăng nhập</u></string>
+    <string name="need_login">Bạn cần đăng nhập<br/> để có thể sử dụng chức năng này</string>
 </resources>

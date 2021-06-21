@@ -23,8 +23,9 @@ public class SearchCategory extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_search_category, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.rcv_search_category);
+        View view = inflater.inflate(R.layout.fragment_search_item, container, false);
+        RecyclerView recyclerView = view.findViewById(R.id.rcv_search);
+        recyclerView.setItemViewCacheSize(10);
         MainActivity mainActivity = (MainActivity) getActivity();
 
         SearchCategoryAdapter searchCategoryAdapter = new SearchCategoryAdapter();

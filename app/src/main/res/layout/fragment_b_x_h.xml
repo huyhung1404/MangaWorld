@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".fragment.BXHFragment.BXHFragment">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tool_bar_bxh_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ActionBarTheme"/>
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout_bxh_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginBottom="5dp"
+        app:tabIndicatorColor="@color/teal_200"
+        app:tabSelectedTextColor="@color/teal_200"
+        app:tabGravity="center"
+        app:tabMode="fixed" />
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager_bxh_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

@@ -30,13 +30,13 @@ public class MangaCaseAdapter extends RecyclerView.Adapter<MangaCaseAdapter.Book
     @NonNull
     @Override
     public BookCaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_manga_case,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(viewType,parent,false);
         return new BookCaseViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull BookCaseViewHolder holder, int position) {
-
+        if (position == listManga.size()) return;
         viewBinderHelper.bind(holder.swipeRevealLayout,String.valueOf(listManga.get(position).getIdManga()));
         Glide.with(holder.imgBook.getContext()).load(listManga.get(position).getResourceId()).into(holder.imgBook);
         holder.textNameBook.setText(listManga.get(position).getNameManga());
@@ -51,9 +51,14 @@ public class MangaCaseAdapter extends RecyclerView.Adapter<MangaCaseAdapter.Book
     @Override
     public int getItemCount() {
         if (listManga != null) {
-            return listManga.size();
+            return listManga.size() + 1;
         }
         return 0;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return (position == listManga.size())? R.layout.item_null_2 : R.layout.item_manga_case;
     }
 
     public static class BookCaseViewHolder extends RecyclerView.ViewHolder{

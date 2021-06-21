@@ -65,9 +65,12 @@ public class SummaryFragment extends Fragment {
 
             @Override
             public void onClickItemCategory(Long id) {
-                MainActivity mainActivity = (MainActivity) getActivity();
-                assert mainActivity != null;
-                mainActivity.nextCategoryFragment(id);
+                ((MainActivity) requireActivity()).nextCategoryFragment(id);
+            }
+
+            @Override
+            public void onClickItemIcon(float id) {
+
             }
         });
         rcv.setAdapter(summaryAdapter);
@@ -78,9 +81,8 @@ public class SummaryFragment extends Fragment {
         buttonRead.setOnClickListener(v -> APIClient.getAPIChapter().dataChapFragment(idBook).enqueue(new Callback<Chapter>() {
             @Override
             public void onResponse(@NonNull Call<Chapter> call, @NonNull Response<Chapter> response) {
-                MainActivity mainActivity = (MainActivity) getActivity();
-                if (response.isSuccessful() && mainActivity != null){
-                    mainActivity.nextChapFragment(response.body(),idBook,0,true);
+                if (response.isSuccessful()){
+                    ((MainActivity) requireActivity()).nextChapFragment(response.body(),idBook,0,true);
                 }
             }
             @Override

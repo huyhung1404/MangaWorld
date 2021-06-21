@@ -3,7 +3,6 @@ package com.example.mangaworld.api;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -26,5 +25,8 @@ public class APIClient {
     }
     public static APIChapter getAPIChapter(){
         return getRetrofit().create(APIChapter.class);
+    }
+    public static APILogin getAPILogin(){
+        return getRetrofit().create(APILogin.class);
     }
 }

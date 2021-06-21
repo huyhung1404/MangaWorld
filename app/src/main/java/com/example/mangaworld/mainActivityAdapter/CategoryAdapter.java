@@ -1,17 +1,14 @@
 package com.example.mangaworld.mainActivityAdapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
 
 import com.example.mangaworld.R;
 import com.example.mangaworld.object.Manga;
@@ -36,6 +33,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         void onClickItemBook(Manga manga);
 
         void onClickItemCategory(Long id);
+
+        void onClickItemIcon(float id);
     }
 
     public CategoryAdapter(Context mContext) {
@@ -64,18 +63,20 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             holder.sliderView.setIndicatorAnimation(IndicatorAnimationType.WORM);
             holder.sliderView.setSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
             holder.sliderView.startAutoCycle();
+            holder.iconBXH.setOnClickListener(v -> iClickItem.onClickItemIcon(0));
+            holder.iconLike.setOnClickListener(v -> iClickItem.onClickItemIcon(1));
             return;
         }
         int finalPosition = position - 1;
         holder.textNameCategory.setText(mListCategory.get(finalPosition).getNameCategory());
-        holder.textNameCategory.setOnClickListener(v -> iClickItem.onClickItemCategory(mListCategory.get(finalPosition).getIdCategory()));
+//        holder.textNameCategory.setOnClickListener(v -> iClickItem.onClickItemCategory(mListCategory.get(finalPosition).getIdCategory()));
         //Rcv manga
         holder.rcvBook.setItemViewCacheSize(5);
+        holder.rcvBook.setHasFixedSize(true);
         //
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false);
-        holder.rcvBook.setLayoutManager(linearLayoutManager);
-        MangaAdapter mangaAdapter = new MangaAdapter();
-        mangaAdapter.setData(mListCategory.get(finalPosition).getMangas(), mListCategory.get(finalPosition).getIdCategory(), iClickItem);
+        holder.rcvBook.setLayoutManager(new LinearLayoutManager(mContext,RecyclerView.HORIZONTAL,false));
+        MangaAdapter mangaAdapter = new MangaAdapter(position != 1);
+        mangaAdapter.setData(mListCategory.get(finalPosition).getMangas(), iClickItem);
         holder.rcvBook.setAdapter(mangaAdapter);
     }
 
@@ -93,15 +94,21 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     }
 
     public static class CategoryViewHolder extends RecyclerView.ViewHolder {
+        //List manga
         private final TextView textNameCategory;
         private final RecyclerView rcvBook;
+        //Slider view
         private final SliderView sliderView;
+        private final ImageView iconBXH;
+        private final ImageView iconLike;
 
         public CategoryViewHolder(@NonNull View itemView) {
             super(itemView);
             textNameCategory = itemView.findViewById(R.id.name_category);
             rcvBook = itemView.findViewById(R.id.rcv_book);
             sliderView = itemView.findViewById(R.id.slider_view);
+            iconBXH = itemView.findViewById(R.id.img_bxh);
+            iconLike = itemView.findViewById(R.id.img_bxh_like);
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.example.mangaworld.api;
 
 import com.example.mangaworld.object.Chapter;
-import com.example.mangaworld.object.ChapterData;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -14,5 +13,5 @@ public interface APIChapter {
 
     //Nhận danh sách hình ảnh của chapter từ API
     @GET("api/chapter/get-only-image")
-    Call<ChapterData> getChapData(@Query("comic-id") Long id, @Query("index") Long index);
+    Call<Chapter> getChapData(@Query("comic-id") Long id, @Query("index") Long index);
 }

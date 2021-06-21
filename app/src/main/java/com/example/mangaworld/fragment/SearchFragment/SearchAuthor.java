@@ -24,9 +24,10 @@ public class SearchAuthor extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_search_author, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.rcv_search_author);
-
+        View view = inflater.inflate(R.layout.fragment_search_item, container, false);
+        RecyclerView recyclerView = view.findViewById(R.id.rcv_search);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setItemViewCacheSize(10);
         MainActivity mainActivity = (MainActivity) getActivity();
         SearchAuthorAdapter searchAuthorAdapter = new SearchAuthorAdapter();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mainActivity);

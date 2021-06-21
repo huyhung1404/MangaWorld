@@ -11,9 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.mangaworld.R;
+import com.example.mangaworld.mainActivityAdapter.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -34,44 +36,12 @@ public class SearchFragment extends Fragment {
             activity.setSupportActionBar(mToolBar);
             setHasOptionsMenu(true);
         }
-        SearchAdapter searchAdapter = new SearchAdapter(getChildFragmentManager());
+        ViewPagerAdapter searchAdapter = new ViewPagerAdapter(getChildFragmentManager());
         searchAdapter.AddFragment(new SearchManga(), "Truyện");
         searchAdapter.AddFragment(new SearchCategory(), "Thể loại");
         searchAdapter.AddFragment(new SearchAuthor(), "Tác giả");
         viewPager.setAdapter(searchAdapter);
         tabLayout.setupWithViewPager(viewPager);
         return view;
-    }
-
-    // PageView Adapter
-    private static class SearchAdapter extends FragmentPagerAdapter {
-        private final ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
-        private final ArrayList<String> stringArrayList = new ArrayList<>();
-
-        public void AddFragment(Fragment fragment, String s) {
-            fragmentArrayList.add(fragment);
-            stringArrayList.add(s);
-        }
-
-        public SearchAdapter(@NonNull FragmentManager fm) {
-            super(fm);
-        }
-
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-            return fragmentArrayList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return fragmentArrayList.size();
-        }
-
-        @Nullable
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return stringArrayList.get(position);
-        }
     }
 }

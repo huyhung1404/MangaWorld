@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -23,7 +23,6 @@ import com.example.mangaworld.R;
 import com.example.mangaworld.activity.MainActivity;
 import com.example.mangaworld.api.APIClient;
 import com.example.mangaworld.object.Chapter;
-import com.example.mangaworld.object.ChapterData;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Objects;
@@ -56,12 +55,16 @@ public class ReadChapFragment extends Fragment {
         androidx.appcompat.widget.Toolbar mToolBar = mView.findViewById(R.id.tool_bar_read_chap);
         RecyclerView rcvReadChap = mView.findViewById(R.id.rcv_read_chap);
         //Recycler view
+        rcvReadChap.setHasFixedSize(true);
+        rcvReadChap.setItemViewCacheSize(4);
+        rcvReadChap.setItemAnimator(null);
         ReadChapAdapter readChapAdapter = new ReadChapAdapter();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        rcvReadChap.setLayoutManager(linearLayoutManager);
+        //Set layout
+        StaggeredGridLayoutManager staggeredGridLayoutManager =
+                new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        rcvReadChap.setLayoutManager(staggeredGridLayoutManager);
         //Set data
         setDataChap(mToolBar, readChapAdapter);
-
         rcvReadChap.setAdapter(readChapAdapter);
         //Click next chap
         buttonClickFunction();
@@ -80,29 +83,23 @@ public class ReadChapFragment extends Fragment {
             btnNextChap.hide();
         }
         //
-        btnNextChap.setOnClickListener(v -> {
-            MainActivity mainActivity = (MainActivity) getActivity();
-            Objects.requireNonNull(mainActivity).nextChapFragment(chapter, idBook, ++position, false);
-        });
-        btnLastChap.setOnClickListener(v -> {
-            MainActivity mainActivity = (MainActivity) getActivity();
-            Objects.requireNonNull(mainActivity).nextChapFragment(chapter, idBook, --position, false);
-        });
+        btnNextChap.setOnClickListener(v -> ((MainActivity) requireActivity()).nextChapFragment(chapter, idBook, ++position, false));
+        btnLastChap.setOnClickListener(v -> ((MainActivity) requireActivity()).nextChapFragment(chapter, idBook, --position, false));
     }
 
     private void setDataChap(Toolbar mToolBar, ReadChapAdapter readChapAdapter) {
-        APIClient.getAPIChapter().getChapData(idBook, chapter.getIndexChapter().get(position)).enqueue(new Callback<ChapterData>() {
+        APIClient.getAPIChapter().getChapData(idBook, chapter.getIndexChapter().get(position)).enqueue(new Callback<Chapter>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
-            public void onResponse(@NonNull Call<ChapterData> call, @NonNull Response<ChapterData> response) {
-                ChapterData chapterData = response.body();
+            public void onResponse(@NonNull Call<Chapter> call, @NonNull Response<Chapter> response) {
+                Chapter chapterData = response.body();
                 if (response.isSuccessful() && chapterData != null) {
                     //Set toolbar
-                    AppCompatActivity activity = (AppCompatActivity) getActivity();
+                    AppCompatActivity activity = (AppCompatActivity) requireActivity();
                     activity.setSupportActionBar(mToolBar);
                     ActionBar actionBar = activity.getSupportActionBar();
                     setHasOptionsMenu(true);
-                    actionBar.setTitle("Chương " + chapter.getIndexChapter().get(position) + " " + chapterData.getContent());
+                    Objects.requireNonNull(actionBar).setTitle("Chương " + chapter.getIndexChapter().get(position) + " " + chapterData.getContent());
                     actionBar.setDisplayHomeAsUpEnabled(true);
                     //Set data recycler view
                     readChapAdapter.setData(chapterData.getLinkImage());
@@ -110,7 +107,7 @@ public class ReadChapFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(@NonNull Call<ChapterData> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<Chapter> call, @NonNull Throwable t) {
                 Toast.makeText(getContext(), "Lỗi", Toast.LENGTH_SHORT).show();
             }
         });
@@ -119,7 +116,7 @@ public class ReadChapFragment extends Fragment {
     //Back button
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        getFragmentManager().popBackStack(ReadChapFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        requireFragmentManager().popBackStack(ReadChapFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         return true;
     }
 
