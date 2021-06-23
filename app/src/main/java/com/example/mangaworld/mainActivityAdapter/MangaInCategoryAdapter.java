@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.mangaworld.R;
+import com.example.mangaworld.activity.OnClickListenerRecyclerView;
 import com.example.mangaworld.object.Manga;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class MangaInCategoryAdapter extends RecyclerView.Adapter<MangaInCategory
     @Override
     public MangaInCategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_manga, parent, false);
-        return new MangaInCategoryViewHolder(view);
+        return new MangaInCategoryViewHolder(view, (v, position) -> iClickItem.onClickItemBook(mMangas.get(position)));
     }
 
     @Override
@@ -39,7 +40,6 @@ public class MangaInCategoryAdapter extends RecyclerView.Adapter<MangaInCategory
         holder.textLikeBook.setText(String.valueOf(mMangas.get(position).getLikeManga()));
         holder.textViewBook.setText(String.valueOf(mMangas.get(position).getViewManga()));
         holder.textNameBook.setText(mMangas.get(position).getNameManga());
-        holder.imgBook.setOnClickListener(v -> iClickItem.onClickItemBook(mMangas.get(position)));
     }
 
     @Override
@@ -50,18 +50,26 @@ public class MangaInCategoryAdapter extends RecyclerView.Adapter<MangaInCategory
         return 0;
     }
 
-    public static class MangaInCategoryViewHolder extends RecyclerView.ViewHolder {
+    public static class MangaInCategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private final ImageView imgBook;
         private final TextView textLikeBook;
         private final TextView textViewBook;
         private final TextView textNameBook;
 
-        public MangaInCategoryViewHolder(@NonNull View itemView) {
+        private final OnClickListenerRecyclerView onClickListenerRecyclerView;
+        public MangaInCategoryViewHolder(@NonNull View itemView,OnClickListenerRecyclerView onClickListenerRecyclerView) {
             super(itemView);
             imgBook = itemView.findViewById(R.id.img_book);
             textLikeBook = itemView.findViewById(R.id.text_like_book);
             textViewBook = itemView.findViewById(R.id.text_view_book);
             textNameBook = itemView.findViewById(R.id.name_book);
+            this.onClickListenerRecyclerView = onClickListenerRecyclerView;
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onClickListenerRecyclerView.onClick(v,getAdapterPosition());
         }
     }
 }

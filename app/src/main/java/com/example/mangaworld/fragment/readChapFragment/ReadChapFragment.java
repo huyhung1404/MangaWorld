@@ -55,7 +55,6 @@ public class ReadChapFragment extends Fragment {
         androidx.appcompat.widget.Toolbar mToolBar = mView.findViewById(R.id.tool_bar_read_chap);
         RecyclerView rcvReadChap = mView.findViewById(R.id.rcv_read_chap);
         //Recycler view
-        rcvReadChap.setHasFixedSize(true);
         rcvReadChap.setItemViewCacheSize(4);
         rcvReadChap.setItemAnimator(null);
         ReadChapAdapter readChapAdapter = new ReadChapAdapter();

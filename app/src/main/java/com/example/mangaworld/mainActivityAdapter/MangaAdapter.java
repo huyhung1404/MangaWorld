@@ -1,17 +1,22 @@
 package com.example.mangaworld.mainActivityAdapter;
 
+import android.graphics.Color;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.mangaworld.R;
+import com.example.mangaworld.activity.DiffUtilManga;
+import com.example.mangaworld.activity.OnClickListenerRecyclerView;
 import com.example.mangaworld.object.Manga;
 
 import java.util.List;
@@ -20,13 +25,15 @@ public class MangaAdapter extends RecyclerView.Adapter<MangaAdapter.BookViewHold
     private List<Manga> mMangas;
     private CategoryAdapter.IClickItem iClickItem;
     private final boolean isHasLoadMore;
+    private long idCategory;
 
     public MangaAdapter(boolean isHasLoadMore) {
         this.isHasLoadMore = isHasLoadMore;
     }
 
-    public void setData(List<Manga> mMangas, CategoryAdapter.IClickItem iClickItem) {
+    public void setData(List<Manga> mMangas,long idCategory, CategoryAdapter.IClickItem iClickItem) {
         this.mMangas = mMangas;
+        this.idCategory = idCategory;
         this.iClickItem = iClickItem;
         notifyDataSetChanged();
     }
@@ -35,53 +42,106 @@ public class MangaAdapter extends RecyclerView.Adapter<MangaAdapter.BookViewHold
     @Override
     public BookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-        return new BookViewHolder(view);
+        return new BookViewHolder(view, (v, position) -> {
+            if (v.getId() == R.id.item_view_more){
+                iClickItem.onClickItemCategory(idCategory,true);
+                return;
+            }
+            iClickItem.onClickItemBook(mMangas.get(position));
+        });
     }
 
     @Override
     public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
-        if (position == mMangas.size()) {
-//            holder.itemViewMore.setOnClickListener(v -> iClickItem.onClickItemCategory(idCategory));
+        if(!isHasLoadMore){
+            Glide.with(holder.imgBookRecommend.getContext()).load(mMangas.get(position).getResourceId()).into(holder.imgBookRecommend);
+            holder.textNameBookRecommend.setText(mMangas.get(position).getNameManga());
+            holder.textSummaryBookRecommend.setText(mMangas.get(position).getSummaryManga());
             return;
         }
+        if (position == mMangas.size()) return;
         Glide.with(holder.imgBook.getContext()).load(mMangas.get(position).getResourceId()).into(holder.imgBook);
         holder.textLikeBook.setText(String.valueOf(mMangas.get(position).getLikeManga()));
         holder.textViewBook.setText(String.valueOf(mMangas.get(position).getViewManga()));
-//        String string = mMangas.get(position).getNameManga();
-//        if (string.length() >= 45){
-//            holder.textNameBook.setText(string.substring(0,45).concat("..."));
-//            holder.imgBook.setOnClickListener(v -> iClickItem.onClickItemBook(mMangas.get(position)));
-//            return;
-//        }
         holder.textNameBook.setText(mMangas.get(position).getNameManga());
-        holder.imgBook.setOnClickListener(v -> iClickItem.onClickItemBook(mMangas.get(position)));
     }
 
     @Override
     public int getItemCount() {
-        if (mMangas != null && isHasLoadMore) return mMangas.size() + 1;
-        if (mMangas != null) return mMangas.size();
-        return 0;
+        if (!isHasLoadMore){
+            return 4;
+        }
+        return mMangas.size() +1;
     }
 
     @Override
     public int getItemViewType(int position) {
+        if (!isHasLoadMore){
+            return R.layout.item_recommend_layout;
+        }
         return (position == mMangas.size()) ? R.layout.item_view_more : R.layout.item_manga;
     }
 
-    public static class BookViewHolder extends RecyclerView.ViewHolder {
+//    public void setData(List<Manga> newData,CategoryAdapter.IClickItem iClickItem) {
+//        this.mMangas = newData;
+//        this.iClickItem = iClickItem;
+//        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffUtilManga(mMangas,newData));
+//        diffResult.dispatchUpdatesTo(this);
+//        mMangas.clear();
+//        mMangas.addAll(newData);
+//    }
+//
+//    @Override
+//    public void onBindViewHolder(@NonNull BookViewHolder holder, int position, @NonNull List<Object> payloads) {
+//        if (payloads.isEmpty()) {
+//            super.onBindViewHolder(holder, position, payloads);
+//            return;
+//        }
+//        Bundle bundle = (Bundle) payloads.get(0);
+//        if(!isHasLoadMore){
+//            Glide.with(holder.imgBookRecommend.getContext()).load(bundle.getString("link")).into(holder.imgBookRecommend);
+//            holder.textNameBookRecommend.setText(bundle.getString("name"));
+//            holder.textSummaryBookRecommend.setText(bundle.getString("summary"));
+//            return;
+//        }
+//        if (position == mMangas.size()) return;
+//        Glide.with(holder.imgBook.getContext()).load(bundle.getString("link")).into(holder.imgBook);
+//        holder.textLikeBook.setText(String.valueOf(bundle.getInt("like")));
+//        holder.textViewBook.setText(String.valueOf(bundle.getInt("view")));
+//        holder.textNameBook.setText(bundle.getString("name"));
+//    }
+
+    public static class BookViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        //Manga Adapter
         private final ImageView imgBook;
         private final TextView textLikeBook;
         private final TextView textViewBook;
         private final TextView textNameBook;
-        private final LinearLayout itemViewMore;
-        public BookViewHolder(@NonNull View itemView) {
+        //Manga Recommend Adapter
+        private final ImageView imgBookRecommend;
+        private final TextView textNameBookRecommend;
+        private final TextView textSummaryBookRecommend;
+        //Onclick
+        private final OnClickListenerRecyclerView onClickListenerRecyclerView;
+
+        public BookViewHolder(@NonNull View itemView,OnClickListenerRecyclerView onClickListenerRecyclerView) {
             super(itemView);
             imgBook = itemView.findViewById(R.id.img_book);
             textLikeBook = itemView.findViewById(R.id.text_like_book);
             textViewBook = itemView.findViewById(R.id.text_view_book);
             textNameBook = itemView.findViewById(R.id.name_book);
-            itemViewMore = itemView.findViewById(R.id.item_view_more);
+            //Manga Recommend
+            imgBookRecommend = itemView.findViewById(R.id.img_item_book_recommend);
+            textNameBookRecommend = itemView.findViewById(R.id.name_book_recommend);
+            textSummaryBookRecommend = itemView.findViewById(R.id.summary_book_recommend);
+            //On click
+            this.onClickListenerRecyclerView = onClickListenerRecyclerView;
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onClickListenerRecyclerView.onClick(v,getAdapterPosition());
         }
     }
 }

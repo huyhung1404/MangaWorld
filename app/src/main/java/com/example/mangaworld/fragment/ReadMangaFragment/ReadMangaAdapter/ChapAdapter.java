@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mangaworld.R;
+import com.example.mangaworld.activity.OnClickListenerRecyclerView;
 
 import java.util.List;
 
@@ -32,14 +33,13 @@ public class ChapAdapter extends RecyclerView.Adapter<ChapAdapter.ChapViewHolder
     @Override
     public ChapViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chap,parent,false);
-        return new ChapViewHolder(view);
+        return new ChapViewHolder(view, (v, position) -> iClickItemChapAdapter.onClickItemChap(position));
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ChapAdapter.ChapViewHolder holder, int position) {
         holder.tvChap.setText("Chương " + mListChapter.get(position));
-        holder.tvChap.setOnClickListener(v -> iClickItemChapAdapter.onClickItemChap(position));
     }
 
     @Override
@@ -50,11 +50,20 @@ public class ChapAdapter extends RecyclerView.Adapter<ChapAdapter.ChapViewHolder
         return 0;
     }
 
-    public static class ChapViewHolder extends RecyclerView.ViewHolder{
+    public static class ChapViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView tvChap;
-        public ChapViewHolder( View itemView) {
+
+        private OnClickListenerRecyclerView onClickListenerRecyclerView;
+        public ChapViewHolder( View itemView,OnClickListenerRecyclerView onClickListenerRecyclerView) {
             super(itemView);
             tvChap = itemView.findViewById(R.id.text_view_chap);
+            this.onClickListenerRecyclerView = onClickListenerRecyclerView;
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onClickListenerRecyclerView.onClick(v,getAdapterPosition());
         }
     }
 }

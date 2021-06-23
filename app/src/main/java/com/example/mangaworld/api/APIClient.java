@@ -8,7 +8,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class APIClient {
-    private static final String URL = "http://192.168.1.7:8081/";
+    private static final String URL = "http://192.168.1.9:8081/";
     private static final Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd HH:mm:ss")
             .create();
@@ -28,5 +28,8 @@ public class APIClient {
     }
     public static APILogin getAPILogin(){
         return getRetrofit().create(APILogin.class);
+    }
+    public static APIRank getAPIRank(){
+        return getRetrofit().create(APIRank.class);
     }
 }

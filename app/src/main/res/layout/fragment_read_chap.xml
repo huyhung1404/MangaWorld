@@ -14,9 +14,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_read_chap"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
+        android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="5dp"
         android:layout_marginTop="60dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

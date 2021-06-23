@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.mangaworld.R;
-import com.example.mangaworld.fragment.BXHFragment.BXHFragment;
+import com.example.mangaworld.fragment.BXHFragment.RankFragment;
 import com.example.mangaworld.fragment.LoginFragment.LoginFragment;
 import com.example.mangaworld.mainActivityAdapter.ScrollHandler;
 import com.example.mangaworld.fragment.CategoryFragment;
@@ -92,12 +92,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Truyền dữ liệu từ Home đến Category
-    public void nextCategoryFragment(Long idCategory) {
+    public void nextCategoryFragment(Long idCategory,boolean isViewMore) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         CategoryFragment categoryFragment = new CategoryFragment();
         //Bundle
         Bundle bundle = new Bundle();
         bundle.putLong("id_category", idCategory);
+        bundle.putBoolean("isViewMore",isViewMore);
         categoryFragment.setArguments(bundle);
         //
         fragmentTransaction.replace(R.id.main_frame, categoryFragment);
@@ -106,11 +107,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Truyền dữ liệu từ Home đến BXH
-    public void nextBXHFragment(float id) {
+    public void nextRankFragment(float id) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        BXHFragment bxhFragment = new BXHFragment();
-        fragmentTransaction.replace(R.id.main_frame, bxhFragment);
-        fragmentTransaction.addToBackStack(BXHFragment.TAG);
+        RankFragment rankFragment = new RankFragment();
+        //Bundle
+        Bundle bundle = new Bundle();
+        bundle.putFloat("type_bxh",id);
+        rankFragment.setArguments(bundle);
+        //
+        fragmentTransaction.replace(R.id.main_frame, rankFragment);
+        fragmentTransaction.addToBackStack(RankFragment.TAG);
         fragmentTransaction.commit();
     }
 

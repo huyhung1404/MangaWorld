@@ -24,6 +24,7 @@ import com.example.mangaworld.object.Category;
 import com.example.mangaworld.object.Manga;
 
 
+import java.util.List;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -33,6 +34,8 @@ import retrofit2.Response;
 public class CategoryFragment extends Fragment {
     public static final String TAG = CategoryFragment.class.getName();
     private Long idCategory;
+    private boolean isViewMore;
+    private String stringGet, nameCategory;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,26 +46,54 @@ public class CategoryFragment extends Fragment {
         Bundle bundleReceive = getArguments();
         if (bundleReceive != null) {
             this.idCategory = (Long) bundleReceive.get("id_category");
+            this.isViewMore = (boolean) bundleReceive.get("isViewMore");
         }
         //Init
-        APIClient.getAPIHome().dataCategoryFragment(idCategory).enqueue(new Callback<Category>() {
+        if (!isViewMore) {
+            APIClient.getAPIHome().dataCategoryFragment(idCategory).enqueue(new Callback<Category>() {
+                @Override
+                public void onResponse(@NonNull Call<Category> call, @NonNull Response<Category> response) {
+                    if (response.isSuccessful()) {
+                        assert response.body() != null;
+                        setData(response.body().getMangas(), response.body().getNameCategory(), view);
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<Category> call, @NonNull Throwable t) {
+                    Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                }
+            });
+            return view;
+        }
+        if (idCategory == 2) {
+            stringGet = "maybe-you-will-like";
+            nameCategory = "Có thể bạn cũng muốn xem";
+        } else if (idCategory == 3) {
+            stringGet = "recently-updated-comic";
+            nameCategory = "Mời cập nhập";
+        } else if (idCategory == 4) {
+            stringGet = "hot-comic";
+            nameCategory = "Truyện HOT";
+        }
+        APIClient.getAPIHome().dataViewMore(stringGet).enqueue(new Callback<List<Manga>>() {
             @Override
-            public void onResponse(@NonNull Call<Category> call, @NonNull Response<Category> response) {
+            public void onResponse(@NonNull Call<List<Manga>> call, @NonNull Response<List<Manga>> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
-                    setData(response.body(), view);
+                    setData(response.body(),nameCategory, view);
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<Category> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<List<Manga>> call, @NonNull Throwable t) {
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
             }
         });
         return view;
     }
 
-    private void setData(Category category, View view) {
+    private void setData(List<Manga> mangas, String nameTitle, View view) {
         //init
         RecyclerView recyclerView = view.findViewById(R.id.rcv_category_fragment);
         androidx.appcompat.widget.Toolbar mToolBar = view.findViewById(R.id.tool_bar_category_fragment);
@@ -74,22 +105,23 @@ public class CategoryFragment extends Fragment {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         //Rcv
-        recyclerView.setItemViewCacheSize(18);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setItemViewCacheSize(15);
         MangaInCategoryAdapter mangaAdapter = new MangaInCategoryAdapter();
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mMainActivity, 3);
         recyclerView.setLayoutManager(gridLayoutManager);
         //SetData
-        actionBar.setTitle(category.getNameCategory());
+        actionBar.setTitle(nameTitle);
         setHasOptionsMenu(true);
 
-        mangaAdapter.setData(category.getMangas(), new CategoryAdapter.IClickItem() {
+        mangaAdapter.setData(mangas, new CategoryAdapter.IClickItem() {
             @Override
             public void onClickItemBook(Manga manga) {
                 mMainActivity.nextReadMangaActivity(manga);
             }
 
             @Override
-            public void onClickItemCategory(Long id) {
+            public void onClickItemCategory(Long id, boolean isViewMore) {
 
             }
 

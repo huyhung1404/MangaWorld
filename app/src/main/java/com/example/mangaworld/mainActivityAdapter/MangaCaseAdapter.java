@@ -67,6 +67,9 @@ public class MangaCaseAdapter extends RecyclerView.Adapter<MangaCaseAdapter.Book
         private ImageView imgBook;
         private TextView textNameBook;
         private TextView textChapSave;
+
+
+
         public BookCaseViewHolder(@NonNull View itemView) {
             super(itemView);
             swipeRevealLayout = itemView.findViewById(R.id.swipe_reveal_layout);

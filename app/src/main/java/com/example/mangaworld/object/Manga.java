@@ -1,4 +1,5 @@
 package com.example.mangaworld.object;
+import com.example.mangaworld.activity.MainActivity;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -13,7 +14,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class Manga implements Serializable {
+public class Manga implements Serializable,Comparable {
     @SerializedName("id")
     private final long idManga;
     @SerializedName("name")
@@ -34,4 +35,14 @@ public class Manga implements Serializable {
     private List<ListTagCategory> listTagCategory;
     @SerializedName("description")
     private String summaryManga;
+
+    @Override
+    public int compareTo(Object o) {
+        Manga manga = (Manga) o;
+        if (manga.idManga == this.idManga){
+            return 0;
+
+        }
+        return 1;
+    }
 }

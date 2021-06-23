@@ -33,41 +33,41 @@ public class HomeFragment extends Fragment {
         View mView = inflater.inflate(R.layout.fragment_home, container, false);
         //Init recycler view
         RecyclerView rcvCategory = mView.findViewById(R.id.rcv_category);
-        rcvCategory.setHasFixedSize(true);
-        rcvCategory.setItemViewCacheSize(5);
+        rcvCategory.setItemViewCacheSize(3);
         //
         MainActivity mMainActivity = (MainActivity) requireActivity();
         //Recycler view
-        CategoryAdapter categoryAdapter = new CategoryAdapter(mMainActivity);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mMainActivity, RecyclerView.VERTICAL, false);
         rcvCategory.setLayoutManager(linearLayoutManager);
         //Set data
-        getHomeData(categoryAdapter, mMainActivity);
-        rcvCategory.setAdapter(categoryAdapter);
+        getHomeData(rcvCategory,mMainActivity);
+//        rcvCategory.setAdapter(categoryAdapter);
         return mView;
     }
 
-    private void getHomeData(CategoryAdapter categoryAdapter, MainActivity mMainActivity) {
+    private void getHomeData(RecyclerView recyclerView,MainActivity mMainActivity) {
         APIClient.getAPIHome().dataHomeFragment().enqueue(new Callback<List<Category>>() {
             @Override
             public void onResponse(@NonNull Call<List<Category>> call, @NonNull Response<List<Category>> response) {
                 if (response.isSuccessful()) {
-                    categoryAdapter.setData(response.body(), new CategoryAdapter.IClickItem() {
+                    CategoryAdapter categoryAdapter = new CategoryAdapter(response.body(),new CategoryAdapter.IClickItem() {
                         @Override
                         public void onClickItemBook(Manga manga) {
                             mMainActivity.nextReadMangaActivity(manga);
                         }
 
                         @Override
-                        public void onClickItemCategory(Long id) {
-                            mMainActivity.nextCategoryFragment(id);
+                        public void onClickItemCategory(Long id,boolean isViewMore) {
+                            mMainActivity.nextCategoryFragment(id,isViewMore);
                         }
 
                         @Override
                         public void onClickItemIcon(float id) {
-                            mMainActivity.nextBXHFragment(id);
+                            mMainActivity.nextRankFragment(id);
                         }
                     });
+                    recyclerView.setAdapter(categoryAdapter);
                 }
             }
 

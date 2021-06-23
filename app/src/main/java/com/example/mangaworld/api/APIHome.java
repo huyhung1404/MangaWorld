@@ -1,6 +1,7 @@
 package com.example.mangaworld.api;
 
 import com.example.mangaworld.object.Category;
+import com.example.mangaworld.object.Manga;
 
 import java.util.List;
 
@@ -15,4 +16,7 @@ public interface APIHome {
     //Get danh sách truyện theo category
     @GET("api/category/get")
     Call<Category> dataCategoryFragment(@Query("id")Long id);
+    //ViewMore
+    @GET("api/comic/home/see-more")
+    Call<List<Manga>> dataViewMore(@Query("type")String type);
 }

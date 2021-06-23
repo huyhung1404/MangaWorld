@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.example.mangaworld.R;
 import com.example.mangaworld.activity.MainActivity;
 import com.example.mangaworld.mainActivityAdapter.CategoryAdapter;
-import com.example.mangaworld.mainActivityAdapter.SummaryAdapter;
+import com.example.mangaworld.fragment.ReadMangaFragment.ReadMangaAdapter.SummaryAdapter;
 import com.example.mangaworld.api.APIClient;
 import com.example.mangaworld.object.ListTagCategory;
 import com.example.mangaworld.object.Manga;
@@ -64,8 +64,8 @@ public class SummaryFragment extends Fragment {
             }
 
             @Override
-            public void onClickItemCategory(Long id) {
-                ((MainActivity) requireActivity()).nextCategoryFragment(id);
+            public void onClickItemCategory(Long id,boolean isViewMore) {
+                ((MainActivity) requireActivity()).nextCategoryFragment(id,isViewMore);
             }
 
             @Override

@@ -7,13 +7,13 @@
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardCornerRadius="8dp">
 
         <ImageView
             android:id="@+id/img_book"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="120dp"
             android:scaleType="centerCrop" />
     </androidx.cardview.widget.CardView>
@@ -24,34 +24,30 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="match_parent"
+            android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_weight="1"
             android:paddingHorizontal="5dp"
             android:scaleType="centerCrop"
             android:src="@drawable/like_book" />
 
         <TextView
             android:id="@+id/text_like_book"
-            android:layout_width="match_parent"
+            android:layout_width="30dp"
             android:layout_height="20dp"
-            android:layout_weight="1"
             android:gravity="center_vertical"
             android:textSize="10sp" />
 
         <ImageView
-            android:layout_width="match_parent"
+            android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_weight="1"
             android:paddingHorizontal="5dp"
             android:scaleType="centerCrop"
             android:src="@drawable/view_book" />
 
         <TextView
             android:id="@+id/text_view_book"
-            android:layout_width="match_parent"
+            android:layout_width="30dp"
             android:layout_height="20dp"
-            android:layout_weight="1"
             android:gravity="center_vertical"
             android:textSize="10sp" />
 
@@ -61,7 +57,8 @@
         android:id="@+id/name_book"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="6dp"
+        android:ellipsize="end"
+        android:maxLines="3"
         android:textColor="@color/black"
         android:textSize="14sp" />
 </LinearLayout>

@@ -53,13 +53,11 @@ public class SearchAuthorAdapter extends RecyclerView.Adapter<SearchAuthorAdapte
 
     public static class SearchAuthorViewHolder extends RecyclerView.ViewHolder {
         private ImageView circleImageView;
-        private CardView cardView;
         private TextView textAuthor, textSumManga;
 
         public SearchAuthorViewHolder(@NonNull View itemView) {
             super(itemView);
             circleImageView = itemView.findViewById(R.id.circle_image_search_author);
-            cardView = itemView.findViewById(R.id.card_view_search_author);
             textAuthor = itemView.findViewById(R.id.text_name_search_author);
             textSumManga = itemView.findViewById(R.id.text_sum_manga_author);
         }

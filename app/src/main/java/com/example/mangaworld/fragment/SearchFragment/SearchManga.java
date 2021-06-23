@@ -42,7 +42,7 @@ public class SearchManga extends Fragment {
             }
 
             @Override
-            public void onClickItemCategory(Long id) {
+            public void onClickItemCategory(Long id,boolean isViewMore) {
 
             }
 
