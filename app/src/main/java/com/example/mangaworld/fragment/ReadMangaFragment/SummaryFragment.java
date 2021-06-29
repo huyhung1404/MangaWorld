@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mangaworld.R;
-import com.example.mangaworld.activity.MainActivity;
+import com.example.mangaworld.main.MainActivity;
 import com.example.mangaworld.mainActivityAdapter.CategoryAdapter;
 import com.example.mangaworld.fragment.ReadMangaFragment.ReadMangaAdapter.SummaryAdapter;
 import com.example.mangaworld.api.APIClient;

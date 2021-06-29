@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -29,13 +30,14 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         TabLayout tabLayout = view.findViewById(R.id.tab_layout_search_fragment);
         ViewPager viewPager = view.findViewById(R.id.view_pager_search_fragment);
+//        SearchView searchView = view.findViewById(R.id.fragment_search_search_view);
 
-        androidx.appcompat.widget.Toolbar mToolBar = view.findViewById(R.id.tool_bar_search_fragment);
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        if (activity != null) {
-            activity.setSupportActionBar(mToolBar);
-            setHasOptionsMenu(true);
-        }
+//        androidx.appcompat.widget.Toolbar mToolBar = view.findViewById(R.id.tool_bar_search_fragment);
+//        AppCompatActivity activity = (AppCompatActivity) getActivity();
+//        if (activity != null) {
+//            activity.setSupportActionBar(mToolBar);
+//            setHasOptionsMenu(true);
+//        }
         ViewPagerAdapter searchAdapter = new ViewPagerAdapter(getChildFragmentManager());
         searchAdapter.AddFragment(new SearchManga(), "Truyện");
         searchAdapter.AddFragment(new SearchCategory(), "Thể loại");

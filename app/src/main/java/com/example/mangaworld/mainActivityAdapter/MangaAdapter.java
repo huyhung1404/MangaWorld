@@ -1,22 +1,17 @@
 package com.example.mangaworld.mainActivityAdapter;
 
-import android.graphics.Color;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.mangaworld.R;
-import com.example.mangaworld.activity.DiffUtilManga;
-import com.example.mangaworld.activity.OnClickListenerRecyclerView;
+import com.example.mangaworld.main.OnClickListenerRecyclerView;
 import com.example.mangaworld.object.Manga;
 
 import java.util.List;
@@ -82,34 +77,6 @@ public class MangaAdapter extends RecyclerView.Adapter<MangaAdapter.BookViewHold
         return (position == mMangas.size()) ? R.layout.item_view_more : R.layout.item_manga;
     }
 
-//    public void setData(List<Manga> newData,CategoryAdapter.IClickItem iClickItem) {
-//        this.mMangas = newData;
-//        this.iClickItem = iClickItem;
-//        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffUtilManga(mMangas,newData));
-//        diffResult.dispatchUpdatesTo(this);
-//        mMangas.clear();
-//        mMangas.addAll(newData);
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(@NonNull BookViewHolder holder, int position, @NonNull List<Object> payloads) {
-//        if (payloads.isEmpty()) {
-//            super.onBindViewHolder(holder, position, payloads);
-//            return;
-//        }
-//        Bundle bundle = (Bundle) payloads.get(0);
-//        if(!isHasLoadMore){
-//            Glide.with(holder.imgBookRecommend.getContext()).load(bundle.getString("link")).into(holder.imgBookRecommend);
-//            holder.textNameBookRecommend.setText(bundle.getString("name"));
-//            holder.textSummaryBookRecommend.setText(bundle.getString("summary"));
-//            return;
-//        }
-//        if (position == mMangas.size()) return;
-//        Glide.with(holder.imgBook.getContext()).load(bundle.getString("link")).into(holder.imgBook);
-//        holder.textLikeBook.setText(String.valueOf(bundle.getInt("like")));
-//        holder.textViewBook.setText(String.valueOf(bundle.getInt("view")));
-//        holder.textNameBook.setText(bundle.getString("name"));
-//    }
 
     public static class BookViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         //Manga Adapter

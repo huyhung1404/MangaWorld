@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.mangaworld.R;
-import com.example.mangaworld.activity.MainActivity;
+import com.example.mangaworld.main.MainActivity;
 import com.example.mangaworld.api.APIClient;
 import com.example.mangaworld.object.User;
 

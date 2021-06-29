@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.mangaworld.R;
-import com.example.mangaworld.activity.MainActivity;
+import com.example.mangaworld.main.MainActivity;
 import com.example.mangaworld.api.APIClient;
 import com.example.mangaworld.fragment.InfoFragment;
 import com.example.mangaworld.object.User;
@@ -53,7 +53,8 @@ public class LoginFragment extends Fragment {
                     }
                     MainActivity.user = response.body();
                     MainActivity.isLogin = true;
-                    ((MainActivity) requireActivity()).loadFragment(new InfoFragment(MainActivity.user));
+//                    ((MainActivity) requireActivity()).loadFragment(new InfoFragment(MainActivity.user));
+                    ((MainActivity) requireActivity()).loadFragment(new InfoFragment());
                 }
 
                 @Override

@@ -13,46 +13,60 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mangaworld.R;
+import com.example.mangaworld.main.OnClickListenerRecyclerView;
+import com.example.mangaworld.main.ValueInterpolator;
+import com.example.mangaworld.mainActivityAdapter.CategoryAdapter;
+import com.example.mangaworld.object.ListTagCategory;
 
 import java.util.List;
 
 
 public class SearchCategoryAdapter extends RecyclerView.Adapter<SearchCategoryAdapter.SearchCategoryViewHolder> {
-    private List<String> mList;
-    private int[] mColors;
+    private final List<ListTagCategory> listTagCategories;
+    private final int[] mColors;
+    private final CategoryAdapter.IClickItem iClickItem;
 
-    public void setData(List<String> list, Context context) {
-        this.mList = list;
-        mColors = getGradientColors(ContextCompat.getColor(context, R.color.startColor), ContextCompat.getColor(context, R.color.endColor), mList.size());
-        notifyDataSetChanged();
+    public SearchCategoryAdapter(List<ListTagCategory> listTagCategories, Context context, CategoryAdapter.IClickItem iClickItem) {
+        this.listTagCategories = listTagCategories;
+        mColors = getGradientColors(ContextCompat.getColor(context, R.color.startColor), ContextCompat.getColor(context, R.color.endColor), listTagCategories.size());
+        this.iClickItem = iClickItem;
     }
 
     @NonNull
     @Override
     public SearchCategoryAdapter.SearchCategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_search_category, parent, false);
-        return new SearchCategoryViewHolder(view);
+        return new SearchCategoryViewHolder(view, (v, position) -> iClickItem.onClickItemCategory(listTagCategories.get(position).getIdCategory(),false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull SearchCategoryAdapter.SearchCategoryViewHolder holder, int position) {
-        holder.textCategory.setText(mList.get(position));
+        holder.textCategory.setText(listTagCategories.get(position).getNameCategory());
         holder.cardView.setCardBackgroundColor(mColors[position]);
     }
 
     @Override
     public int getItemCount() {
-        return mList.size();
+        return listTagCategories.size();
     }
 
-    public static class SearchCategoryViewHolder extends RecyclerView.ViewHolder {
+    public static class SearchCategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private final CardView cardView;
         private final TextView textCategory;
 
-        public SearchCategoryViewHolder(@NonNull View itemView) {
+        private OnClickListenerRecyclerView onClickListenerRecyclerView;
+
+        public SearchCategoryViewHolder(@NonNull View itemView,OnClickListenerRecyclerView onClickListenerRecyclerView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.card_view_search_category);
             textCategory = itemView.findViewById(R.id.text_item_category_search_category);
+            this.onClickListenerRecyclerView = onClickListenerRecyclerView;
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onClickListenerRecyclerView.onClick(v,getAdapterPosition());
         }
     }
 

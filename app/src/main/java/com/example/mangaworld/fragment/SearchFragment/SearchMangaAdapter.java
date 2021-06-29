@@ -1,65 +1,139 @@
 package com.example.mangaworld.fragment.SearchFragment;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.mangaworld.R;
+import com.example.mangaworld.main.DiffUtilManga;
+import com.example.mangaworld.main.OnClickListenerRecyclerView;
 import com.example.mangaworld.mainActivityAdapter.CategoryAdapter;
 import com.example.mangaworld.object.Manga;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class SearchMangaAdapter extends RecyclerView.Adapter<SearchMangaAdapter.SearchMangaViewHolder> {
-    private List<Manga> mMangas;
-    private CategoryAdapter.IClickItem iClickItem;
+public class SearchMangaAdapter extends RecyclerView.Adapter<SearchMangaAdapter.SearchMangaViewHolder> implements Filterable {
+    private List<Manga> mangas;
+    private final CategoryAdapter.IClickItem iClickItem;
+    private final List<Manga> mangasFull;
+    private final List<Manga> mangasDefault;
 
-    public void setData(List<Manga> mMangas, CategoryAdapter.IClickItem iClickItem) {
-        this.mMangas = mMangas;
+    public SearchMangaAdapter(List<Manga> mangasFull,List<Manga> mangas, CategoryAdapter.IClickItem iClickItem){
+        this.mangasFull = mangasFull;
+        this.mangas = mangas;
         this.iClickItem = iClickItem;
-        notifyDataSetChanged();
+        this.mangasDefault = mangas;
     }
+
+
+//    public void setData(List<Manga> mangas) {
+//        this.mangas = mangas;
+//        notifyDataSetChanged();
+//    }
 
     @NonNull
     @Override
     public SearchMangaAdapter.SearchMangaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_search_manga, parent, false);
-        return new SearchMangaViewHolder(view);
+        return new SearchMangaViewHolder(view, (v, position) -> iClickItem.onClickItemBook(mangas.get(position)));
     }
 
     @Override
     public void onBindViewHolder(@NonNull SearchMangaAdapter.SearchMangaViewHolder holder, int position) {
-        Glide.with(holder.imageView.getContext()).load(mMangas.get(position).getResourceId()).into(holder.imageView);
-        holder.textName.setText(mMangas.get(position).getNameManga());
-        holder.textAuthor.setText(mMangas.get(position).getMangaAuthor());
-        holder.cardView.setOnClickListener(v -> iClickItem.onClickItemBook(mMangas.get(position)));
+        Glide.with(holder.imageView.getContext()).load(mangas.get(position).getResourceId()).into(holder.imageView);
+        holder.textName.setText(mangas.get(position).getNameManga());
+        holder.textAuthor.setText(mangas.get(position).getMangaAuthor());
     }
 
     @Override
     public int getItemCount() {
-        return mMangas.size();
+        if (mangas!= null){
+            return mangas.size();
+        }
+        return 0;
     }
 
-    public static class SearchMangaViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imageView;
-        private TextView textName;
-        private TextView textAuthor;
-        private CardView cardView;
+    public void setData(List<Manga> newData) {
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffUtilManga(mangas, newData));
+        diffResult.dispatchUpdatesTo(this);
+        this.mangas = newData;
+    }
 
-        public SearchMangaViewHolder(@NonNull View itemView) {
+    @Override
+    public void onBindViewHolder(@NonNull SearchMangaViewHolder holder, int position, @NonNull List<Object> payloads) {
+        if (payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads);
+            return;
+        }
+        Bundle bundle = (Bundle) payloads.get(0);
+        Glide.with(holder.imageView.getContext()).load(bundle.getString("link")).into(holder.imageView);
+        holder.textName.setText(bundle.getString("name"));
+        holder.textAuthor.setText(bundle.getString("author"));
+    }
+
+    public static class SearchMangaViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        private final ImageView imageView;
+        private final TextView textName;
+        private final TextView textAuthor;
+
+        private final OnClickListenerRecyclerView onClickListenerRecyclerView;
+
+        public SearchMangaViewHolder(@NonNull View itemView,OnClickListenerRecyclerView onClickListenerRecyclerView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.img_manga_search);
             textName = itemView.findViewById(R.id.text_name_manga_search);
             textAuthor = itemView.findViewById(R.id.text_author_manga_search);
-            cardView = itemView.findViewById(R.id.card_view_search_manga);
-
+            this.onClickListenerRecyclerView = onClickListenerRecyclerView;
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            onClickListenerRecyclerView.onClick(v,getAdapterPosition());
+        }
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String keySearch = constraint.toString();
+                if (keySearch.isEmpty()){
+                    mangas = mangasDefault;
+                    FilterResults filterResults = new FilterResults();
+                    filterResults.values = mangas;
+                    return filterResults;
+                }
+                List<Manga> mangasSearch = new ArrayList<>();
+                for (Manga manga: mangasFull){
+                    if (manga.getNameManga().toLowerCase().contains(keySearch.toLowerCase())){
+                        mangasSearch.add(manga);
+                    }
+                }
+                mangas = mangasSearch;
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mangas;
+
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                mangas = (List<Manga>) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }

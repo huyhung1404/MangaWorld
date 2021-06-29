@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/info_menu"
-        android:textColor="@color/black"
+        android:textColor="#e09145"
         android:textSize="28sp"
         android:textStyle="bold" />
 
@@ -20,8 +20,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/avatar_test" />
+        android:layout_marginTop="40dp" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view_info"
@@ -30,7 +29,8 @@
         android:layout_below="@+id/img_avatar_info"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp"
-        app:cardCornerRadius="20dp">
+        app:cardCornerRadius="20dp"
+        app:cardElevation="8dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -50,99 +50,102 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/ic_baseline_keyboard_arrow_down_24" />
 
-        <LinearLayout
-            android:id="@+id/linear_layout_info_fragment"
-            android:visibility="visible"
+        <RelativeLayout
+            android:id="@+id/relative_layout_info_fragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/img_avatar_info"
+            android:layout_marginStart="30dp"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="60dp"
             android:orientation="vertical"
-            android:layout_below="@+id/img_avatar_info"
-            android:layout_marginStart="30dp">
-            <FrameLayout
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/name"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/edit_text_name_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginLeft="50dp"
                 android:layout_marginBottom="10dp"
+                android:layout_toLeftOf="@id/button_edit_text_name"
+                android:background="@android:color/transparent"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="@string/max_char"
+                android:importantForAutofill="no"
+                android:inputType="textNoSuggestions"
+                android:maxLength="25"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/button_edit_text_name"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginHorizontal="20dp"
+                android:contentDescription="@null"
+                android:src="@drawable/icon_edit" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edit_text_name_info"
+                android:text="@string/phone_number"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/edit_text_sdt_info"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:text="@string/name"
-                    android:textSize="18sp"/>
-                <EditText
-                    android:layout_marginLeft="50dp"
-                    android:id="@+id/edit_text_name_info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:hint="@string/max_char"
-                    android:maxLength="25"
-                    android:background="@android:color/transparent"
-                    android:focusableInTouchMode="false"
-                    android:focusable="false"
-                    android:layout_marginStart="50dp"
-                    android:importantForAutofill="no"
-                    android:inputType="textNoSuggestions" />
-                <ImageView
-                    android:id="@+id/button_edit_text_name"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_gravity="end"
-                    android:src="@drawable/icon_edit"
-                    android:layout_marginEnd="20dp"
-                    android:contentDescription="@null" />
-            </FrameLayout>
-            <FrameLayout
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edit_text_name_info"
+                android:layout_marginStart="120dp"
+                android:layout_marginLeft="120dp"
+                android:layout_marginEnd="65dp"
+                android:layout_marginRight="65dp"
                 android:layout_marginBottom="10dp"
+                android:background="@android:color/transparent"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="@string/hint_null"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:maxLength="10"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edit_text_sdt_info"
+                android:text="@string/gmail"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/edit_text_gmail_info"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:text="@string/phone_number"
-                    android:textSize="18sp"/>
-                <EditText
-                    android:layout_marginLeft="120dp"
-                    android:id="@+id/edit_text_sdt_info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:hint="@string/hint_null"
-                    android:inputType="number"
-                    android:maxLength="10"
-                    android:background="@android:color/transparent"
-                    android:focusableInTouchMode="false"
-                    android:focusable="false"
-                    android:layout_marginStart="120dp"
-                    android:importantForAutofill="no" />
-            </FrameLayout>
-            <FrameLayout
-                android:layout_marginBottom="30dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:text="@string/gmail"
-                    android:textSize="18sp"/>
-                <EditText
-                    android:id="@+id/edit_text_gmail_info"
-                    android:layout_marginHorizontal="60dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/hint_null"
-                    android:textSize="18sp"
-                    android:focusableInTouchMode="false"
-                    android:focusable="false"
-                    android:background="@android:color/transparent"
-                    android:importantForAutofill="no"
-                    android:inputType="textNoSuggestions" />
-            </FrameLayout>
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edit_text_sdt_info"
+                android:layout_marginHorizontal="65dp"
+                android:layout_marginBottom="20dp"
+                android:background="@android:color/transparent"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="@string/hint_null"
+                android:importantForAutofill="no"
+                android:inputType="textNoSuggestions"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -152,7 +155,8 @@
         android:layout_below="@+id/card_view_info"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp"
-        app:cardCornerRadius="20dp">
+        app:cardCornerRadius="20dp"
+        app:cardElevation="8dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -175,8 +179,8 @@
             android:layout_marginRight="10dp"
             android:background="@drawable/ic_baseline_keyboard_arrow_down_24" />
 
-        <LinearLayout
-            android:id="@+id/linear_layout_password_info_fragment"
+        <RelativeLayout
+            android:id="@+id/relative_layout_password_info_fragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/img_avatar_info"
@@ -186,91 +190,89 @@
             android:orientation="vertical"
             android:visibility="gone">
 
-            <FrameLayout
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/old_pass"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/old_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
+                android:layout_marginStart="120dp"
+                android:layout_marginLeft="120dp"
+                android:layout_marginEnd="45dp"
+                android:layout_marginRight="45dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/border_edit_text"
+                android:hint="@null"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                android:paddingHorizontal="5dp"
+                android:paddingVertical="2dp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/old_pass"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
 
-                <EditText
-                    android:id="@+id/old_password"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="120dp"
-                    android:layout_marginLeft="120dp"
-                    android:background="@drawable/border_edit_text"
-                    android:hint="@null"
-                    android:importantForAutofill="no"
-                    android:inputType="textPassword"
-                    android:paddingHorizontal="5dp"
-                    android:textSize="18sp" />
-            </FrameLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/old_password"
+                android:text="@string/new_pass"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
-            <FrameLayout
+            <EditText
+                android:id="@+id/new_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
+                android:layout_below="@+id/old_password"
+                android:layout_marginStart="120dp"
+                android:layout_marginLeft="120dp"
+                android:layout_marginEnd="45dp"
+                android:layout_marginRight="45dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/border_edit_text"
+                android:hint="@null"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                android:paddingHorizontal="5dp"
+                android:paddingVertical="2dp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/new_pass"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/new_password"
+                android:text="@string/re_input"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
-                <EditText
-                    android:id="@+id/new_password"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="120dp"
-                    android:layout_marginLeft="120dp"
-                    android:background="@drawable/border_edit_text"
-                    android:hint="@null"
-                    android:importantForAutofill="no"
-                    android:inputType="textPassword"
-                    android:paddingHorizontal="5dp"
-                    android:textSize="18sp" />
-            </FrameLayout>
-
-            <FrameLayout
+            <EditText
+                android:id="@+id/new_password_2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/re_input"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-                <EditText
-                    android:id="@+id/new_password_2"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="120dp"
-                    android:layout_marginLeft="120dp"
-                    android:background="@drawable/border_edit_text"
-                    android:hint="@null"
-                    android:importantForAutofill="no"
-                    android:inputType="textPassword"
-                    android:paddingHorizontal="5dp"
-                    android:textSize="18sp" />
-            </FrameLayout>
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/new_password"
+                android:layout_marginStart="120dp"
+                android:layout_marginLeft="120dp"
+                android:layout_marginEnd="45dp"
+                android:layout_marginRight="45dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/border_edit_text"
+                android:hint="@null"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                android:paddingHorizontal="5dp"
+                android:paddingVertical="2dp" />
 
             <Button
                 android:layout_width="110dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_marginVertical="10dp"
+                android:layout_height="45dp"
+                android:layout_below="@id/new_password_2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"
                 android:text="@string/access"
                 android:textAllCaps="false" />
-        </LinearLayout>
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -280,7 +282,8 @@
         android:layout_below="@+id/card_view_password"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp"
-        app:cardCornerRadius="20dp">
+        app:cardCornerRadius="20dp"
+        app:cardElevation="8dp">
 
         <TextView
             android:layout_width="wrap_content"

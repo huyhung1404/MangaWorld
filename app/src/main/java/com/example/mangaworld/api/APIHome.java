@@ -1,5 +1,6 @@
 package com.example.mangaworld.api;
 
+import com.example.mangaworld.object.Author;
 import com.example.mangaworld.object.Category;
 import com.example.mangaworld.object.Manga;
 
@@ -19,4 +20,12 @@ public interface APIHome {
     //ViewMore
     @GET("api/comic/home/see-more")
     Call<List<Manga>> dataViewMore(@Query("type")String type);
+    //Get all manga
+    @GET("api/comic")
+    Call<List<Manga>> getAllManga();
+    //Get author
+    @GET("api/author")
+    Call<List<Author>> getAllAuthor();
+    @GET("api/category")
+    Call<List<Category>> getAllCategory();
 }

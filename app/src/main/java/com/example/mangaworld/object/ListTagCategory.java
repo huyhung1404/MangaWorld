@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ListTagCategory {
     @SerializedName("categoryId")
-    private Long idCategory;
+    private long idCategory;
     @SerializedName("categoryDTOList")
     private String nameCategory;
 }

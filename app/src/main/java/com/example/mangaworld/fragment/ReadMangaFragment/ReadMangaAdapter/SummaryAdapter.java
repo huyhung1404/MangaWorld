@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mangaworld.R;
-import com.example.mangaworld.activity.OnClickListenerRecyclerView;
+import com.example.mangaworld.main.OnClickListenerRecyclerView;
 import com.example.mangaworld.mainActivityAdapter.CategoryAdapter;
 import com.example.mangaworld.object.ListTagCategory;
 

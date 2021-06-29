@@ -1,5 +1,4 @@
 package com.example.mangaworld.object;
-import com.example.mangaworld.activity.MainActivity;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
 import com.example.mangaworld.R;
-import com.example.mangaworld.activity.MainActivity;
+import com.example.mangaworld.main.MainActivity;
 import com.example.mangaworld.fragment.LoginFragment.LoginFragment;
 import com.example.mangaworld.mainActivityAdapter.MangaCaseAdapter;
 import com.example.mangaworld.mainActivityAdapter.StartSnapHelper;

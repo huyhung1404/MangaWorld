@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.mangaworld.R;
-import com.example.mangaworld.activity.MainActivity;
+import com.example.mangaworld.main.MainActivity;
 import com.example.mangaworld.mainActivityAdapter.ViewPagerAdapter;
 import com.example.mangaworld.object.Manga;
 import com.google.android.material.appbar.CollapsingToolbarLayout;

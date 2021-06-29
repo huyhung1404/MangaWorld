@@ -20,7 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.mangaworld.R;
-import com.example.mangaworld.activity.MainActivity;
+import com.example.mangaworld.main.MainActivity;
 import com.example.mangaworld.api.APIClient;
 import com.example.mangaworld.object.Chapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -78,7 +78,8 @@ public class ReadChapFragment extends Fragment {
         //Condition on/off button
         if (position == 0) {
             btnLastChap.hide();
-        } else if (position == chapter.getIndexChapter().size() - 1) {
+        }
+        if (position == chapter.getIndexChapter().size() - 1) {
             btnNextChap.hide();
         }
         //
