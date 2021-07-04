@@ -265,6 +265,7 @@
                 android:paddingVertical="2dp" />
 
             <Button
+                android:id="@+id/btn_change_password"
                 android:layout_width="110dp"
                 android:layout_height="45dp"
                 android:layout_below="@id/new_password_2"

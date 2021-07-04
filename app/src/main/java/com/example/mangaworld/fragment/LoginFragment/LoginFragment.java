@@ -41,6 +41,8 @@ public class LoginFragment extends Fragment {
         editUserPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         //Button click
         btnLogin.setOnClickListener(v -> {
+            if (!checkExceptionText(editUserName,editUserPassword)) return;
+
             User user = new User(editUserName.getText().toString().trim(), editUserPassword.getText().toString().trim());
             APIClient.getAPILogin().postUser(user).enqueue(new Callback<User>() {
                 @Override
@@ -66,5 +68,16 @@ public class LoginFragment extends Fragment {
         btnSignUp.setOnClickListener(v -> ((MainActivity) requireActivity()).loadFragment(new SignUpFragment()));
         btnForgot.setOnClickListener(v -> ((MainActivity) requireActivity()).loadFragment(new ForgotFragment()));
         return viewLogin;
+    }
+    private boolean checkExceptionText(EditText editText,EditText editTextPassword){
+        if (editText.getText().toString().isEmpty()){
+            Toast.makeText(requireContext(),"Tài khoản không thể để trống",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (editTextPassword.getText().toString().isEmpty()){
+            Toast.makeText(requireContext(),"Mật khẩu không thể để trống",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }

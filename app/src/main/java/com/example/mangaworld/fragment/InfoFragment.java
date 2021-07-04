@@ -20,14 +20,20 @@ import androidx.transition.TransitionManager;
 
 import com.bumptech.glide.Glide;
 import com.example.mangaworld.R;
+import com.example.mangaworld.api.APIClient;
 import com.example.mangaworld.main.MainActivity;
 import com.example.mangaworld.fragment.LoginFragment.LoginFragment;
+import com.example.mangaworld.object.Message;
+import com.example.mangaworld.object.Password;
 import com.example.mangaworld.object.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class InfoFragment extends Fragment {
     private boolean flagButton = false;
@@ -46,6 +52,10 @@ public class InfoFragment extends Fragment {
         Glide.with(requireContext()).load(MainActivity.user.getAvatar()).into(avatar);
 
         setDataInformation(viewInfo);
+
+        Button buttonChange = viewInfo.findViewById(R.id.btn_change_password);
+        buttonChange.setOnClickListener(v -> changePassword(viewInfo));
+
         return viewInfo;
     }
 
@@ -104,6 +114,7 @@ public class InfoFragment extends Fragment {
         layoutVisible.setVisibility(View.GONE);
         buttonVisible.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
     }
+
     //ButtonEdit
     private boolean editButtonClick(ArrayList<EditText> editTexts, boolean flag) {
         for (EditText editText : editTexts) {
@@ -112,5 +123,52 @@ public class InfoFragment extends Fragment {
         }
         Toast.makeText(getContext(), flag ? "Đã lưu" : "Có thể chỉnh sửa", Toast.LENGTH_SHORT).show();
         return !flag;
+    }
+
+    //Đổi mật khẩu
+    private void changePassword(View view) {
+        EditText oldPassword = view.findViewById(R.id.old_password);
+        EditText newPassword = view.findViewById(R.id.new_password);
+        EditText reNewPassword = view.findViewById(R.id.new_password_2);
+        if (!checkInputException(oldPassword, newPassword, reNewPassword)) return;
+        Password password = new Password(oldPassword.getText().toString().trim(), newPassword.getText().toString().trim(), reNewPassword.getText().toString().trim());
+        APIClient.getAPILogin().changePassword(MainActivity.user.getId(), password).enqueue(new Callback<Message>() {
+            @Override
+            public void onResponse(@NonNull Call<Message> call, @NonNull Response<Message> response) {
+                if (response.body() != null) {
+                    Toast.makeText(requireContext(), response.body().getMessage()
+                            .equals("successfully") ? "Đổi mật khẩu thành công" : "Mật khẩu cũ không đúng", Toast.LENGTH_SHORT)
+                            .show();
+                    oldPassword.setText("");
+                    newPassword.setText("");
+                    reNewPassword.setText("");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Message> call, @NonNull Throwable t) {
+                Toast.makeText(requireContext(), "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private boolean checkInputException(EditText oldPassword, EditText newPassword, EditText reNewPassword) {
+        if (oldPassword.getText().toString().isEmpty()) {
+            Toast.makeText(requireContext(), "Mật khẩu không được để trống", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (newPassword.getText().toString().length() < 6) {
+            Toast.makeText(requireContext(), "Mật khẩu không được ít hơn 6 kí tự", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!newPassword.getText().toString().trim()
+                .equals(reNewPassword.getText().toString().trim())) {
+            Toast.makeText(requireContext(), "Mật khẩu không trùng khớp", Toast.LENGTH_SHORT).show();
+            newPassword.setText("");
+            reNewPassword.setText("");
+            return false;
+        }
+        return true;
     }
 }

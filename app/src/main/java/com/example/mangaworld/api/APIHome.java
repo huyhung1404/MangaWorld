@@ -2,6 +2,7 @@ package com.example.mangaworld.api;
 
 import com.example.mangaworld.object.Author;
 import com.example.mangaworld.object.Category;
+import com.example.mangaworld.object.ListTagCategory;
 import com.example.mangaworld.object.Manga;
 
 import java.util.List;
@@ -26,6 +27,6 @@ public interface APIHome {
     //Get author
     @GET("api/author")
     Call<List<Author>> getAllAuthor();
-    @GET("api/category")
-    Call<List<Category>> getAllCategory();
+    @GET("api/category/simple")
+    Call<List<ListTagCategory>> getAllCategory();
 }

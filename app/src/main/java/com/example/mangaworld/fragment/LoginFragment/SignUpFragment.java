@@ -52,11 +52,7 @@ public class SignUpFragment extends Fragment {
     }
 
     private void onClickButtonSignUp() {
-        if (!editPassword.getText().toString().trim()
-                .equals(editPasswordConfirm.getText().toString().trim())) {
-            notification("Mật khẩu không trùng khớp");
-            return;
-        }
+        if(!checkExceptionInput()) return;
         User user = new User(editUserName.getText().toString().trim(),
                 editPassword.getText().toString().trim(),
                 editName.getText().toString().trim(),
@@ -70,7 +66,6 @@ public class SignUpFragment extends Fragment {
                 }
                 notification("Tài khoản này đã được sử dụng");
             }
-
             @Override
             public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
                 notification("Lỗi kết nối vui lòng thử lại sau");
@@ -87,5 +82,34 @@ public class SignUpFragment extends Fragment {
         editPassword.setText("");
         editPasswordConfirm.setText("");
     }
-
+    private boolean checkExceptionInput(){
+        if (editGmail.getText().toString().isEmpty()){
+            Toast.makeText(requireContext(),"Gmail không được để trống",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!editGmail.getText().toString().trim().contains("@gmail.com")){
+            Toast.makeText(requireContext(),"Gmail không hợp lệ",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (editName.getText().toString().isEmpty()){
+            Toast.makeText(requireContext(),"Tên đăng nhập không được để trống",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (editUserName.getText().toString().length()<6){
+            Toast.makeText(requireContext(),"Tài khoản không được ít hơn 6 ký tự",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (editPassword.getText().toString().length()<6){
+            Toast.makeText(requireContext(),"Mật khẩu không được ít hơn 6 kí tự",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!editPassword.getText().toString().trim()
+                .equals(editPasswordConfirm.getText().toString().trim())) {
+            Toast.makeText(requireContext(),"Mật khẩu không trùng khớp",Toast.LENGTH_SHORT).show();
+            editPassword.setText("");
+            editPasswordConfirm.setText("");
+            return false;
+        }
+        return true;
+    }
 }

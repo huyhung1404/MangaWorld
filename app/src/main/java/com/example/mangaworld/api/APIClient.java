@@ -8,8 +8,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class APIClient {
-    private static final String URL = "http://192.168.56.1:8081/";
-//    private static final String URL = "http://192.168.1.1:8081/";
+    private static final String URL = "http://192.168.56.1:8080/";
     private static final Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd HH:mm:ss")
             .create();

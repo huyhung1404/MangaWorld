@@ -10,8 +10,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class ListTagCategory {
-    @SerializedName("categoryId")
+    @SerializedName(value="idCategory", alternate={"categoryId", "id"})
     private long idCategory;
-    @SerializedName("categoryDTOList")
+    @SerializedName(value="nameCategory", alternate={"categoryDTOList", "name"})
     private String nameCategory;
 }

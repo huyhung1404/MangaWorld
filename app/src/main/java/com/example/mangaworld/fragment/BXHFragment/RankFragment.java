@@ -26,7 +26,7 @@ public class RankFragment extends Fragment {
     public static final String TAG = RankFragment.class.getName();
     private float typeBXH;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Bundle bundleReceive = getArguments();

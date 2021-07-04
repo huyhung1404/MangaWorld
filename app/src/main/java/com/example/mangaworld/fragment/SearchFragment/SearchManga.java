@@ -63,11 +63,9 @@ public class SearchManga extends Fragment {
         SearchView searchView = view.findViewById(R.id.search_fragment_search_view);
 
         androidx.appcompat.widget.Toolbar mToolBar = view.findViewById(R.id.search_fragment_toolbar);
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        if (activity != null) {
-            activity.setSupportActionBar(mToolBar);
-            setHasOptionsMenu(true);
-        }
+        AppCompatActivity activity = (AppCompatActivity) requireActivity();
+        activity.setSupportActionBar(mToolBar);
+        setHasOptionsMenu(true);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemViewCacheSize(10);
