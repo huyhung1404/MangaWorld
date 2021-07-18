@@ -34,6 +34,7 @@ public class Manga implements Serializable,Comparable {
     private List<ListTagCategory> listTagCategory;
     @SerializedName("description")
     private String summaryManga;
+    private String readingIndex;
 
     @Override
     public int compareTo(Object o) {

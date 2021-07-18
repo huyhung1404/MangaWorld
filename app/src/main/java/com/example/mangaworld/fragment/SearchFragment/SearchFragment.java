@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.mangaworld.R;
+import com.example.mangaworld.fragment.LoginFragment.ForgotFragment;
 import com.example.mangaworld.mainActivityAdapter.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
@@ -30,14 +31,7 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         TabLayout tabLayout = view.findViewById(R.id.tab_layout_search_fragment);
         ViewPager viewPager = view.findViewById(R.id.view_pager_search_fragment);
-//        SearchView searchView = view.findViewById(R.id.fragment_search_search_view);
-
-//        androidx.appcompat.widget.Toolbar mToolBar = view.findViewById(R.id.tool_bar_search_fragment);
-//        AppCompatActivity activity = (AppCompatActivity) getActivity();
-//        if (activity != null) {
-//            activity.setSupportActionBar(mToolBar);
-//            setHasOptionsMenu(true);
-//        }
+        viewPager.setOffscreenPageLimit(2);
         ViewPagerAdapter searchAdapter = new ViewPagerAdapter(getChildFragmentManager());
         searchAdapter.AddFragment(new SearchManga(), "Truyện");
         searchAdapter.AddFragment(new SearchCategory(), "Thể loại");

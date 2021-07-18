@@ -30,6 +30,7 @@
     </FrameLayout>
 
     <RelativeLayout
+        android:id="@+id/manga_case_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom">

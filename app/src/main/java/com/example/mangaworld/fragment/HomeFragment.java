@@ -31,6 +31,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View mView = inflater.inflate(R.layout.fragment_home, container, false);
+        MainActivity.hideBottomNav();
         //Init recycler view
         RecyclerView rcvCategory = mView.findViewById(R.id.rcv_category);
         rcvCategory.setItemViewCacheSize(3);
@@ -42,7 +43,6 @@ public class HomeFragment extends Fragment {
         rcvCategory.setLayoutManager(linearLayoutManager);
         //Set data
         getHomeData(rcvCategory,mMainActivity);
-//        rcvCategory.setAdapter(categoryAdapter);
         return mView;
     }
 
@@ -53,8 +53,8 @@ public class HomeFragment extends Fragment {
                 if (response.isSuccessful()) {
                     CategoryAdapter categoryAdapter = new CategoryAdapter(response.body(),new CategoryAdapter.IClickItem() {
                         @Override
-                        public void onClickItemBook(Manga manga) {
-                            mMainActivity.nextReadMangaActivity(manga);
+                        public void onClickItemBook(long idManga) {
+                            mMainActivity.nextReadMangaActivity(idManga);
                         }
 
                         @Override
@@ -68,12 +68,14 @@ public class HomeFragment extends Fragment {
                         }
                     });
                     recyclerView.setAdapter(categoryAdapter);
+                    MainActivity.showBottomNav();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Category>> call, @NonNull Throwable t) {
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                MainActivity.showBottomNav();
             }
         });
     }

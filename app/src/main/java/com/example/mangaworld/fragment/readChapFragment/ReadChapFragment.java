@@ -25,6 +25,7 @@ import com.example.mangaworld.api.APIClient;
 import com.example.mangaworld.object.Chapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.List;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -34,7 +35,7 @@ import retrofit2.Response;
 
 public class ReadChapFragment extends Fragment {
     public static final String TAG = ReadChapFragment.class.getName();
-    private Chapter chapter;
+    private List<Long> listIndex;
     private View mView;
     private Long idBook;
     private int position;
@@ -47,7 +48,7 @@ public class ReadChapFragment extends Fragment {
 
         Bundle bundleReceive = getArguments();
         if (bundleReceive != null) {
-            this.chapter = (Chapter) bundleReceive.get("object_chap");
+            this.listIndex = (List<Long>) bundleReceive.get("object_chap");
             this.position = bundleReceive.getInt("position");
             this.idBook = bundleReceive.getLong("idBook");
         }
@@ -65,9 +66,7 @@ public class ReadChapFragment extends Fragment {
         //Set data
         setDataChap(mToolBar, readChapAdapter);
         rcvReadChap.setAdapter(readChapAdapter);
-        //Click next chap
-        buttonClickFunction();
-
+        setHasOptionsMenu(true);
         return mView;
     }
 
@@ -79,16 +78,22 @@ public class ReadChapFragment extends Fragment {
         if (position == 0) {
             btnLastChap.hide();
         }
-        if (position == chapter.getIndexChapter().size() - 1) {
+        if (position == listIndex.size() - 1) {
             btnNextChap.hide();
         }
         //
-        btnNextChap.setOnClickListener(v -> ((MainActivity) requireActivity()).nextChapFragment(chapter, idBook, ++position, false));
-        btnLastChap.setOnClickListener(v -> ((MainActivity) requireActivity()).nextChapFragment(chapter, idBook, --position, false));
+        btnNextChap.setOnClickListener(v -> ((MainActivity) requireActivity()).nextChapFragment(listIndex, idBook, ++position, false));
+        btnLastChap.setOnClickListener(v -> ((MainActivity) requireActivity()).nextChapFragment(listIndex, idBook, --position, false));
     }
 
     private void setDataChap(Toolbar mToolBar, ReadChapAdapter readChapAdapter) {
-        APIClient.getAPIChapter().getChapData(idBook, chapter.getIndexChapter().get(position)).enqueue(new Callback<Chapter>() {
+        Call<Chapter> chapterCall;
+        if (MainActivity.user!=null){
+            chapterCall = APIClient.getAPIChapter().getChapDataHasUser("Bearer " + MainActivity.user.getToken(),idBook,listIndex.get(position));
+        }else {
+            chapterCall = APIClient.getAPIChapter().getChapData(idBook, listIndex.get(position));
+        }
+        chapterCall.enqueue(new Callback<Chapter>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onResponse(@NonNull Call<Chapter> call, @NonNull Response<Chapter> response) {
@@ -98,8 +103,7 @@ public class ReadChapFragment extends Fragment {
                     AppCompatActivity activity = (AppCompatActivity) requireActivity();
                     activity.setSupportActionBar(mToolBar);
                     ActionBar actionBar = activity.getSupportActionBar();
-                    setHasOptionsMenu(true);
-                    Objects.requireNonNull(actionBar).setTitle("Chương " + chapter.getIndexChapter().get(position) + " " + chapterData.getContent());
+                    Objects.requireNonNull(actionBar).setTitle("Chương " + listIndex.get(position) + " " + chapterData.getContent());
                     actionBar.setDisplayHomeAsUpEnabled(true);
                     //Set data recycler view
                     readChapAdapter.setData(chapterData.getLinkImage());
@@ -111,6 +115,8 @@ public class ReadChapFragment extends Fragment {
                 Toast.makeText(getContext(), "Lỗi", Toast.LENGTH_SHORT).show();
             }
         });
+        //Click next chap
+        buttonClickFunction();
     }
 
     //Back button

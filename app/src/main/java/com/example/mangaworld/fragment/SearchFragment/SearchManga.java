@@ -38,6 +38,7 @@ public class SearchManga extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search_item, container, false);
+        MainActivity.hideBottomNav();
         APIClient.getAPIHome().getAllManga().enqueue(new Callback<List<Manga>>() {
             @Override
             public void onResponse(@NonNull Call<List<Manga>> call, @NonNull Response<List<Manga>> response) {
@@ -51,6 +52,7 @@ public class SearchManga extends Fragment {
             @Override
             public void onFailure(@NonNull Call<List<Manga>> call, @NonNull Throwable t) {
                 Toast.makeText(getContext(),"Lỗi đường truyền",Toast.LENGTH_SHORT).show();
+                MainActivity.showBottomNav();
             }
         });
         return view;
@@ -79,8 +81,8 @@ public class SearchManga extends Fragment {
 
         SearchMangaAdapter searchMangaAdapter = new SearchMangaAdapter(mangas,MAX_ITEM <= 10 ? mangas : mangas.subList(0, 10), new CategoryAdapter.IClickItem() {
             @Override
-            public void onClickItemBook(Manga manga) {
-                mainActivity.nextReadMangaActivity(manga);
+            public void onClickItemBook(long idManga) {
+                mainActivity.nextReadMangaActivity(idManga);
             }
 
             @Override
@@ -94,7 +96,7 @@ public class SearchManga extends Fragment {
             }
         });
         recyclerView.setAdapter(searchMangaAdapter);
-
+        MainActivity.showBottomNav();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

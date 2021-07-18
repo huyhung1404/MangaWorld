@@ -36,7 +36,7 @@ public class RankFragmentAdapter extends RecyclerView.Adapter<RankFragmentAdapte
     @Override
     public RankFragmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_manga_bxh,parent,false);
-        return new RankFragmentViewHolder(view,typeAmount, (v, position) -> iClickItem.onClickItemBook(mMangas.get(position)));
+        return new RankFragmentViewHolder(view,typeAmount, (v, position) -> iClickItem.onClickItemBook(mMangas.get(position).getIdManga()));
     }
 
     @Override

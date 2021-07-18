@@ -48,6 +48,7 @@ public class CategoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_category, container, false);
+        MainActivity.hideBottomNav();
         //Bundle
         Bundle bundleReceive = getArguments();
         if (bundleReceive != null) {
@@ -69,6 +70,7 @@ public class CategoryFragment extends Fragment {
                 @Override
                 public void onFailure(@NonNull Call<Category> call, @NonNull Throwable t) {
                     Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                    MainActivity.showBottomNav();
                 }
             });
             return view;
@@ -96,6 +98,7 @@ public class CategoryFragment extends Fragment {
             @Override
             public void onFailure(@NonNull Call<List<Manga>> call, @NonNull Throwable t) {
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                MainActivity.showBottomNav();
             }
         });
         return view;
@@ -126,8 +129,8 @@ public class CategoryFragment extends Fragment {
         //Manga Adapter
         MangaInCategoryAdapter mangaAdapter = new MangaInCategoryAdapter(MAX_ITEM <= 8 ? mangas : mangas.subList(0, 8), new CategoryAdapter.IClickItem() {
             @Override
-            public void onClickItemBook(Manga manga) {
-                mMainActivity.nextReadMangaActivity(manga);
+            public void onClickItemBook(long idManga) {
+                mMainActivity.nextReadMangaActivity(idManga);
             }
 
             @Override
@@ -141,6 +144,7 @@ public class CategoryFragment extends Fragment {
             }
         });
         recyclerView.setAdapter(mangaAdapter);
+        MainActivity.showBottomNav();
         recyclerView.addOnScrollListener(new PaginationRecyclerView(linearLayoutManager,MAX_ITEM) {
             @Override
             public void setData(int totalItems) {

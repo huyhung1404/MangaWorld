@@ -15,6 +15,7 @@ public class User {
     private String email;
     private String avatar;
     private String token;
+    private String imageBase64;
 
     public User(String userName, String password) {
         this.userName = userName;
@@ -26,5 +27,9 @@ public class User {
         this.password = password;
         this.fullName = fullName;
         this.email = email;
+    }
+
+    public User(String imageBase64) {
+        this.imageBase64 = imageBase64;
     }
 }

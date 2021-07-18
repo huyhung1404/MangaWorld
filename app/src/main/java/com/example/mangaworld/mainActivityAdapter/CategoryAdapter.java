@@ -27,14 +27,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     private boolean isRecommend;
     String[] images = {
             "https://cdn.popsww.com/blog/sites/2/2021/04/truyen-ngon-tinh-tong-tai-hay-nhat-1280x720.jpg",
-            "https://cdn.popsww.com/blog/sites/2/2021/04/ngon-tinh-tong-tai.jpg",
-            "https://3.pik.vn/202033d1f54b-9e4a-4cb5-b0fb-771aa7cfa65b.png"
+            "https://cdn.popsww.com/blog/sites/2/2021/03/nhung-bo-truyen-tranh-trung-quoc-hay-nhat-2021_Website.jpg",
+            "https://top.trangdangtin.com/htdocs/images/news/2020/12/09/800/5fd0a2d6db947_truyen_tranh_co_dai_trung_quoc_hay_nhat_1.png",
+            "https://nhattientuu.com/wp-content/uploads/2020/12/truyen-tranh-nhat-ban.jpg"
     };
     private final SliderAdapter sliderAdapter = new SliderAdapter(images);
     private MangaAdapter mangaAdapter;
 
     public interface IClickItem {
-        void onClickItemBook(Manga manga);
+        void onClickItemBook(long idManga);
 
         void onClickItemCategory(Long id,boolean isViewMore);
 

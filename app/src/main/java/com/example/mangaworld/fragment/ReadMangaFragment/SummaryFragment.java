@@ -1,5 +1,7 @@
 package com.example.mangaworld.fragment.ReadMangaFragment;
 
+import android.annotation.SuppressLint;
+import android.icu.util.IslamicCalendar;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,13 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mangaworld.R;
+import com.example.mangaworld.fragment.BXHFragment.RankFragment;
 import com.example.mangaworld.main.MainActivity;
 import com.example.mangaworld.mainActivityAdapter.CategoryAdapter;
 import com.example.mangaworld.fragment.ReadMangaFragment.ReadMangaAdapter.SummaryAdapter;
 import com.example.mangaworld.api.APIClient;
 import com.example.mangaworld.object.ListTagCategory;
-import com.example.mangaworld.object.Manga;
-import com.example.mangaworld.object.Chapter;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -35,13 +36,24 @@ public class SummaryFragment extends Fragment {
     private final String summaryBook;
     private final long idBook;
     private AppCompatButton buttonLike;
+    private String readingIndex = null;
+    private final RankFragment.IsLoadingApi isLoadingApi;
 
-    public SummaryFragment(long idBook,List<ListTagCategory> listTagCategory, String summaryBook) {
+    public SummaryFragment(long idBook, List<ListTagCategory> listTagCategory, String summaryBook, RankFragment.IsLoadingApi isLoadingApi) {
         this.idBook = idBook;
         this.listTagCategory = listTagCategory;
         this.summaryBook = summaryBook;
+        this.isLoadingApi = isLoadingApi;
+    }
+    public SummaryFragment(long idBook, List<ListTagCategory> listTagCategory, String summaryBook, String readingIndex, RankFragment.IsLoadingApi isLoadingApi) {
+        this.idBook = idBook;
+        this.listTagCategory = listTagCategory;
+        this.summaryBook = summaryBook;
+        this.readingIndex = readingIndex;
+        this.isLoadingApi = isLoadingApi;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,7 +71,7 @@ public class SummaryFragment extends Fragment {
         rcv.setLayoutManager(linearLayoutManager);
         summaryAdapter.setData(listTagCategory, new CategoryAdapter.IClickItem() {
             @Override
-            public void onClickItemBook(Manga manga) {
+            public void onClickItemBook(long idManga) {
 
             }
 
@@ -74,22 +86,17 @@ public class SummaryFragment extends Fragment {
             }
         });
         rcv.setAdapter(summaryAdapter);
-
+        isLoadingApi.loadDone();
         //Set button
         buttonLike = mView.findViewById(R.id.button_like_summary_fragment);
         AppCompatButton buttonRead = mView.findViewById(R.id.button_read_summary_fragment);
-        buttonRead.setOnClickListener(v -> APIClient.getAPIChapter().dataChapFragment(idBook).enqueue(new Callback<Chapter>() {
-            @Override
-            public void onResponse(@NonNull Call<Chapter> call, @NonNull Response<Chapter> response) {
-                if (response.isSuccessful()){
-                    ((MainActivity) requireActivity()).nextChapFragment(response.body(),idBook,0,true);
-                }
-            }
-            @Override
-            public void onFailure(@NonNull Call<Chapter> call, @NonNull Throwable t) {
-                Toast.makeText(getContext(),"Lỗi",Toast.LENGTH_SHORT).show();
-            }
-        }));
+        if (readingIndex!=null){
+            buttonRead.setText("Đọc tiếp chương "+ readingIndex);
+            buttonRead.setTextSize(13);
+            buttonRead.setOnClickListener(v -> setButtonRead(Integer.parseInt(readingIndex)-1));
+        }else {
+            buttonRead.setOnClickListener(v -> setButtonRead(0));
+        }
         AtomicReference<Boolean> like = new AtomicReference<>(false);
         like.set(setButtonLike(like.get()));
         buttonLike.setOnClickListener(v -> like.set(setButtonLike(like.get())));
@@ -104,5 +111,19 @@ public class SummaryFragment extends Fragment {
         buttonLike.setBackgroundResource(R.drawable.custom_button_like_book);
         buttonLike.setText(R.string.like);
         return true;
+    }
+    private void setButtonRead(int indexChap){
+        APIClient.getAPIChapter().dataChapFragment(idBook).enqueue(new Callback<List<Long>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Long>> call, @NonNull Response<List<Long>> response) {
+                if (response.isSuccessful()){
+                    ((MainActivity) requireActivity()).nextChapFragment(response.body(),idBook,indexChap,true);
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<List<Long>> call, @NonNull Throwable t) {
+                Toast.makeText(getContext(),"Lỗi",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

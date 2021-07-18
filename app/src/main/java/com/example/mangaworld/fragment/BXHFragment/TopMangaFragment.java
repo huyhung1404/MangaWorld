@@ -30,15 +30,17 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class TopMangaFragment extends Fragment {
-    private int type;
-    private float typeAmount;
+    private final int type;
+    private final float typeAmount;
 
     private List<Manga> mangas;
+    private final RankFragment.IsLoadingApi isLoadingApi;
 
 
-    public TopMangaFragment(int type, float typeAmount) {
+    public TopMangaFragment(int type, float typeAmount, RankFragment.IsLoadingApi isLoadingApi) {
         this.type = type;
         this.typeAmount = typeAmount;
+        this.isLoadingApi = isLoadingApi;
     }
 
     @Override
@@ -46,6 +48,7 @@ public class TopMangaFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_top_manga, container, false);
+        MainActivity.hideBottomNav();
         APIClient.getAPIRank().dataRank(type).enqueue(new Callback<List<Manga>>() {
             @Override
             public void onResponse(@NonNull Call<List<Manga>> call, @NonNull Response<List<Manga>> response) {
@@ -57,8 +60,10 @@ public class TopMangaFragment extends Fragment {
             @Override
             public void onFailure(@NonNull Call<List<Manga>> call, @NonNull Throwable t) {
                 Toast.makeText(getContext(),"Lỗi đường truyền",Toast.LENGTH_SHORT).show();
+                MainActivity.showBottomNav();
             }
         });
+
         return view;
     }
 
@@ -76,8 +81,8 @@ public class TopMangaFragment extends Fragment {
 
         RankFragmentAdapter rankFragmentAdapter = new RankFragmentAdapter(typeAmount, MAX_ITEM <= 8 ? mangas : mangas.subList(0, 8), new CategoryAdapter.IClickItem() {
             @Override
-            public void onClickItemBook(Manga manga) {
-                ((MainActivity) requireActivity()).nextReadMangaActivity(manga);
+            public void onClickItemBook(long idManga) {
+                ((MainActivity) requireActivity()).nextReadMangaActivity(idManga);
             }
 
             @Override
@@ -91,6 +96,8 @@ public class TopMangaFragment extends Fragment {
             }
         });
         recyclerView.setAdapter(rankFragmentAdapter);
+        isLoadingApi.loadDone();
+        MainActivity.showBottomNav();
         recyclerView.addOnScrollListener(new PaginationRecyclerView(linearLayoutManager,MAX_ITEM) {
             @Override
             public void setData(int totalItems) {

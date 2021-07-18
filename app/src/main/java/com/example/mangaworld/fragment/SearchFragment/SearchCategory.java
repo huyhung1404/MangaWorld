@@ -66,7 +66,7 @@ public class SearchCategory extends Fragment {
         SearchCategoryAdapter searchCategoryAdapter = new SearchCategoryAdapter(tagCategories, mainActivity,
                 new CategoryAdapter.IClickItem() {
                     @Override
-                    public void onClickItemBook(Manga manga) {
+                    public void onClickItemBook(long idManga) {
 
                     }
 

@@ -1,20 +1,25 @@
 package com.example.mangaworld.fragment;
 
+
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
 
@@ -27,37 +32,61 @@ import com.example.mangaworld.object.Message;
 import com.example.mangaworld.object.Password;
 import com.example.mangaworld.object.User;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 public class InfoFragment extends Fragment {
     private boolean flagButton = false;
-//    private final User user;
-
-//    public InfoFragment(User user) {
-//        this.user = user;
-//    }
+    private CircleImageView avatar;
+    private Bitmap bitmap;
+    private ImageView buttonResetAvatar;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View viewInfo = inflater.inflate(R.layout.fragment_info, container, false);
+        MainActivity.hideBottomNav();
         //Ảnh đại diện
-        CircleImageView avatar = viewInfo.findViewById(R.id.img_avatar_info);
+        avatar = viewInfo.findViewById(R.id.img_avatar_info);
         Glide.with(requireContext()).load(MainActivity.user.getAvatar()).into(avatar);
 
         setDataInformation(viewInfo);
 
         Button buttonChange = viewInfo.findViewById(R.id.btn_change_password);
         buttonChange.setOnClickListener(v -> changePassword(viewInfo));
+        avatar.setOnClickListener(v -> changeAvatar());
 
+
+        buttonResetAvatar = viewInfo.findViewById(R.id.reset_avatar);
+        buttonResetAvatar.setOnClickListener(v -> {
+            avatar.setImageBitmap(bitmap);
+            apiResetAvatar();
+            buttonResetAvatar.setVisibility(View.GONE);
+        });
+        MainActivity.showBottomNav();
         return viewInfo;
     }
+
 
     private void setDataInformation(View mView) {
         //Phần thông tin
@@ -85,7 +114,7 @@ public class InfoFragment extends Fragment {
         editTextPhone.setText(MainActivity.user.getPhone());
         //Gmail
         EditText editTextGmail = mView.findViewById(R.id.edit_text_gmail_info);
-        editTexts.add(editTextGmail);
+//        editTexts.add(editTextGmail);
         editTextGmail.setText(MainActivity.user.getEmail());
         //Button sửa lại thông tin
         ImageView buttonEdit = mView.findViewById(R.id.button_edit_text_name);
@@ -121,8 +150,30 @@ public class InfoFragment extends Fragment {
             editText.setFocusableInTouchMode(!flag);
             editText.setFocusable(!flag);
         }
-        Toast.makeText(getContext(), flag ? "Đã lưu" : "Có thể chỉnh sửa", Toast.LENGTH_SHORT).show();
-        return !flag;
+        if (!flag) {
+            Toast.makeText(getContext(), "Có thể chỉnh sửa", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        APIClient.getAPILogin().changeInfo("Bearer " + MainActivity.user.getToken(),
+                editTexts.get(0).getText().toString().trim(),
+                editTexts.get(1).getText().toString().trim())
+                .enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            MainActivity.user.setFullName(response.body().getFullName());
+                            MainActivity.user.setPhone(response.body().getPhone());
+                            Toast.makeText(getContext(), "Đã lưu", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                        Toast.makeText(getContext(), "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        return false;
     }
 
     //Đổi mật khẩu
@@ -170,5 +221,46 @@ public class InfoFragment extends Fragment {
             return false;
         }
         return true;
+    }
+
+    private void changeAvatar() {
+        Intent image = new Intent();
+        image.setType("image/*");
+        image.setAction(Intent.ACTION_GET_CONTENT);
+        requireActivity().startActivityForResult(Intent.createChooser(image, "Chọn ảnh"), 1);
+        ((MainActivity) requireActivity()).setDataReceivedListener((requestCode, resultCode, data) -> {
+            if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+                try {
+                    Uri imageUri = data.getData();
+                    bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), imageUri);
+                    buttonResetAvatar.setVisibility(View.VISIBLE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void apiResetAvatar() {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        String convertImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        User user = new User(convertImage);
+        APIClient.getAPILogin().postImage("Bearer " + MainActivity.user.getToken(), user).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+                if (response.isSuccessful()) {
+                    assert response.body() != null;
+                    MainActivity.user.setAvatar(response.body().getAvatar());
+                    Toast.makeText(requireContext(), "Đổi thành công", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                Toast.makeText(requireContext(), "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

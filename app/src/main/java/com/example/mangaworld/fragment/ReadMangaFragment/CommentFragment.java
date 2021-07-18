@@ -24,6 +24,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.mangaworld.R;
 import com.example.mangaworld.api.APIClient;
+import com.example.mangaworld.fragment.BXHFragment.RankFragment;
+import com.example.mangaworld.fragment.BXHFragment.RankFragmentAdapter;
 import com.example.mangaworld.fragment.ReadMangaFragment.ReadMangaAdapter.CommentAdapter;
 import com.example.mangaworld.main.MainActivity;
 import com.example.mangaworld.main.PaginationRecyclerView;
@@ -44,9 +46,11 @@ public class CommentFragment extends Fragment {
     private CommentAdapter commentAdapter;
     private List<Comment> comments;
     private View view;
+    private final RankFragment.IsLoadingApi isLoadingApi;
 
-    public CommentFragment(long idBook) {
+    public CommentFragment(long idBook, RankFragment.IsLoadingApi isLoadingApi) {
         this.idBook = idBook;
+        this.isLoadingApi = isLoadingApi;
     }
 
     @Override
@@ -66,6 +70,7 @@ public class CommentFragment extends Fragment {
             }
         }
         getDataAPI();
+        isLoadingApi.loadDone();
         btnSend.setOnClickListener(v -> sendComment());
         return view;
     }

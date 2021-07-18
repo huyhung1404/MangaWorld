@@ -27,16 +27,11 @@ public class MangaInCategoryAdapter extends RecyclerView.Adapter<MangaInCategory
         this.mMangas = mMangas;
         this.iClickItem = iClickItem;
     }
-//    public void setData(List<Manga> mMangas){
-//        this.mMangas = mMangas;
-//        notifyDataSetChanged();
-//    }
-
     @NonNull
     @Override
     public MangaInCategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_manga_category, parent, false);
-        return new MangaInCategoryViewHolder(view, (v, position) -> iClickItem.onClickItemBook(mMangas.get(position)));
+        return new MangaInCategoryViewHolder(view, (v, position) -> iClickItem.onClickItemBook(mMangas.get(position).getIdManga()));
     }
 
     @Override

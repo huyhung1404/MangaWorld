@@ -42,7 +42,7 @@ public class MangaAdapter extends RecyclerView.Adapter<MangaAdapter.BookViewHold
                 iClickItem.onClickItemCategory(idCategory,true);
                 return;
             }
-            iClickItem.onClickItemBook(mMangas.get(position));
+            iClickItem.onClickItemBook(mMangas.get(position).getIdManga());
         });
     }
 

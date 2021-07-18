@@ -46,7 +46,7 @@ public class SearchMangaAdapter extends RecyclerView.Adapter<SearchMangaAdapter.
     @Override
     public SearchMangaAdapter.SearchMangaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_search_manga, parent, false);
-        return new SearchMangaViewHolder(view, (v, position) -> iClickItem.onClickItemBook(mangas.get(position)));
+        return new SearchMangaViewHolder(view, (v, position) -> iClickItem.onClickItemBook(mangas.get(position).getIdManga()));
     }
 
     @Override
