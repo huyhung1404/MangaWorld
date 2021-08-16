@@ -3,27 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/swipe_reveal_layout"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="135dp"
     android:layout_marginBottom="10dp"
     app:dragEdge="right"
     app:mode="same_level">
 
     <FrameLayout
         android:id="@+id/layout_delete"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_height="match_parent">
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center|top"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="40dp"
             android:src="@drawable/icon_delete"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="20dp"
             android:textSize="20sp"
             android:textStyle="bold"
             android:text="@string/delete"/>
@@ -46,8 +46,8 @@
 
             <ImageView
                 android:id="@+id/item_img_book_case"
-                android:layout_width="70dp"
-                android:layout_height="90dp"
+                android:layout_width="90dp"
+                android:layout_height="120dp"
                 android:contentDescription="@null"
                 android:scaleType="centerCrop" />
         </androidx.cardview.widget.CardView>

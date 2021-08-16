@@ -13,7 +13,6 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.Toast;
 
 import com.example.mangaworld.R;
@@ -23,7 +22,9 @@ import com.example.mangaworld.main.PaginationRecyclerView;
 import com.example.mangaworld.mainActivityAdapter.CategoryAdapter;
 import com.example.mangaworld.object.Manga;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,7 +55,9 @@ public class TopMangaFragment extends Fragment {
             public void onResponse(@NonNull Call<List<Manga>> call, @NonNull Response<List<Manga>> response) {
                 if (response.isSuccessful()) {
                     mangas = response.body();
-                    getData(mangas,view);
+                    if (mangas != null) {
+                        getData(mangas,view);
+                    }
                 }
             }
             @Override
@@ -76,7 +79,7 @@ public class TopMangaFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         DividerItemDecoration dividerHorizontal = new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerHorizontal);
-
+        while (mangas.remove(null));
         int MAX_ITEM = mangas.size();
 
         RankFragmentAdapter rankFragmentAdapter = new RankFragmentAdapter(typeAmount, MAX_ITEM <= 8 ? mangas : mangas.subList(0, 8), new CategoryAdapter.IClickItem() {

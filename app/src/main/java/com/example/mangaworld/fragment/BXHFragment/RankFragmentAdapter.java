@@ -13,20 +13,21 @@ import com.bumptech.glide.Glide;
 import com.example.mangaworld.R;
 import com.example.mangaworld.main.OnClickListenerRecyclerView;
 import com.example.mangaworld.mainActivityAdapter.CategoryAdapter;
+import com.example.mangaworld.object.ListTagCategory;
 import com.example.mangaworld.object.Manga;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RankFragmentAdapter extends RecyclerView.Adapter<RankFragmentAdapter.RankFragmentViewHolder> {
     private List<Manga> mMangas;
-    private CategoryAdapter.IClickItem iClickItem;
+    private final CategoryAdapter.IClickItem iClickItem;
     private final float typeAmount;
 
     public RankFragmentAdapter(float typeAmount,List<Manga> mMangas, CategoryAdapter.IClickItem iClickItem) {
         this.typeAmount = typeAmount;
         this.mMangas = mMangas;
         this.iClickItem = iClickItem;
-
     }
     public void setData(List<Manga> list){
         this.mMangas = list;
@@ -52,29 +53,11 @@ public class RankFragmentAdapter extends RecyclerView.Adapter<RankFragmentAdapte
 
     @Override
     public int getItemCount() {
-        return mMangas.size();
+        if(mMangas!=null){
+            return mMangas.size();
+        }
+        return 0;
     }
-
-//    public void setData(List<Manga> newData) {
-//        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffUtilManga(mMangas, newData));
-//        diffResult.dispatchUpdatesTo(this);
-//        this.mMangas = newData;
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(@NonNull RankFragmentViewHolder holder, int position, @NonNull List<Object> payloads) {
-//        if (payloads.isEmpty()) {
-//            super.onBindViewHolder(holder, position, payloads);
-//            return;
-//        }
-//        Bundle bundle = (Bundle) payloads.get(0);
-//        Glide.with(holder.imgManga.getContext()).load(bundle.getString("link")).into(holder.imgManga);
-//        holder.nameManga.setText(bundle.getString("name"));
-//        holder.summaryManga.setText(bundle.getString("summary"));
-//        holder.authorManga.setText(bundle.getString("author"));
-//        holder.rankManga.setText(String.valueOf(position+1));
-//        holder.amountManga.setText((typeAmount==0)?String.valueOf(bundle.getInt("view")):String.valueOf(bundle.getInt("like")));
-//    }
 
     public static class RankFragmentViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final ImageView imgManga;

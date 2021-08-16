@@ -68,8 +68,8 @@ public class RankFragment extends Fragment {
         };
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
         viewPagerAdapter.AddFragment(new TopMangaFragment(0, typeBXH, isLoadingApi), "bxh tổng");
-        viewPagerAdapter.AddFragment(new TopMangaFragment(7, typeBXH, isLoadingApi), "theo tháng");
-        viewPagerAdapter.AddFragment(new TopMangaFragment(30, typeBXH, isLoadingApi), "theo tuần");
+        viewPagerAdapter.AddFragment(new TopMangaFragment(30, typeBXH, isLoadingApi), "theo tháng");
+        viewPagerAdapter.AddFragment(new TopMangaFragment(7, typeBXH, isLoadingApi), "theo tuần");
         viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
