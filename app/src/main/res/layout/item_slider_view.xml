@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.smarteist.autoimageslider.SliderView
+        android:id="@+id/slider_view"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        app:sliderAnimationDuration="600"
+        app:sliderAutoCycleDirection="back_and_forth"
+        app:sliderAutoCycleEnabled="true"
+        app:sliderIndicatorAnimationDuration="600"
+        app:sliderIndicatorGravity="center_horizontal|bottom"
+        app:sliderIndicatorMargin="15dp"
+        app:sliderIndicatorOrientation="horizontal"
+        app:sliderIndicatorPadding="3dp"
+        app:sliderIndicatorRadius="3dp"
+        app:sliderIndicatorSelectedColor="#5a5a5a"
+        app:sliderIndicatorUnselectedColor="#fff"
+        app:sliderScrollTimeInSec="4"
+        app:sliderStartAutoCycle="true" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/img_bxh"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="20dp"
+            android:src="@drawable/icon_bxh" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/img_bxh"
+            android:paddingStart="15dp"
+            android:paddingLeft="15dp"
+            android:text="@string/bxh" />
+
+        <ImageView
+            android:id="@+id/img_bxh_like"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_toEndOf="@+id/img_bxh"
+            android:layout_toRightOf="@+id/img_bxh"
+            android:src="@drawable/icon_bxh_like" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/img_bxh_like"
+            android:layout_marginHorizontal="30dp"
+            android:layout_toEndOf="@+id/img_bxh"
+            android:layout_toRightOf="@+id/img_bxh"
+            android:text="@string/like" />
+    </RelativeLayout>
+</LinearLayout>
