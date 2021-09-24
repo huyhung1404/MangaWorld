@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Main.CommunityFragment.MyProfileFragment.MyGroupsFragment.MyGroupCreated.GroupsManager.MemberManager">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/member_manager_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ActionBarTheme" />
+
+    <TextView
+        android:id="@+id/none_member_manager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="50dp"
+        android:gravity="center"
+        android:text="@string/kh_ng_c_y_u_c_u_c_n_ph_duy_t"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_member_manager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/member_manager_toolbar" />
+
+    <include
+        android:id="@+id/card_view_progress_bar_member_manager"
+        layout="@layout/card_view_bar"
+        android:visibility="gone" />
+</RelativeLayout>

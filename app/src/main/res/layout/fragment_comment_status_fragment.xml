@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_sheet_background">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:gravity="center_horizontal"
+        android:text="@string/comment"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="35dp"
+        android:background="@color/post_gray" />
+
+    <TextView
+        android:id="@+id/notification_none_comment"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="35dp"
+        android:gravity="center"
+        android:padding="50dp"
+        android:text="@string/none_comment"
+        android:textSize="30sp"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_comment_status"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_below="@id/notification_none_comment"
+        android:layout_marginTop="35dp"
+        android:visibility="visible" />
+
+    <EditText
+        android:id="@+id/edit_text_send_comment_status"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@id/rcv_comment_status"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_toStartOf="@+id/send_comment_status"
+        android:layout_toLeftOf="@+id/send_comment_status"
+        android:background="@drawable/border_comment"
+        android:hint="@string/input_comment"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:maxLines="1"
+        android:paddingHorizontal="15dp" />
+
+    <ImageView
+        android:id="@+id/send_comment_status"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/rcv_comment_status"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:src="@drawable/send_comment"
+        tools:ignore="ContentDescription" />
+    <TextView
+        android:id="@+id/text_no_comment_in_post"
+        android:layout_width="match_parent"
+        android:text="@string/no_comment_in_post"
+        android:textSize="40sp"
+        android:gravity="center"
+        android:layout_height="420dp"
+        android:layout_below="@id/notification_none_comment"
+        android:layout_marginTop="35dp"
+        android:visibility="gone" />
+    <ImageView
+        android:id="@+id/destroy_reply_button"
+        android:layout_width="40dp"
+        android:layout_height="20dp"
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginBottom="-20dp"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/icon_close"
+        android:layout_above="@id/edit_text_send_comment_status"
+        android:layout_alignParentEnd="true"
+        tools:ignore="ContentDescription"
+        android:visibility="gone"/>
+</RelativeLayout>

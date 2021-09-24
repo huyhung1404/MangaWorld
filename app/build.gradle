@@ -1,8 +1,17 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
 }
 
 android {
+    signingConfigs {
+        my_config {
+            storeFile file('E:\\MangaWorld\\MangaWorld.jks')
+            storePassword '123456789'
+            keyAlias 'DreamTeam'
+            keyPassword '123456789'
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
@@ -20,6 +29,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.my_config
         }
     }
     compileOptions {
@@ -46,4 +56,6 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
     implementation 'com.github.smarteist:autoimageslider:1.4.0'
+    implementation platform('com.google.firebase:firebase-bom:28.4.1')
+    implementation 'com.google.firebase:firebase-messaging'
 }

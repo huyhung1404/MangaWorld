@@ -1,9 +1,9 @@
-package com.example.mangaworld.api;
+package com.example.mangaworld.API;
 
-import com.example.mangaworld.object.Author;
-import com.example.mangaworld.object.Category;
-import com.example.mangaworld.object.ListTagCategory;
-import com.example.mangaworld.object.Manga;
+import com.example.mangaworld.Model.Author;
+import com.example.mangaworld.Model.Category;
+import com.example.mangaworld.Model.ListTagCategory;
+import com.example.mangaworld.Model.Manga;
 
 import java.util.List;
 

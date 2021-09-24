@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_popup">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/background_popup_text_red"
+        android:gravity="center"
+        android:text="@string/delete_group"
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_marginTop="60dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_width="match_parent"
+        android:autoSizeTextType="uniform"
+        android:maxLines="2"
+        android:text="Nhóm bị xoá sẽ không thể hoàn tác!\nBạn có chắc muốn xoá nhóm ? "
+        android:gravity="top"
+        android:padding="8dp"
+        android:layout_height="100dp"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/accept_popup_delete_group"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="190dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/border_text_view_group"
+        android:gravity="center"
+        android:paddingHorizontal="15dp"
+        android:text="@string/access"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/refuse_popup_delete_group"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="190dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/border_comment_text"
+        android:gravity="center"
+        android:paddingHorizontal="15dp"
+        android:text="@string/hu_b"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+</RelativeLayout>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Main.CommunityFragment.CommunityFragment">
+
+    <ImageView
+        android:id="@+id/button_news"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_margin="5dp"
+        android:autofillHints="Bảng tin"
+        android:contentDescription="@null"
+        android:src="@drawable/icon_new_community"
+        app:layout_constraintEnd_toStartOf="@+id/button_groups"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/button_groups"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_margin="5dp"
+        android:autofillHints="Nhóm"
+        android:contentDescription="@null"
+        android:scaleY="0.7"
+        android:scaleX="0.8"
+        android:src="@drawable/icon_group_community"
+        app:layout_constraintEnd_toStartOf="@+id/button_bell"
+        app:layout_constraintStart_toEndOf="@+id/button_news"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/button_bell"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_margin="5dp"
+        android:autofillHints="Thông báo"
+        android:contentDescription="@null"
+        android:scaleX="1.2"
+        android:scaleY="1.2"
+        android:src="@drawable/icon_bell_community"
+        app:layout_constraintEnd_toStartOf="@+id/button_mine"
+        app:layout_constraintStart_toEndOf="@+id/button_groups"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/button_mine"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_margin="5dp"
+        android:layout_marginTop="4dp"
+        android:autofillHints="Trang cá nhân"
+        android:contentDescription="@null"
+        android:scaleX="1.1"
+        android:src="@drawable/icon_user_community"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button_bell"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/number_notification"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:autoSizeTextType="uniform"
+        android:background="@drawable/badge_drawable"
+        android:gravity="center"
+        android:maxLines="1"
+        android:padding="2dp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/button_bell"
+        app:layout_constraintStart_toStartOf="@+id/button_bell"
+        app:layout_constraintTop_toTopOf="@+id/button_bell"
+        tools:ignore="UnusedAttribute" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="55dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

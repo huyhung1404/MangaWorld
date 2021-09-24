@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginTop="10dp"
+        app:cardCornerRadius="15dp">
+
+        <ImageView
+            android:id="@+id/avatar_group_my_created"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/name_group_my_created"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="90dp"
+        android:layout_marginLeft="90dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_toStartOf="@id/button_setting_my_group"
+        android:layout_toLeftOf="@id/button_setting_my_group"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/dark_gray"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/post_item_my_created"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="90dp"
+        android:layout_marginLeft="90dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:textColor="@color/dark_gray"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/member_item_my_created"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/post_item_my_created"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_toEndOf="@+id/text_permission_group_created"
+        android:layout_toRightOf="@+id/text_permission_group_created"
+        android:textColor="@color/dark_gray"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/button_setting_my_group"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="15dp"
+        android:src="@drawable/icon_setting"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/text_permission_group_created"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="90dp"
+        android:layout_marginBottom="18dp"
+        android:gravity="center"
+        android:textColor="@color/black" />
+
+
+    <TextView
+        android:id="@+id/button_browser_post"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@id/name_group_my_created"
+        android:layout_marginTop="8.5dp"
+        android:layout_toEndOf="@id/post_item_my_created"
+        android:layout_toRightOf="@id/post_item_my_created"
+        android:background="@drawable/border_text_view_group"
+        android:gravity="center"
+        android:paddingHorizontal="8dp"
+        android:text="@string/browser_post"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/button_browser_member"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@id/name_group_my_created"
+        android:layout_marginTop="45dp"
+        android:layout_toEndOf="@id/post_item_my_created"
+        android:layout_toRightOf="@id/post_item_my_created"
+        android:background="@drawable/border_text_view_group"
+        android:gravity="center"
+        android:paddingHorizontal="8dp"
+        android:text="@string/browser_member"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/number_notification_browser_post"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_below="@id/name_group_my_created"
+        android:layout_marginStart="-10dp"
+        android:layout_marginLeft="-10dp"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@id/button_browser_post"
+        android:layout_toRightOf="@id/button_browser_post"
+        android:autoSizeTextType="uniform"
+        android:background="@drawable/badge_drawable"
+        android:gravity="center"
+        android:maxLines="1"
+        android:padding="2dp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        tools:ignore="UnusedAttribute"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/number_notification_browser_member"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_below="@id/post_item_my_created"
+        android:layout_marginStart="-10dp"
+        android:layout_marginLeft="-10dp"
+        android:layout_marginTop="3dp"
+        android:layout_toEndOf="@id/button_browser_member"
+        android:layout_toRightOf="@id/button_browser_member"
+        android:autoSizeTextType="uniform"
+        android:background="@drawable/badge_drawable"
+        android:gravity="center"
+        android:maxLines="1"
+        android:padding="2dp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        tools:ignore="UnusedAttribute"
+        android:visibility="gone"/>
+
+</RelativeLayout>

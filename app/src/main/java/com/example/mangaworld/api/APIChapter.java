@@ -1,11 +1,11 @@
-package com.example.mangaworld.api;
+package com.example.mangaworld.API;
 
 
-import com.example.mangaworld.object.Chapter;
-import com.example.mangaworld.object.Comment;
-import com.example.mangaworld.object.Manga;
-import com.example.mangaworld.object.Message;
-import com.example.mangaworld.object.SendComment;
+import com.example.mangaworld.Model.Chapter;
+import com.example.mangaworld.Model.Comment;
+import com.example.mangaworld.Model.Manga;
+import com.example.mangaworld.Model.Message;
+import com.example.mangaworld.Model.SendComment;
 
 import java.util.List;
 
@@ -37,9 +37,11 @@ public interface APIChapter {
     @GET("api/comic/{id}")
     Call<Manga> getMangaById(@Path("id") Long id);
     @GET("api/comic/{id}")
-    Call<Manga> getMangaByIdHasUser(@Path("id") Long id,@Query("user") Long idUser);
+    Call<Manga> getMangaByIdHasUser(@Header("Authorization")String token,@Path("id") Long id);
     @GET("api/book-case")
     Call<List<Manga>> getMangaInBookCase(@Header("Authorization")String token);
     @DELETE("api/book-case")
     Call<Message> deleteMangaInBookCase(@Header("Authorization")String token,@Query("id") Long id);
+    @GET("api/like-comic/{id}/{like}")
+    Call<Message> likeManga(@Header("Authorization")String token,@Path("id") Long idManga,@Path("like") Integer like);
 }

@@ -5,6 +5,10 @@
         android:icon="@drawable/icon_home"
         android:title="@string/home_menu"/>
     <item
+        android:id="@+id/menuCommunity"
+        android:icon="@drawable/icon_globe"
+        android:title="@string/community_menu"/>
+    <item
         android:id="@+id/menuBookCase"
         android:icon="@drawable/icon_book_case"
         android:title="@string/bookcase_menu" />

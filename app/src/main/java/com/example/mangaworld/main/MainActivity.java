@@ -1,28 +1,39 @@
-package com.example.mangaworld.main;
+package com.example.mangaworld.Main;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.mangaworld.API.RealPathUtil;
+import com.example.mangaworld.Interface.DataReceivedListener;
+import com.example.mangaworld.Interface.IOpenGallery;
+import com.example.mangaworld.Main.CommunityFragment.CommunityFragment;
+import com.example.mangaworld.Main.CommunityFragment.PostStatus.PostStatusFragment;
+import com.example.mangaworld.Main.CommunityFragment.PostStatus.SelectGroupsFragment;
 import com.example.mangaworld.R;
-import com.example.mangaworld.fragment.BXHFragment.RankFragment;
-import com.example.mangaworld.fragment.LoginFragment.LoginFragment;
-import com.example.mangaworld.mainActivityAdapter.ScrollHandler;
-import com.example.mangaworld.fragment.CategoryFragment;
-import com.example.mangaworld.fragment.readChapFragment.ReadChapFragment;
-import com.example.mangaworld.fragment.BookcaseFragment;
-import com.example.mangaworld.fragment.HomeFragment;
-import com.example.mangaworld.fragment.InfoFragment;
-import com.example.mangaworld.fragment.ReadMangaFragment.ReadMangaFragment;
-import com.example.mangaworld.fragment.SearchFragment.SearchFragment;
-import com.example.mangaworld.object.User;
+import com.example.mangaworld.Main.HomeFragment.RankFragment.RankFragment;
+import com.example.mangaworld.Main.InfoUserFragment.AccountManager.LoginFragment;
+import com.example.mangaworld.Extension.ScrollHandler;
+import com.example.mangaworld.Main.HomeFragment.CategoryFragment.CategoryFragment;
+import com.example.mangaworld.Main.ReadManga.Element.ReadChapFragment.ReadChapFragment;
+import com.example.mangaworld.Main.BookcaseFragment.BookcaseFragment;
+import com.example.mangaworld.Main.HomeFragment.HomeFragment;
+import com.example.mangaworld.Main.InfoUserFragment.InfoUserFragment;
+import com.example.mangaworld.Main.ReadManga.Element.InfomationMangaFragment.InformationMangaFragment;
+import com.example.mangaworld.Main.SearchFragment.SearchFragment;
+import com.example.mangaworld.Model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.Serializable;
@@ -34,18 +45,17 @@ public class MainActivity extends AppCompatActivity {
     public static User user = null;
     private DataReceivedListener dataReceivedListener;
 
+    private FragmentManager fragmentManager;
+
     public void setDataReceivedListener(DataReceivedListener dataReceivedListener) {
         this.dataReceivedListener = dataReceivedListener;
-    }
-
-    public interface DataReceivedListener {
-        void onReceived(int requestCode, int resultCode, Intent data);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        fragmentManager = getSupportFragmentManager();
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
         layoutParams.setBehavior(new ScrollHandler());
@@ -60,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.menuHome:
                     loadFragment(new HomeFragment());
                     return true;
+                case R.id.menuCommunity:
+                    loadFragment(new CommunityFragment());
+                    return true;
                 case R.id.menuBookCase:
                     loadFragment(new BookcaseFragment());
                     return true;
@@ -68,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.menuInfo:
                     if (isLogin) {
-                        loadFragment(new InfoFragment());
+                        loadFragment(new InfoUserFragment());
                         return true;
                     }
                     loadFragment(new LoginFragment());
@@ -78,72 +91,74 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //Chuyển fragment
-    public void loadFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
+    public void loadFragment(Fragment _fragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.main_frame, fragment);
+        transaction.replace(R.id.main_frame, _fragment);
         transaction.addToBackStack(null);
         fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         transaction.commit();
     }
 
-    //Truyền dữ liệu từ Home đến ReadManga
-    public void nextReadMangaActivity(long idManga) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        ReadMangaFragment readMangaFragment = new ReadMangaFragment();
-        //Bundle
+    public void goToInformationMangaScreen(long _idManga) {
+        InformationMangaFragment informationMangaFragment = new InformationMangaFragment();
         Bundle bundle = new Bundle();
-        bundle.putLong("idManga", idManga);
-        readMangaFragment.setArguments(bundle);
-        //
-        fragmentTransaction.replace(R.id.main_frame, readMangaFragment);
-        fragmentTransaction.addToBackStack(ReadMangaFragment.TAG);
-        fragmentTransaction.commit();
+
+        bundle.putLong("idManga", _idManga);
+        informationMangaFragment.setArguments(bundle);
+
+        goToScreen(informationMangaFragment, InformationMangaFragment.TAG);
     }
 
-    //Truyền dữ liệu từ Home đến Category
-    public void nextCategoryFragment(Long idCategory, boolean isViewMore) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+    public void goToCategoryMangaScreen(Long _idCategory, boolean _isViewMore) {
         CategoryFragment categoryFragment = new CategoryFragment();
-        //Bundle
         Bundle bundle = new Bundle();
-        bundle.putLong("id_category", idCategory);
-        bundle.putBoolean("isViewMore", isViewMore);
+
+        bundle.putLong("id_category", _idCategory);
+        bundle.putBoolean("isViewMore", _isViewMore);
         categoryFragment.setArguments(bundle);
-        //
-        fragmentTransaction.replace(R.id.main_frame, categoryFragment);
-        fragmentTransaction.addToBackStack(CategoryFragment.TAG);
-        fragmentTransaction.commit();
+
+        goToScreen(categoryFragment, CategoryFragment.TAG);
     }
 
-    //Truyền dữ liệu từ Home đến BXH
-    public void nextRankFragment(float id) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+    public void goToRankMangaScreen(float _id) {
         RankFragment rankFragment = new RankFragment();
-        //Bundle
         Bundle bundle = new Bundle();
-        bundle.putFloat("type_bxh", id);
+
+        bundle.putFloat("type_bxh", _id);
         rankFragment.setArguments(bundle);
-        //
-        fragmentTransaction.replace(R.id.main_frame, rankFragment);
-        fragmentTransaction.addToBackStack(RankFragment.TAG);
-        fragmentTransaction.commit();
+
+        goToScreen(rankFragment, RankFragment.TAG);
     }
 
-    //Truyền dữ liệu từ ReadManga đến ReadChap / Chuyển chap
-    public void nextChapFragment(List<Long> listIndexChapter, long idBook, int position, Boolean isAddToBackStack) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+    public void goToReadMangaScreen(List<Long> _listIndexChapter, long _idBook, int _position, Boolean _isAddToBackStack) {
         ReadChapFragment readChapFragment = new ReadChapFragment();
-        //Bundle
         Bundle bundle = new Bundle();
-        bundle.putSerializable("object_chap", (Serializable) listIndexChapter);
-        bundle.putLong("idBook", idBook);
-        bundle.putInt("position", position);
+
+        bundle.putSerializable("object_chap", (Serializable) _listIndexChapter);
+        bundle.putLong("idBook", _idBook);
+        bundle.putInt("position", _position);
         readChapFragment.setArguments(bundle);
-        //
-        fragmentTransaction.replace(R.id.main_frame, readChapFragment);
-        fragmentTransaction.addToBackStack((isAddToBackStack) ? ReadChapFragment.TAG : null);
+
+        goToScreen(readChapFragment, (_isAddToBackStack) ? ReadChapFragment.TAG : null);
+    }
+
+    public void postStatusAttachManga(long _idManga){
+        PostStatusFragment postStatusFragment = new PostStatusFragment((bundle) -> {
+            SelectGroupsFragment selectGroupsFragment = new SelectGroupsFragment();
+            selectGroupsFragment.setArguments(bundle);
+            goToScreen(selectGroupsFragment,SelectGroupsFragment.TAG);
+        });
+
+        Bundle bundle = new Bundle();
+        bundle.putLong("idManga", _idManga);
+        postStatusFragment.setArguments(bundle);
+        goToScreen(postStatusFragment,PostStatusFragment.TAG);
+    }
+
+    private void goToScreen(Fragment _fragment, String _tag) {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame, _fragment);
+        fragmentTransaction.addToBackStack(_tag);
         fragmentTransaction.commit();
     }
 
@@ -151,6 +166,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         dataReceivedListener.onReceived(requestCode, resultCode, data);
+    }
+
+    public void onClickRequestPermission(IOpenGallery openGallery) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            openGallery.openGallery();
+            return;
+        }
+        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
+            openGallery.openGallery();
+            return;
+        }
+        String[] permission = {Manifest.permission.READ_EXTERNAL_STORAGE};
+        requestPermissions(permission, 10);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     public static void hideBottomNav() {

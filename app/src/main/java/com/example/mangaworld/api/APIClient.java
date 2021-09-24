@@ -1,4 +1,4 @@
-package com.example.mangaworld.api;
+package com.example.mangaworld.API;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -8,7 +8,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class APIClient {
-    private static final String URL = "http://192.168.1.6:8080/";
+    private static final String URL = "http://192.168.1.5:8080/";
     private static final Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd HH:mm:ss")
             .create();
@@ -31,5 +31,7 @@ public class APIClient {
     }
     public static APIRank getAPIRank(){
         return getRetrofit().create(APIRank.class);
+    }
+    public static APICommunity getAPICommunity(){ return getRetrofit().create(APICommunity.class);
     }
 }
