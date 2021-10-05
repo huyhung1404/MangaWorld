@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,8 +31,8 @@ import com.example.mangaworld.Interface.ChangePageNews;
 import com.example.mangaworld.Main.CommunityFragment.NewsFragment.StatusAdapter;
 import com.example.mangaworld.Main.CommunityFragment.PostStatus.SuccessMessageFragment;
 import com.example.mangaworld.Main.MainActivity;
+import com.example.mangaworld.Model.Community.CallBackItems;
 import com.example.mangaworld.Model.Community.Groups;
-import com.example.mangaworld.Model.Community.News;
 import com.example.mangaworld.Model.Community.Status;
 import com.example.mangaworld.Model.Message;
 import com.example.mangaworld.R;
@@ -94,9 +93,9 @@ public class InformationGroupFragment extends Fragment implements ChangePageNews
             requestToJoin.setVisibility(View.GONE);
         }
         if (group.isPublicGroup() || group.isInvitation()) {
-            APIClient.getAPICommunity().getPostInGroup("Bearer " + MainActivity.user.getToken(), idGroup, page, SIZE).enqueue(new Callback<News>() {
+            APIClient.getAPICommunity().getPostInGroup("Bearer " + MainActivity.user.getToken(), idGroup, page, SIZE).enqueue(new Callback<CallBackItems<Status>>() {
                 @Override
-                public void onResponse(@NonNull Call<News> call, @NonNull Response<News> response) {
+                public void onResponse(@NonNull Call<CallBackItems<Status>> call, @NonNull Response<CallBackItems<Status>> response) {
                     if (response.isSuccessful()) {
                         assert response.body() != null;
                         getData(view, response.body());
@@ -104,7 +103,7 @@ public class InformationGroupFragment extends Fragment implements ChangePageNews
                 }
 
                 @Override
-                public void onFailure(@NonNull Call<News> call, @NonNull Throwable t) {
+                public void onFailure(@NonNull Call<CallBackItems<Status>> call, @NonNull Throwable t) {
                     Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -160,7 +159,7 @@ public class InformationGroupFragment extends Fragment implements ChangePageNews
         });
     }
 
-    private void getData(View view, News news) {
+    private void getData(View view, CallBackItems<Status> news) {
         RecyclerView recyclerView = view.findViewById(R.id.recycle_view_information_group);
         linearLayoutManager =
                 new LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false);
@@ -170,6 +169,11 @@ public class InformationGroupFragment extends Fragment implements ChangePageNews
             statusAdapter = new StatusAdapter((MainActivity) requireActivity(), this::setClickPopupMenu, this,R.menu.menu_admin_group);
         }else {
             statusAdapter = new StatusAdapter((MainActivity) requireActivity(), this::setClickPopupMenu, this,R.menu.menu_status);
+        }
+        if (news.getItems() == null || news.getItems().size() == 0){
+            view.findViewById(R.id.text_none_post).setVisibility(View.VISIBLE);
+        }else {
+            view.findViewById(R.id.text_none_post).setVisibility(View.GONE);
         }
         statusAdapter.setData(news);
         recyclerView.setAdapter(statusAdapter);
@@ -212,9 +216,9 @@ public class InformationGroupFragment extends Fragment implements ChangePageNews
     }
 
     private void changePage(long page) {
-        APIClient.getAPICommunity().getPostInGroup("Bearer " + MainActivity.user.getToken(), idGroup, page, SIZE).enqueue(new Callback<News>() {
+        APIClient.getAPICommunity().getPostInGroup("Bearer " + MainActivity.user.getToken(), idGroup, page, SIZE).enqueue(new Callback<CallBackItems<Status>>() {
             @Override
-            public void onResponse(@NonNull Call<News> call, @NonNull Response<News> response) {
+            public void onResponse(@NonNull Call<CallBackItems<Status>> call, @NonNull Response<CallBackItems<Status>> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     statusAdapter.setData(response.body());
@@ -223,7 +227,7 @@ public class InformationGroupFragment extends Fragment implements ChangePageNews
             }
 
             @Override
-            public void onFailure(@NonNull Call<News> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<CallBackItems<Status>> call, @NonNull Throwable t) {
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
             }
         });

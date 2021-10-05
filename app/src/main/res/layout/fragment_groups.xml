@@ -24,25 +24,26 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="55dp"
                     android:text="@string/recommend"
                     android:textColor="@color/black"
                     android:textSize="28sp"
-                    android:textStyle="bold"
-                    android:layout_marginStart="15dp" />
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/view_more_groups"
-                    android:layout_marginTop="65dp"
-                    android:layout_marginRight="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
+                    android:layout_marginTop="65dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/viewMorePlus"
                     android:textColor="@color/teal_700"
                     android:textSize="15sp"
-                    android:text="@string/viewMorePlus"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="10dp"
                     tools:ignore="RelativeOverlap" />
 
                 <GridLayout
@@ -90,28 +91,42 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
+                    android:layout_marginStart="15dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginBottom="8dp"
                     android:text="@string/highlights"
                     android:textColor="@color/black"
                     android:textSize="28sp"
-                    android:textStyle="bold"
-                    android:layout_marginStart="15dp" />
+                    android:textStyle="bold" />
             </RelativeLayout>
 
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_marginBottom="45dp"
-                android:theme="@style/ActionBarTheme"
                 android:background="@color/white"
+                android:theme="@style/ActionBarTheme"
                 app:layout_collapseMode="pin">
-                <androidx.appcompat.widget.SearchView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:iconifiedByDefault="false"
-                    app:queryHint="Tìm kiếm nhóm"
-                    app:searchIcon="@drawable/icon_search" />
+
+                <EditText
+                    android:id="@+id/edit_text_group_search"
+                    android:layout_width="320dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="8dp"
+                    android:background="@drawable/border_edit_text_create"
+                    android:hint="@string/seach_group"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:paddingHorizontal="12dp"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/button_group_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="8dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/icon_search" />
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>

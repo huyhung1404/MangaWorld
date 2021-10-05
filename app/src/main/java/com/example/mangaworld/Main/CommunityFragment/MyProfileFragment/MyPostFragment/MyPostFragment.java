@@ -3,14 +3,11 @@ package com.example.mangaworld.Main.CommunityFragment.MyProfileFragment.MyPostFr
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Debug;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,12 +17,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mangaworld.API.APIClient;
-import com.example.mangaworld.Extension.HideAndShowBottomNavRecycleView;
 import com.example.mangaworld.Interface.ChangePageNews;
 import com.example.mangaworld.Main.CommunityFragment.NewsFragment.StatusAdapter;
 import com.example.mangaworld.Main.CommunityFragment.PostStatus.SuccessMessageFragment;
 import com.example.mangaworld.Main.MainActivity;
-import com.example.mangaworld.Model.Community.News;
+import com.example.mangaworld.Model.Community.CallBackItems;
 import com.example.mangaworld.Model.Community.Status;
 import com.example.mangaworld.Model.Message;
 import com.example.mangaworld.R;
@@ -48,9 +44,10 @@ public class MyPostFragment extends Fragment implements ChangePageNews {
         View view = inflater.inflate(R.layout.fragment_my_post2, container, false);
         MainActivity.hideBottomNav();
 
-        APIClient.getAPICommunity().getMyPost("Bearer " + MainActivity.user.getToken(), page, SIZE).enqueue(new Callback<News>() {
+        APIClient.getAPICommunity().getMyPost("Bearer " + MainActivity.user.getToken(), page, SIZE)
+                .enqueue(new Callback<CallBackItems<Status>>() {
             @Override
-            public void onResponse(@NonNull Call<News> call, @NonNull Response<News> response) {
+            public void onResponse(@NonNull Call<CallBackItems<Status>> call, @NonNull Response<CallBackItems<Status>> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     getData(view, response.body());
@@ -59,7 +56,7 @@ public class MyPostFragment extends Fragment implements ChangePageNews {
             }
 
             @Override
-            public void onFailure(@NonNull Call<News> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<CallBackItems<Status>> call, @NonNull Throwable t) {
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
                 MainActivity.showBottomNav();
             }
@@ -67,7 +64,7 @@ public class MyPostFragment extends Fragment implements ChangePageNews {
         return view;
     }
 
-    private void getData(View _view, News news) {
+    private void getData(View _view, CallBackItems<Status> news) {
         if(news.getItems() == null || news.getItems().size() == 0){
             _view.findViewById(R.id.none_my_post_text).setVisibility(View.VISIBLE);
             return;
@@ -96,9 +93,9 @@ public class MyPostFragment extends Fragment implements ChangePageNews {
         });
     }
     private void changePage(long page) {
-        APIClient.getAPICommunity().getMyPost("Bearer " + MainActivity.user.getToken(), page, SIZE).enqueue(new Callback<News>() {
+        APIClient.getAPICommunity().getMyPost("Bearer " + MainActivity.user.getToken(), page, SIZE).enqueue(new Callback<CallBackItems<Status>>() {
             @Override
-            public void onResponse(@NonNull Call<News> call, @NonNull Response<News> response) {
+            public void onResponse(@NonNull Call<CallBackItems<Status>> call, @NonNull Response<CallBackItems<Status>> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     statusAdapter.setData(response.body());
@@ -107,7 +104,7 @@ public class MyPostFragment extends Fragment implements ChangePageNews {
             }
 
             @Override
-            public void onFailure(@NonNull Call<News> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<CallBackItems<Status>> call, @NonNull Throwable t) {
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
             }
         });

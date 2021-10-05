@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.mangaworld.API.APIClient;
+import com.example.mangaworld.Interface.IShowTextNone;
 import com.example.mangaworld.Interface.OnClickListenerRecyclerView;
 import com.example.mangaworld.Main.HomeFragment.CategoryFragment.MangaInCategoryAdapter;
 import com.example.mangaworld.Main.MainActivity;
@@ -34,10 +35,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     private final long idGroup;
     private final Context context;
     private final Date dateNow = new Date();
+    private IShowTextNone m_Show;
 
-    public PostAdapter(long idGroup, Context context) {
+    public PostAdapter(long idGroup, Context context, IShowTextNone _show) {
         this.idGroup = idGroup;
         this.context = context;
+        m_Show = _show;
     }
 
     public void setData(List<Status> statuses) {
@@ -155,6 +158,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 if (response.isSuccessful()) {
                     statuses.remove(position);
                     notifyItemRemoved(position);
+                    if (statuses.size() == 0)
+                        m_Show.show();
                 }
             }
 
@@ -172,6 +177,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 if (response.isSuccessful()) {
                     statuses.remove(position);
                     notifyItemRemoved(position);
+                    if (statuses.size() == 0)
+                        m_Show.show();
                 }
             }
 

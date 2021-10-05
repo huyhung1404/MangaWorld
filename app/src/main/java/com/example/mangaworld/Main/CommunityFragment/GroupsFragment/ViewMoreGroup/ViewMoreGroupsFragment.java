@@ -21,14 +21,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mangaworld.API.APIClient;
 import com.example.mangaworld.Interface.ChangePageNews;
-import com.example.mangaworld.Main.CommunityFragment.NewsFragment.StatusAdapter;
 import com.example.mangaworld.Main.MainActivity;
+import com.example.mangaworld.Model.Community.CallBackItems;
 import com.example.mangaworld.Model.Community.Groups;
-import com.example.mangaworld.Model.Community.GroupsCallBack;
-import com.example.mangaworld.Model.Community.News;
 import com.example.mangaworld.R;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,9 +45,9 @@ public class ViewMoreGroupsFragment extends Fragment implements ChangePageNews {
         View view = inflater.inflate(R.layout.fragment_view_more_groups, container, false);
         initToolBar(view);
         MainActivity.hideBottomNav();
-        APIClient.getAPICommunity().getViewMoreGroup("Bearer " + MainActivity.user.getToken(),page,SIZE).enqueue(new Callback<GroupsCallBack>() {
+        APIClient.getAPICommunity().getViewMoreGroup("Bearer " + MainActivity.user.getToken(),page,SIZE).enqueue(new Callback<CallBackItems<Groups>>() {
             @Override
-            public void onResponse(@NonNull Call<GroupsCallBack> call, @NonNull Response<GroupsCallBack> response) {
+            public void onResponse(@NonNull Call<CallBackItems<Groups>> call, @NonNull Response<CallBackItems<Groups>> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     getData(view, response.body());
@@ -60,7 +56,7 @@ public class ViewMoreGroupsFragment extends Fragment implements ChangePageNews {
             }
 
             @Override
-            public void onFailure(@NonNull Call<GroupsCallBack> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<CallBackItems<Groups>> call, @NonNull Throwable t) {
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
                 MainActivity.showBottomNav();
             }
@@ -68,7 +64,7 @@ public class ViewMoreGroupsFragment extends Fragment implements ChangePageNews {
         return view;
     }
 
-    private void getData(View view, GroupsCallBack groupsList) {
+    private void getData(View view, CallBackItems<Groups> groupsList) {
         RecyclerView recyclerView = view.findViewById(R.id.recycle_view_view_more_group);
         linearLayoutManager = new LinearLayoutManager(requireContext());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -94,9 +90,9 @@ public class ViewMoreGroupsFragment extends Fragment implements ChangePageNews {
     }
 
     private void changePage(long page) {
-        APIClient.getAPICommunity().getViewMoreGroup("Bearer " + MainActivity.user.getToken(), page, SIZE).enqueue(new Callback<GroupsCallBack>() {
+        APIClient.getAPICommunity().getViewMoreGroup("Bearer " + MainActivity.user.getToken(), page, SIZE).enqueue(new Callback<CallBackItems<Groups>>() {
             @Override
-            public void onResponse(@NonNull Call<GroupsCallBack> call, @NonNull Response<GroupsCallBack> response) {
+            public void onResponse(@NonNull Call<CallBackItems<Groups>> call, @NonNull Response<CallBackItems<Groups>> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     viewMoreGroupsAdapter.setData(response.body());
@@ -105,7 +101,7 @@ public class ViewMoreGroupsFragment extends Fragment implements ChangePageNews {
             }
 
             @Override
-            public void onFailure(@NonNull Call<GroupsCallBack> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<CallBackItems<Groups>> call, @NonNull Throwable t) {
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
             }
         });

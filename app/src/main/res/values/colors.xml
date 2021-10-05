@@ -22,4 +22,5 @@
     <color name="select">#62DC67</color>
     <color name="comment">#CDCDCD</color>
     <color name="comment_text">#EFEFEF</color>
+    <color name="notification_unseen">#A5DFFD</color>
 </resources>

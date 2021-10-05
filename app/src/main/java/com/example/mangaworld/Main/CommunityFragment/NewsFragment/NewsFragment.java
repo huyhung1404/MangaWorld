@@ -26,7 +26,7 @@ import com.example.mangaworld.Main.CommunityFragment.CommunityFragment;
 import com.example.mangaworld.Main.CommunityFragment.PostStatus.PostStatusFragment;
 import com.example.mangaworld.Main.CommunityFragment.PostStatus.SelectGroupsFragment;
 import com.example.mangaworld.Main.MainActivity;
-import com.example.mangaworld.Model.Community.News;
+import com.example.mangaworld.Model.Community.CallBackItems;
 import com.example.mangaworld.Model.Community.Status;
 import com.example.mangaworld.R;
 
@@ -48,9 +48,10 @@ public class NewsFragment extends Fragment implements ChangePageNews {
         MainActivity.hideBottomNav();
         Glide.with(requireContext()).load(MainActivity.user.getAvatar())
                 .into((CircleImageView) view.findViewById(R.id.img_avatar_community));
-        APIClient.getAPICommunity().getDataNews("Bearer " + MainActivity.user.getToken(), page, SIZE).enqueue(new Callback<News>() {
+        APIClient.getAPICommunity().getDataNews("Bearer " + MainActivity.user.getToken(), page, SIZE)
+                .enqueue(new Callback<CallBackItems<Status>>() {
             @Override
-            public void onResponse(@NonNull Call<News> call, @NonNull Response<News> response) {
+            public void onResponse(@NonNull Call<CallBackItems<Status>> call, @NonNull Response<CallBackItems<Status>> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     getDataNews(view, response.body());
@@ -59,7 +60,7 @@ public class NewsFragment extends Fragment implements ChangePageNews {
             }
 
             @Override
-            public void onFailure(@NonNull Call<News> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<CallBackItems<Status>> call, @NonNull Throwable t) {
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
                 MainActivity.showBottomNav();
             }
@@ -93,7 +94,7 @@ public class NewsFragment extends Fragment implements ChangePageNews {
         });
     }
 
-    private void getDataNews(View _view, News news) {
+    private void getDataNews(View _view, CallBackItems<Status> news) {
         RecyclerView recyclerView = _view.findViewById(R.id.recycle_view_news);
         TextView noneNews = _view.findViewById(R.id.none_news_text);
 
@@ -115,9 +116,9 @@ public class NewsFragment extends Fragment implements ChangePageNews {
     }
 
     private void changePage(long page) {
-        APIClient.getAPICommunity().getDataNews("Bearer " + MainActivity.user.getToken(), page, SIZE).enqueue(new Callback<News>() {
+        APIClient.getAPICommunity().getDataNews("Bearer " + MainActivity.user.getToken(), page, SIZE).enqueue(new Callback<CallBackItems<Status>>() {
             @Override
-            public void onResponse(@NonNull Call<News> call, @NonNull Response<News> response) {
+            public void onResponse(@NonNull Call<CallBackItems<Status>> call, @NonNull Response<CallBackItems<Status>> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     statusAdapter.setData(response.body());
@@ -126,7 +127,7 @@ public class NewsFragment extends Fragment implements ChangePageNews {
             }
 
             @Override
-            public void onFailure(@NonNull Call<News> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<CallBackItems<Status>> call, @NonNull Throwable t) {
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
             }
         });

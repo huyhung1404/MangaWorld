@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mangaworld.API.APIClient;
 import com.example.mangaworld.Extension.Pagination.PaginationRecyclerView;
 import com.example.mangaworld.Main.MainActivity;
-import com.example.mangaworld.Model.Community.UserCallBack;
+import com.example.mangaworld.Model.Community.CallBackItems;
 import com.example.mangaworld.Model.Community.UserForum;
 import com.example.mangaworld.R;
 
@@ -51,9 +52,9 @@ public class MemberManager extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_member_mangaer, container, false);
         page = 1;
-        APIClient.getAPICommunity().getUserDraftInGroup("Bearer " + MainActivity.user.getToken(), idGroup, page, SIZE).enqueue(new Callback<UserCallBack>() {
+        APIClient.getAPICommunity().getUserDraftInGroup("Bearer " + MainActivity.user.getToken(), idGroup, page, SIZE).enqueue(new Callback<CallBackItems<UserForum>>() {
             @Override
-            public void onResponse(@NonNull Call<UserCallBack> call, @NonNull Response<UserCallBack> response) {
+            public void onResponse(@NonNull Call<CallBackItems<UserForum>> call, @NonNull Response<CallBackItems<UserForum>> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     userForumList = response.body().getItems();
@@ -62,7 +63,7 @@ public class MemberManager extends Fragment {
             }
 
             @Override
-            public void onFailure(@NonNull Call<UserCallBack> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<CallBackItems<UserForum>> call, @NonNull Throwable t) {
                 Toast.makeText(requireContext(), "Lấy danh dách nhóm thất bại", Toast.LENGTH_SHORT).show();
             }
         });
@@ -81,8 +82,9 @@ public class MemberManager extends Fragment {
     }
 
     private void setData(View view, int total) {
-        if(total == 0){
-            view.findViewById(R.id.none_member_manager).setVisibility(View.VISIBLE);
+        TextView noneMember = view.findViewById(R.id.none_member_manager);
+        if (total == 0) {
+            noneMember.setVisibility(View.VISIBLE);
             return;
         }
         RecyclerView recyclerView = view.findViewById(R.id.rcv_member_manager);
@@ -91,7 +93,7 @@ public class MemberManager extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setItemViewCacheSize((int) SIZE);
-        memberAdapter = new MemberAdapter(idGroup,requireContext());
+        memberAdapter = new MemberAdapter(idGroup, requireContext(), () -> noneMember.setVisibility(View.VISIBLE));
         memberAdapter.setData(userForumList);
         recyclerView.setAdapter(memberAdapter);
         DividerItemDecoration dividerHorizontal = new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL);
@@ -106,9 +108,9 @@ public class MemberManager extends Fragment {
     }
 
     private void changeGroupList() {
-        APIClient.getAPICommunity().getUserDraftInGroup("Bearer " + MainActivity.user.getToken(), idGroup, ++page, SIZE).enqueue(new Callback<UserCallBack>() {
+        APIClient.getAPICommunity().getUserDraftInGroup("Bearer " + MainActivity.user.getToken(), idGroup, ++page, SIZE).enqueue(new Callback<CallBackItems<UserForum>>() {
             @Override
-            public void onResponse(@NonNull Call<UserCallBack> call, @NonNull Response<UserCallBack> response) {
+            public void onResponse(@NonNull Call<CallBackItems<UserForum>> call, @NonNull Response<CallBackItems<UserForum>> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     userForumList.addAll(response.body().getItems());
@@ -118,7 +120,7 @@ public class MemberManager extends Fragment {
             }
 
             @Override
-            public void onFailure(@NonNull Call<UserCallBack> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<CallBackItems<UserForum>> call, @NonNull Throwable t) {
                 Toast.makeText(requireContext(), "Lấy danh dách nhóm thất bại", Toast.LENGTH_SHORT).show();
             }
         });

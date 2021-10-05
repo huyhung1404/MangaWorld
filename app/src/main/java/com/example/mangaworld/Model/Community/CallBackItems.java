@@ -9,9 +9,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class UserCallBack {
+public class CallBackItems<T> {
     private long total;
     private long page;
     private long size;
-    private List<UserForum> items;
+    private List<T> items;
 }

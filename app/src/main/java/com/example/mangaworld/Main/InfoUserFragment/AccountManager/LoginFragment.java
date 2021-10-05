@@ -2,7 +2,6 @@ package com.example.mangaworld.Main.InfoUserFragment.AccountManager;
 
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +47,6 @@ public class LoginFragment extends Fragment {
                     Toast.makeText(getContext(), "Không thể lấy được token", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Log.e("tag",task.getResult());
                 User user = new User(editUserName.getText().toString().trim(), editUserPassword.getText().toString().trim(), task.getResult());
                 APIClient.getAPILogin().postUser(user).enqueue(new Callback<User>() {
                     @Override

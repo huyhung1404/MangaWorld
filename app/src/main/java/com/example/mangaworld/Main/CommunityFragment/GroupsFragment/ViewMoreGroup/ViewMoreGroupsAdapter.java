@@ -17,21 +17,21 @@ import com.example.mangaworld.Interface.OnClickListenerRecyclerView;
 import com.example.mangaworld.Main.CommunityFragment.CommunityFragment;
 import com.example.mangaworld.Main.CommunityFragment.GroupsFragment.InformationGroup.InformationGroupFragment;
 import com.example.mangaworld.Main.CommunityFragment.PaginationViewHolder;
+import com.example.mangaworld.Model.Community.CallBackItems;
 import com.example.mangaworld.Model.Community.Groups;
-import com.example.mangaworld.Model.Community.GroupsCallBack;
 import com.example.mangaworld.R;
 
 
 public class ViewMoreGroupsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final ChangePageNews changePageNews;
-    private GroupsCallBack callBackGroup;
+    private CallBackItems<Groups> callBackGroup;
     private int size;
 
     public ViewMoreGroupsAdapter(ChangePageNews _changePageNews) {
         changePageNews = _changePageNews;
     }
 
-    public void setData(GroupsCallBack callBackGroup) {
+    public void setData(CallBackItems<Groups> callBackGroup) {
         this.callBackGroup = callBackGroup;
         size = (callBackGroup.getItems() == null) ? 0 : callBackGroup.getItems().size();
         notifyDataSetChanged();

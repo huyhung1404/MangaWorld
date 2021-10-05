@@ -1,6 +1,13 @@
 package com.example.mangaworld.Main.CommunityFragment.MyProfileFragment.MyGroupsFragment.MyGroupCreated.GroupsManager;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -13,20 +20,11 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.example.mangaworld.API.APIClient;
 import com.example.mangaworld.Extension.Pagination.PaginationRecyclerView;
 import com.example.mangaworld.Main.MainActivity;
-import com.example.mangaworld.Model.Community.News;
+import com.example.mangaworld.Model.Community.CallBackItems;
 import com.example.mangaworld.Model.Community.Status;
-import com.example.mangaworld.Model.Community.UserCallBack;
-import com.example.mangaworld.Model.Community.UserForum;
 import com.example.mangaworld.R;
 
 import java.util.List;
@@ -37,7 +35,7 @@ import retrofit2.Response;
 
 public class PostManager extends Fragment {
     public static final String TAG = PostManager.class.getName();
-    private long idGroup;
+    private final long idGroup;
     private long page;
     private final long SIZE = 6;
     private List<Status> statuses;
@@ -54,9 +52,9 @@ public class PostManager extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_post_manager, container, false);
         page = 1;
-        APIClient.getAPICommunity().getPostDraftInGroup("Bearer " + MainActivity.user.getToken(), idGroup, page, SIZE).enqueue(new Callback<News>() {
+        APIClient.getAPICommunity().getPostDraftInGroup("Bearer " + MainActivity.user.getToken(), idGroup, page, SIZE).enqueue(new Callback<CallBackItems<Status>>() {
             @Override
-            public void onResponse(@NonNull Call<News> call, @NonNull Response<News> response) {
+            public void onResponse(@NonNull Call<CallBackItems<Status>> call, @NonNull Response<CallBackItems<Status>> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     statuses = response.body().getItems();
@@ -65,7 +63,7 @@ public class PostManager extends Fragment {
             }
 
             @Override
-            public void onFailure(@NonNull Call<News> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<CallBackItems<Status>> call, @NonNull Throwable t) {
                 Toast.makeText(requireContext(), "Lấy danh dách nhóm thất bại", Toast.LENGTH_SHORT).show();
             }
         });
@@ -84,8 +82,9 @@ public class PostManager extends Fragment {
     }
 
     private void setData(View view, int total) {
-        if(total == 0){
-            view.findViewById(R.id.none_post_manager).setVisibility(View.VISIBLE);
+        TextView nonePost = view.findViewById(R.id.none_post_manager);
+        if (total == 0) {
+            nonePost.setVisibility(View.VISIBLE);
             return;
         }
         RecyclerView recyclerView = view.findViewById(R.id.rcv_post_manager);
@@ -93,7 +92,7 @@ public class PostManager extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setItemViewCacheSize((int) SIZE);
-        postAdapter = new PostAdapter(idGroup,requireContext());
+        postAdapter = new PostAdapter(idGroup, requireContext(), () -> nonePost.setVisibility(View.VISIBLE));
         postAdapter.setData(statuses);
         recyclerView.setAdapter(postAdapter);
         DividerItemDecoration dividerHorizontal = new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL);
@@ -106,10 +105,11 @@ public class PostManager extends Fragment {
             }
         });
     }
+
     private void changeGroupList() {
-        APIClient.getAPICommunity().getPostDraftInGroup("Bearer " + MainActivity.user.getToken(), idGroup, ++page, SIZE).enqueue(new Callback<News>() {
+        APIClient.getAPICommunity().getPostDraftInGroup("Bearer " + MainActivity.user.getToken(), idGroup, ++page, SIZE).enqueue(new Callback<CallBackItems<Status>>() {
             @Override
-            public void onResponse(@NonNull Call<News> call, @NonNull Response<News> response) {
+            public void onResponse(@NonNull Call<CallBackItems<Status>> call, @NonNull Response<CallBackItems<Status>> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     statuses.addAll(response.body().getItems());
@@ -119,7 +119,7 @@ public class PostManager extends Fragment {
             }
 
             @Override
-            public void onFailure(@NonNull Call<News> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<CallBackItems<Status>> call, @NonNull Throwable t) {
                 Toast.makeText(requireContext(), "Lấy danh dách nhóm thất bại", Toast.LENGTH_SHORT).show();
             }
         });

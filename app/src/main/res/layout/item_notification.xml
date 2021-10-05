@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="15dp"
+    android:id="@+id/card_view_notification"
+    app:cardBackgroundColor="@color/white"
     android:layout_marginTop="5dp"
     app:cardCornerRadius="20dp"
     app:cardElevation="10dp">
@@ -17,8 +19,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/avatar_notification"
             android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@drawable/background_login" />
+            android:layout_height="70dp"/>
 
         <TextView
             android:id="@+id/text_notification"
@@ -30,19 +31,18 @@
             android:layout_toRightOf="@+id/avatar_notification"
             android:autoSizeMaxTextSize="18sp"
             android:autoSizeTextType="uniform"
-            android:text="Hùng Bá đã bình luận bài viết của bạn"
             android:textStyle="bold"
             tools:ignore="UnusedAttribute" />
 
         <TextView
+            android:id="@+id/text_time_notification"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_below="@id/text_notification"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_toEndOf="@id/avatar_notification"
-            android:layout_toRightOf="@id/avatar_notification"
-            android:text="2 ngày" />
+            android:layout_toRightOf="@id/avatar_notification"/>
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

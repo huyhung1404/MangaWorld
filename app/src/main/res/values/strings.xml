@@ -93,4 +93,5 @@
     <string name="delete_post">Xoá bài viết</string>
     <string name="status">Trạng thái:</string>
     <string name="name_group">Tên nhóm:</string>
+    <string name="seach_group">Tìm kiếm nhóm</string>
 </resources>

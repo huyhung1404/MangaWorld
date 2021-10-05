@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.mangaworld.API.APIClient;
+import com.example.mangaworld.Interface.IShowTextNone;
 import com.example.mangaworld.Interface.OnClickListenerRecyclerView;
 import com.example.mangaworld.Main.MainActivity;
 import com.example.mangaworld.Model.Community.UserForum;
@@ -29,10 +30,12 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberView
     private List<UserForum> userForums;
     private final long idGroup;
     private final Context context;
+    private IShowTextNone m_Show;
 
-    public MemberAdapter(long idGroup, Context context) {
+    public MemberAdapter(long idGroup, Context context,IShowTextNone _show) {
         this.idGroup = idGroup;
         this.context = context;
+        m_Show = _show;
     }
 
     public void setData(List<UserForum> userForums) {
@@ -97,6 +100,8 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberView
                 if (response.isSuccessful()) {
                     userForums.remove(position);
                     notifyItemRemoved(position);
+                    if(userForums.size() == 0)
+                        m_Show.show();
                 }
             }
 
@@ -114,6 +119,8 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberView
                 if (response.isSuccessful()) {
                     userForums.remove(position);
                     notifyItemRemoved(position);
+                    if(userForums.size() == 0)
+                        m_Show.show();
                 }
             }
 

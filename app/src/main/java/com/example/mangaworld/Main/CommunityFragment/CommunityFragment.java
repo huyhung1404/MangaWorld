@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.mangaworld.Interface.IReceiveNotification;
+import com.example.mangaworld.API.APIClient;
 import com.example.mangaworld.Main.CommunityFragment.GroupsFragment.GroupsFragment;
 import com.example.mangaworld.Main.CommunityFragment.MyNotificationFragment.FirebasePushNotification.MyFirebaseMessagingService;
 import com.example.mangaworld.Main.CommunityFragment.MyNotificationFragment.MyNotificationFragment;
@@ -21,11 +21,16 @@ import com.example.mangaworld.Main.InfoUserFragment.AccountManager.LoginFragment
 import com.example.mangaworld.Main.MainActivity;
 import com.example.mangaworld.R;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class CommunityFragment extends Fragment {
     private static FragmentManager fragmentManager;
     private boolean isCreateNew = true;
     private TextView textNumber;
     private int num = 0;
+    private ISeenNotification m_ISeenNotification;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -48,6 +53,7 @@ public class CommunityFragment extends Fragment {
 
     private View createCommunityFragment(@NonNull LayoutInflater _inflater, ViewGroup _container) {
         View view = _inflater.inflate(R.layout.fragment_community, _container, false);
+        getNumberNotificationUnseen();
         textNumber = view.findViewById(R.id.number_notification);
         registerReceiveNotification();
         fragmentManager = getChildFragmentManager();
@@ -55,8 +61,8 @@ public class CommunityFragment extends Fragment {
             fragmentManager.beginTransaction().add(R.id.fragmentContainerView, new NewsFragment()).commit();
             isCreateNew = false;
         }
+        m_ISeenNotification = () -> requireActivity().runOnUiThread(() -> settingNumberNotification(--num));
         initButton(view);
-        settingNumberNotification(num);
         return view;
     }
 
@@ -64,7 +70,7 @@ public class CommunityFragment extends Fragment {
     private void initButton(View _view) {
         _view.findViewById(R.id.button_news).setOnClickListener(v -> ChangeFragment(new NewsFragment()));
         _view.findViewById(R.id.button_groups).setOnClickListener(v -> ChangeFragment(new GroupsFragment()));
-        _view.findViewById(R.id.button_bell).setOnClickListener(v -> ChangeFragment(new MyNotificationFragment()));
+        _view.findViewById(R.id.button_bell).setOnClickListener(v -> ChangeFragment(new MyNotificationFragment(m_ISeenNotification)));
         _view.findViewById(R.id.button_mine).setOnClickListener(v -> ChangeFragment(new MyProfileFragment()));
     }
 
@@ -105,5 +111,25 @@ public class CommunityFragment extends Fragment {
 
     private void unregisterReceiveNotification() {
         MyFirebaseMessagingService.iReceiveNotification = null;
+    }
+    private void getNumberNotificationUnseen(){
+        APIClient.getAPICommunity().numberNotification("Bearer " + MainActivity.user.getToken()).enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(@NonNull Call<Integer> call, @NonNull Response<Integer> response) {
+                if(response.isSuccessful()){
+                    num = response.body();
+                    settingNumberNotification(num);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Integer> call, @NonNull Throwable t) {
+                num = 0;
+            }
+        });
+    }
+
+    public interface ISeenNotification{
+        void seen();
     }
 }

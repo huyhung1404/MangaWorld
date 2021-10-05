@@ -75,4 +75,15 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/information_group_text"
         android:visibility="gone"/>
+    <TextView
+        android:id="@+id/text_none_post"
+        android:text="Nhóm chưa có bất kỳ một bài viết nào"
+        android:gravity="center"
+        android:textSize="40sp"
+        android:textStyle="bold|italic"
+        android:layout_marginHorizontal="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/information_group_text"
+        android:visibility="gone"/>
 </RelativeLayout>

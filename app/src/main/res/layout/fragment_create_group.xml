@@ -27,6 +27,7 @@
                 android:id="@+id/avatar_group_create_fragment"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/icon_camera"
                 tools:ignore="ContentDescription" />
         </androidx.cardview.widget.CardView>

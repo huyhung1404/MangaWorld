@@ -16,6 +16,7 @@ public class Groups {
     private long numberOfPosts;
     private long numberOfUsers;
     private String avatarGroup;
+    private Long imageId;
     private UserForum admin;
     private boolean invitationSent;
     private boolean invitation;

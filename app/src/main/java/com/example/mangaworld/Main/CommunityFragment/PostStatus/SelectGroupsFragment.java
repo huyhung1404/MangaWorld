@@ -25,8 +25,8 @@ import com.example.mangaworld.API.APIClient;
 import com.example.mangaworld.Extension.Pagination.PaginationRecyclerView;
 import com.example.mangaworld.Interface.ISelectGroups;
 import com.example.mangaworld.Main.MainActivity;
+import com.example.mangaworld.Model.Community.CallBackItems;
 import com.example.mangaworld.Model.Community.Groups;
-import com.example.mangaworld.Model.Community.GroupsCallBack;
 import com.example.mangaworld.Model.Community.PostStatus;
 import com.example.mangaworld.Model.Community.Status;
 import com.example.mangaworld.R;
@@ -75,9 +75,9 @@ public class SelectGroupsFragment extends Fragment implements ISelectGroups {
             }
             content = bundleReceive.getString("content");
         }
-        APIClient.getAPICommunity().getGroupsJoined("Bearer " + MainActivity.user.getToken(), page, SIZE).enqueue(new Callback<GroupsCallBack>() {
+        APIClient.getAPICommunity().getGroupsJoined("Bearer " + MainActivity.user.getToken(), page, SIZE).enqueue(new Callback<CallBackItems<Groups>>() {
             @Override
-            public void onResponse(@NonNull Call<GroupsCallBack> call, @NonNull Response<GroupsCallBack> response) {
+            public void onResponse(@NonNull Call<CallBackItems<Groups>> call, @NonNull Response<CallBackItems<Groups>> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     groupsList = response.body().getItems();
@@ -86,7 +86,7 @@ public class SelectGroupsFragment extends Fragment implements ISelectGroups {
             }
 
             @Override
-            public void onFailure(@NonNull Call<GroupsCallBack> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<CallBackItems<Groups>> call, @NonNull Throwable t) {
                 Toast.makeText(requireContext(), "Lấy danh dách nhóm thất bại", Toast.LENGTH_SHORT).show();
             }
         });
@@ -174,9 +174,9 @@ public class SelectGroupsFragment extends Fragment implements ISelectGroups {
     }
 
     private void changeGroupList() {
-        APIClient.getAPICommunity().getGroupsJoined("Bearer " + MainActivity.user.getToken(), ++page, SIZE).enqueue(new Callback<GroupsCallBack>() {
+        APIClient.getAPICommunity().getGroupsJoined("Bearer " + MainActivity.user.getToken(), ++page, SIZE).enqueue(new Callback<CallBackItems<Groups>>() {
             @Override
-            public void onResponse(@NonNull Call<GroupsCallBack> call, @NonNull Response<GroupsCallBack> response) {
+            public void onResponse(@NonNull Call<CallBackItems<Groups>> call, @NonNull Response<CallBackItems<Groups>> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     groupsList.addAll(response.body().getItems());
@@ -186,7 +186,7 @@ public class SelectGroupsFragment extends Fragment implements ISelectGroups {
             }
 
             @Override
-            public void onFailure(@NonNull Call<GroupsCallBack> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<CallBackItems<Groups>> call, @NonNull Throwable t) {
                 Toast.makeText(requireContext(), "Lấy danh dách nhóm thất bại", Toast.LENGTH_SHORT).show();
             }
         });

@@ -24,7 +24,7 @@ import com.example.mangaworld.Main.CommunityFragment.NewsFragment.CommentStatusF
 import com.example.mangaworld.Main.CommunityFragment.PaginationViewHolder;
 import com.example.mangaworld.Main.HomeFragment.CategoryFragment.MangaInCategoryAdapter;
 import com.example.mangaworld.Main.MainActivity;
-import com.example.mangaworld.Model.Community.News;
+import com.example.mangaworld.Model.Community.CallBackItems;
 import com.example.mangaworld.Model.Community.Status;
 import com.example.mangaworld.Model.Manga;
 import com.example.mangaworld.Model.Message;
@@ -44,7 +44,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final OnClickMenuPopUpStatus onClickMenuPopUpStatus;
     private final ChangePageNews changePageNews;
     private final int MENU_LAYOUT;
-    private News news;
+    private CallBackItems<Status> news;
     private int size;
     private final Date dateNow = new Date();
 
@@ -56,7 +56,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         MENU_LAYOUT = menuLayout;
     }
 
-    public void setData(News _news) {
+    public void setData(CallBackItems<Status> _news) {
         news = _news;
         size = (_news.getItems() == null) ? 0 : _news.getItems().size();
         notifyDataSetChanged();

@@ -25,8 +25,8 @@ import com.example.mangaworld.API.APIClient;
 import com.example.mangaworld.Extension.Pagination.PaginationRecyclerView;
 import com.example.mangaworld.Main.CommunityFragment.CommunityFragment;
 import com.example.mangaworld.Main.MainActivity;
+import com.example.mangaworld.Model.Community.CallBackItems;
 import com.example.mangaworld.Model.Community.Groups;
-import com.example.mangaworld.Model.Community.GroupsCallBack;
 import com.example.mangaworld.R;
 
 import java.util.List;
@@ -51,9 +51,9 @@ public class MyGroupCreatedFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_my_group_created, container, false);
         page = 1;
         APIClient.getAPICommunity().getMyGroupCreated("Bearer " + MainActivity.user.getToken(), page, SIZE)
-                .enqueue(new Callback<GroupsCallBack>() {
+                .enqueue(new Callback<CallBackItems<Groups>>() {
                     @Override
-                    public void onResponse(@NonNull Call<GroupsCallBack> call, @NonNull Response<GroupsCallBack> response) {
+                    public void onResponse(@NonNull Call<CallBackItems<Groups>> call, @NonNull Response<CallBackItems<Groups>> response) {
                         if (response.isSuccessful()) {
                             assert response.body() != null;
                             groupsList = response.body().getItems();
@@ -62,7 +62,7 @@ public class MyGroupCreatedFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<GroupsCallBack> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<CallBackItems<Groups>> call, @NonNull Throwable t) {
                         Toast.makeText(requireContext(), "Lấy danh dách nhóm thất bại", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -124,9 +124,9 @@ public class MyGroupCreatedFragment extends Fragment {
     }
 
     private void changeGroupList() {
-        APIClient.getAPICommunity().getMyGroupCreated("Bearer " + MainActivity.user.getToken(), ++page, SIZE).enqueue(new Callback<GroupsCallBack>() {
+        APIClient.getAPICommunity().getMyGroupCreated("Bearer " + MainActivity.user.getToken(), ++page, SIZE).enqueue(new Callback<CallBackItems<Groups>>() {
             @Override
-            public void onResponse(@NonNull Call<GroupsCallBack> call, @NonNull Response<GroupsCallBack> response) {
+            public void onResponse(@NonNull Call<CallBackItems<Groups>> call, @NonNull Response<CallBackItems<Groups>> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     groupsList.addAll(response.body().getItems());
@@ -136,7 +136,7 @@ public class MyGroupCreatedFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(@NonNull Call<GroupsCallBack> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<CallBackItems<Groups>> call, @NonNull Throwable t) {
                 Toast.makeText(requireContext(), "Lấy danh dách nhóm thất bại", Toast.LENGTH_SHORT).show();
             }
         });

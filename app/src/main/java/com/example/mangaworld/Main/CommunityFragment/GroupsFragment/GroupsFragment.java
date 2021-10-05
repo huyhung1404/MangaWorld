@@ -3,7 +3,6 @@ package com.example.mangaworld.Main.CommunityFragment.GroupsFragment;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +27,8 @@ import com.example.mangaworld.Main.CommunityFragment.GroupsFragment.InformationG
 import com.example.mangaworld.Main.CommunityFragment.GroupsFragment.ViewMoreGroup.ViewMoreGroupsFragment;
 import com.example.mangaworld.Main.CommunityFragment.NewsFragment.StatusAdapter;
 import com.example.mangaworld.Main.MainActivity;
+import com.example.mangaworld.Model.Community.CallBackItems;
 import com.example.mangaworld.Model.Community.Groups;
-import com.example.mangaworld.Model.Community.News;
 import com.example.mangaworld.Model.Community.Status;
 import com.example.mangaworld.R;
 
@@ -42,16 +41,16 @@ import retrofit2.Response;
 
 
 public class GroupsFragment extends Fragment implements ChangePageNews {
-    private final int[] groupsRecommend = new int[]{
+    private final int[] GROUPS_RECOMMEND = new int[]{
             R.id.group1,
             R.id.group2,
             R.id.group3,
             R.id.group4
     };
-    private long page = 1;
     private final long SIZE = 6;
-    private StatusAdapter statusAdapter;
-    private LinearLayoutManager linearLayoutManager;
+    private long m_Page = 1;
+    private StatusAdapter m_StatusAdapter;
+    private LinearLayoutManager m_LinearLayoutManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,9 +59,9 @@ public class GroupsFragment extends Fragment implements ChangePageNews {
         View view = inflater.inflate(R.layout.fragment_groups, container, false);
         initGroupsRecommend(view);
         MainActivity.hideBottomNav();
-        APIClient.getAPICommunity().getFeaturedPosts("Bearer " + MainActivity.user.getToken(), page, SIZE).enqueue(new Callback<News>() {
+        APIClient.getAPICommunity().getFeaturedPosts("Bearer " + MainActivity.user.getToken(), m_Page, SIZE).enqueue(new Callback<CallBackItems<Status>>() {
             @Override
-            public void onResponse(@NonNull Call<News> call, @NonNull Response<News> response) {
+            public void onResponse(@NonNull Call<CallBackItems<Status>> call, @NonNull Response<CallBackItems<Status>> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     getData(view, response.body());
@@ -71,36 +70,51 @@ public class GroupsFragment extends Fragment implements ChangePageNews {
             }
 
             @Override
-            public void onFailure(@NonNull Call<News> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<CallBackItems<Status>> call, @NonNull Throwable t) {
                 Toast.makeText(getContext(), "Lỗi lấy tin đề cử", Toast.LENGTH_SHORT).show();
                 MainActivity.showBottomNav();
             }
         });
         view.findViewById(R.id.view_more_groups).setOnClickListener(v -> CommunityFragment
-                .GoToScreenInCommunity(new ViewMoreGroupsFragment(),ViewMoreGroupsFragment.TAG));
+                .GoToScreenInCommunity(new ViewMoreGroupsFragment(), ViewMoreGroupsFragment.TAG));
+        searchGroup(view, (EditText) view.findViewById(R.id.edit_text_group_search));
         return view;
     }
 
-    private void getData(View view, News news) {
+    private void getData(View view, CallBackItems<Status> news) {
         RecyclerView recyclerView = view.findViewById(R.id.recycle_view_groups);
-        linearLayoutManager =
+        m_LinearLayoutManager =
                 new LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setLayoutManager(m_LinearLayoutManager);
         recyclerView.setItemViewCacheSize((int) SIZE);
-        statusAdapter = new StatusAdapter((MainActivity) requireActivity(), this::setClickPopupMenu, this,R.menu.menu_status);
-        statusAdapter.setData(news);
-        recyclerView.setAdapter(statusAdapter);
-        recyclerView.addOnScrollListener(new HideAndShowBottomNavRecycleView(linearLayoutManager));
+        m_StatusAdapter = new StatusAdapter((MainActivity) requireActivity(), this::setClickPopupMenu, this, R.menu.menu_status);
+        m_StatusAdapter.setData(news);
+        recyclerView.setAdapter(m_StatusAdapter);
+        recyclerView.addOnScrollListener(new HideAndShowBottomNavRecycleView(m_LinearLayoutManager));
     }
 
-    private void initGroupsRecommend(View _view) {
+    private void searchGroup(View view, EditText editText) {
+        view.findViewById(R.id.button_group_search).setOnClickListener(v -> {
+            if (editText.length() == 0) {
+                Toast.makeText(getContext(), "Nhập tên nhóm cần tìm", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            CommunityFragment.GoToScreenInCommunity(
+                    new SearchGroupsFragment(editText.getText().toString()),
+                    SearchGroupsFragment.TAG
+            );
+            editText.setText("");
+        });
+    }
+
+    private void initGroupsRecommend(View view) {
         APIClient.getAPICommunity().getGroupRecommend("Bearer " + MainActivity.user.getToken()).enqueue(new Callback<List<Groups>>() {
             @Override
             public void onResponse(@NonNull Call<List<Groups>> call, @NonNull Response<List<Groups>> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     for (int i = 0; i < 4; ++i) {
-                        createGroupRecommend(_view.findViewById(groupsRecommend[i]), response.body().get(i));
+                        createGroupRecommend(view.findViewById(GROUPS_RECOMMEND[i]), response.body().get(i));
                     }
                 }
             }
@@ -140,19 +154,19 @@ public class GroupsFragment extends Fragment implements ChangePageNews {
     }
 
     private void changePage(long page) {
-        APIClient.getAPICommunity().getFeaturedPosts("Bearer " + MainActivity.user.getToken(), page, SIZE).enqueue(new Callback<News>() {
+        APIClient.getAPICommunity().getFeaturedPosts("Bearer " + MainActivity.user.getToken(), page, SIZE).enqueue(new Callback<CallBackItems<Status>>() {
             @Override
-            public void onResponse(@NonNull Call<News> call, @NonNull Response<News> response) {
+            public void onResponse(@NonNull Call<CallBackItems<Status>> call, @NonNull Response<CallBackItems<Status>> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
-                    statusAdapter.setData(response.body());
-                    linearLayoutManager.scrollToPosition(0);
+                    m_StatusAdapter.setData(response.body());
+                    m_LinearLayoutManager.scrollToPosition(0);
                     MainActivity.showBottomNav();
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<News> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<CallBackItems<Status>> call, @NonNull Throwable t) {
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
                 MainActivity.showBottomNav();
             }
@@ -161,17 +175,17 @@ public class GroupsFragment extends Fragment implements ChangePageNews {
 
     @Override
     public void nextPage() {
-        changePage(++page);
+        changePage(++m_Page);
     }
 
     @Override
     public void lastPage() {
-        changePage(--page);
+        changePage(--m_Page);
     }
 
     @Override
     public void goPage(long page, EditText view) {
-        this.page = page;
+        this.m_Page = page;
         changePage(page);
         InputMethodManager inputMethodManager = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
