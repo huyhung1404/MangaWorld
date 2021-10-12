@@ -9,9 +9,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class Groups {
-    private long id;
+    private Long id;
     private String name;
-    private long categoryId;
+    private Long categoryId;
+    private String categoryName;
     private String description;
     private long numberOfPosts;
     private long numberOfUsers;

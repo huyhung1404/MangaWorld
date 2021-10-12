@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.palette.graphics.Palette;
 import androidx.viewpager.widget.ViewPager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.example.mangaworld.Interface.IsLoadingApi;
 import com.example.mangaworld.Main.ReadManga.Element.InfomationMangaFragment.ChapterFragment.ChapterFragment;
 import com.example.mangaworld.Main.ReadManga.Element.InfomationMangaFragment.CommentFragment.CommentFragment;
 import com.example.mangaworld.Main.ReadManga.Element.InfomationMangaFragment.SummaryFragment.SummaryFragment;
+import com.example.mangaworld.Model.ListTagCategory;
 import com.example.mangaworld.R;
 import com.example.mangaworld.API.APIClient;
 import com.example.mangaworld.Main.HomeFragment.RankFragment.RankFragment;
@@ -35,6 +37,8 @@ import com.example.mangaworld.Main.ViewPagerAdapter;
 import com.example.mangaworld.Model.Manga;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -113,6 +117,7 @@ public class InformationMangaFragment extends Fragment {
         mViewPager.setOffscreenPageLimit(2);
         mTabLayout.setupWithViewPager(mViewPager);
         setTabLayAnimation();
+        mView.findViewById(R.id.button_gif_group).setOnClickListener(v -> ChangeToGroupCategory(manga.getListTagCategory()));
     }
 
     private void setTabLayAnimation() {
@@ -152,6 +157,21 @@ public class InformationMangaFragment extends Fragment {
         tvNumberChap.setText("Số chương: " + manga.getNumberChap());
         tvView.setText("Lượt xem: " + manga.getViewManga());
         tvLike.setText("Lượt thích: " + manga.getLikeManga());
+    }
+
+    private void ChangeToGroupCategory(List<ListTagCategory> listTagCategories){
+        if(!MainActivity.isLogin){
+            Toast.makeText(requireContext(),"Cần đăng nhập để sử dụng chức năng này",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        StringBuilder tag = new StringBuilder();
+        for (int i = 0; i < listTagCategories.size(); ++i) {
+            tag.append(listTagCategories.get(i).toString());
+            if (i != listTagCategories.size() - 1) {
+                tag.append(",");
+            }
+        }
+        ((MainActivity) requireActivity()).GoToCategoryGroup(tag.toString());
     }
 
     @Override

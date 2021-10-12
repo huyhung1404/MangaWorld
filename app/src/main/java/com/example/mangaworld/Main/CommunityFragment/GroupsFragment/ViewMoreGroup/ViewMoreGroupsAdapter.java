@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.mangaworld.Interface.ChangePageNews;
+import com.example.mangaworld.Interface.IChangeToInformationGroup;
 import com.example.mangaworld.Interface.OnClickListenerRecyclerView;
 import com.example.mangaworld.Main.CommunityFragment.CommunityFragment;
 import com.example.mangaworld.Main.CommunityFragment.GroupsFragment.InformationGroup.InformationGroupFragment;
@@ -26,9 +27,11 @@ public class ViewMoreGroupsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private final ChangePageNews changePageNews;
     private CallBackItems<Groups> callBackGroup;
     private int size;
+    private final IChangeToInformationGroup iChangeToInformationGroup;
 
-    public ViewMoreGroupsAdapter(ChangePageNews _changePageNews) {
+    public ViewMoreGroupsAdapter(ChangePageNews _changePageNews, IChangeToInformationGroup _iChangeToInformationGroup) {
         changePageNews = _changePageNews;
+        iChangeToInformationGroup = _iChangeToInformationGroup;
     }
 
     public void setData(CallBackItems<Groups> callBackGroup) {
@@ -43,9 +46,7 @@ public class ViewMoreGroupsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
         if (viewType == R.layout.view_more_groups) {
-            return new ViewMoreGroupViewHolder(view, (v, position) -> CommunityFragment
-                    .GoToScreenInCommunity(new InformationGroupFragment(callBackGroup.getItems().get(position).getId()),
-                            InformationGroupFragment.TAG));
+            return new ViewMoreGroupViewHolder(view, (v, position) -> iChangeToInformationGroup.ChangeTo(callBackGroup.getItems().get(position).getId()));
         }
         return new PaginationViewHolder(view, ((v, position) -> {
             EditText text = view.findViewById(R.id.inputPageStatus);
@@ -66,7 +67,7 @@ public class ViewMoreGroupsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @SuppressLint({"DefaultLocale", "SetTextI18n"})
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (position == size) {
+        if (position == size && size >= 10) {
             PaginationViewHolder paginationHolder = (PaginationViewHolder) holder;
             long lastPage = (long) Math.ceil((double) callBackGroup.getTotal()/callBackGroup.getSize());
             paginationHolder.textPaginationPager.setText(String.format("%d/%d", callBackGroup.getPage(), lastPage));
@@ -102,18 +103,29 @@ public class ViewMoreGroupsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
         viewHolder.textDescription.setText(group.getDescription());
         viewHolder.nameGroup.setText(group.getName());
+
+        if(group.getCategoryId() == null || group.getCategoryName() == null){
+            viewHolder.nameCategory.setVisibility(View.GONE);
+        }else{
+            viewHolder.nameCategory.setVisibility(View.VISIBLE);
+            viewHolder.nameCategory.setText(group.getCategoryName());
+        }
         viewHolder.textPost.setText(String.format("Bài viết: %d", group.getNumberOfPosts()));
         viewHolder.textMember.setText(String.format("Thành viên: %d", group.getNumberOfUsers()));
     }
 
     @Override
     public int getItemCount() {
-        return (size == 0) ? 0 : size + 1;
+        if(size == 0)
+            return 0;
+        if(size >= 10)
+            return size + 1;
+        return size;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return (position == size) ? R.layout.item_paging_pager : R.layout.view_more_groups;
+        return (position == size && size >= 10) ? R.layout.item_paging_pager : R.layout.view_more_groups;
     }
 
     public static class ViewMoreGroupViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -123,6 +135,7 @@ public class ViewMoreGroupsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         private final TextView textMember;
         private final TextView textPermission;
         private final TextView textDescription;
+        private final TextView nameCategory;
 
         private final OnClickListenerRecyclerView onClickListener;
 
@@ -134,6 +147,7 @@ public class ViewMoreGroupsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             textMember = itemView.findViewById(R.id.member_view_more);
             textPermission = itemView.findViewById(R.id.text_permission);
             textDescription = itemView.findViewById(R.id.content_view_more);
+            nameCategory = itemView.findViewById(R.id.name_category_group_view_more_group);
             this.onClickListener = onClickListener;
             itemView.setOnClickListener(this);
         }

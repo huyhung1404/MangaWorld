@@ -49,6 +49,12 @@ public class InfoPopupFragment extends AppCompatDialogFragment {
         //Số lượng bài đăng
         ((TextView) view.findViewById(R.id.number_post_info)).setText(String.format("Bài viết: %d",group.getNumberOfPosts()));
         //Ảnh đại diện admin
+        if(group.getCategoryId() == null){
+            view.findViewById(R.id.name_category_info_popup_group).setVisibility(View.GONE);
+        }else{
+            ((TextView) view.findViewById(R.id.name_category_info_popup_group)).setText(group.getCategoryName());
+        }
+
         ImageView avatarAdmin = view.findViewById(R.id.avatar_admin_info_group);
         Glide.with(avatarAdmin.getContext())
                 .load(group.getAdmin().getLinkImage())

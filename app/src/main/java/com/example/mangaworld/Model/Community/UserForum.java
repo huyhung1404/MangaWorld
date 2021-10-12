@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class UserForum {
-    private long id;
+    private Long id;
     private String userName;
     private String fullName;
     private String phone;

@@ -61,6 +61,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/number_notification"
         android:layout_width="28dp"
         android:layout_height="28dp"

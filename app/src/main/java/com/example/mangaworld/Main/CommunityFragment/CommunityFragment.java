@@ -61,7 +61,18 @@ public class CommunityFragment extends Fragment {
             fragmentManager.beginTransaction().add(R.id.fragmentContainerView, new NewsFragment()).commit();
             isCreateNew = false;
         }
-        m_ISeenNotification = () -> requireActivity().runOnUiThread(() -> settingNumberNotification(--num));
+        m_ISeenNotification = new ISeenNotification() {
+            @Override
+            public void seen() {
+                requireActivity().runOnUiThread(() -> settingNumberNotification(--num));
+            }
+
+            @Override
+            public void load(int _num) {
+                num = _num;
+                requireActivity().runOnUiThread(() -> settingNumberNotification(num));
+            }
+        };
         initButton(view);
         return view;
     }
@@ -131,5 +142,6 @@ public class CommunityFragment extends Fragment {
 
     public interface ISeenNotification{
         void seen();
+        void load(int _num);
     }
 }

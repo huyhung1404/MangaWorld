@@ -69,15 +69,14 @@ public class CommentStatusAdapter extends RecyclerView.Adapter<CommentStatusAdap
                 holder.replyButton.setVisibility(View.GONE);
                 break;
         }
-
-        Glide.with(holder.avatar.getContext())
-                .load(commentValues.get(position).getUserDTO().getLinkImage())
-                .into(holder.avatar);
-
-        holder.name.setText(commentValues.get(position).getUserDTO().getFullName());
-
+        if(commentValues.get(position).getUserDTO() != null){
+            Glide.with(holder.avatar.getContext())
+                    .load(commentValues.get(position).getUserDTO().getLinkImage())
+                    .into(holder.avatar);
+            holder.name.setText(commentValues.get(position).getUserDTO().getFullName());
+        }
         holder.content.setText(commentValues.get(position).getContent());
-
+        if(commentValues.get(position).getCreatedDate() == null) return;
         holder.timeComment.setText(timeHandling(commentValues.get(position).getCreatedDate()));
 
     }

@@ -106,13 +106,30 @@
                 android:layout_marginHorizontal="25dp"
                 android:text="@string/private_group" />
         </RadioGroup>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@id/radio_group_create"
+            android:text="Thể loại:"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_category_create_group"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="90dp"
+            android:layout_below="@id/radio_group_create"
+            android:text="Lựa chọn..."
+            android:textSize="20sp" />
+
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_create_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/edit_text_intro_create_group"
-            android:layout_marginTop="60dp"
+            android:layout_below="@id/text_category_create_group"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/button_port_background"
             android:text="@string/created_group"
@@ -120,6 +137,7 @@
             android:textColor="@color/white"
             android:textSize="20sp" />
     </RelativeLayout>
+
     <FrameLayout
         android:id="@+id/loading_create_group"
         android:layout_width="match_parent"

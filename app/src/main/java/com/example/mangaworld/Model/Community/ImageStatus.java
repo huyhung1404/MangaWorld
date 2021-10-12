@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class ImageStatus {
-    private long id;
+    private Long id;
     private String fileName;
     private String fileType;
     private String fileKey;

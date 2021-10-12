@@ -141,7 +141,10 @@ public class SelectGroupsFragment extends Fragment implements ISelectGroups {
 
                     new SuccessMessageFragment().show(requireActivity().getSupportFragmentManager(), SuccessMessageFragment.TAG);
                     MainActivity.showBottomNav();
+                    return;
                 }
+                Toast.makeText(requireContext(), "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+                loadingLayout.setVisibility(View.GONE);
             }
 
             @Override

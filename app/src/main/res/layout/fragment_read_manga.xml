@@ -45,46 +45,74 @@
                         android:scaleType="centerCrop"
                         android:contentDescription="@null" />
                 </androidx.cardview.widget.CardView>
-                <LinearLayout
+                <TextView
+                    android:id="@+id/text_author_read_book"
+                    android:layout_marginHorizontal="15dp"
                     android:layout_marginTop="48dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:orientation="vertical"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical"
                     android:layout_toRightOf="@+id/card_view_read_book_title"
-                    android:layout_toEndOf="@+id/card_view_read_book_title">
-                    <TextView
-                        android:id="@+id/text_author_read_book"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textColor="@color/black"/>
-                    <TextView
-                        android:id="@+id/text_status_read_book"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textColor="@color/black"/>
-                    <TextView
-                        android:id="@+id/text_number_chap_read_book"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textColor="@color/black"/>
-                    <TextView
-                        android:id="@+id/text_number_view_read_book"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textColor="@color/black"/>
-                    <TextView
-                        android:id="@+id/text_number_like_read_book"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textColor="@color/black"/>
-                </LinearLayout>
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/text_status_read_book"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical"
+                    android:layout_below="@id/text_author_read_book"
+                    android:layout_toRightOf="@+id/card_view_read_book_title"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/text_number_chap_read_book"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_toLeftOf="@id/button_gif_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical"
+                    android:layout_below="@id/text_status_read_book"
+                    android:layout_toRightOf="@+id/card_view_read_book_title"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/text_number_view_read_book"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_toLeftOf="@id/button_gif_group"
+                    android:gravity="center_vertical"
+                    android:layout_below="@id/text_number_chap_read_book"
+                    android:layout_toRightOf="@+id/card_view_read_book_title"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/text_number_like_read_book"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_toLeftOf="@id/button_gif_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical"
+                    android:layout_below="@id/text_number_view_read_book"
+                    android:layout_toRightOf="@+id/card_view_read_book_title"
+                    android:textColor="@color/black" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/button_gif_group"
+                    android:layout_below="@+id/text_status_read_book"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    app:cardCornerRadius="30dp">
+                    <pl.droidsonroids.gif.GifImageView
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/gif_group_icon"/>
+                </androidx.cardview.widget.CardView>
             </RelativeLayout>
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/tool_bar"

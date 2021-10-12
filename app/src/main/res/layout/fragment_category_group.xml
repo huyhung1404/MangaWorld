@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/category_group_fragment_tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ActionBarTheme" />
+
+    <TextView
+        android:id="@+id/text_none_group_category"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Không có nhóm liên quan"
+        android:textStyle="bold"
+        android:textSize="45sp"
+        android:gravity="center"
+        android:layout_marginHorizontal="40dp"
+        android:visibility="gone"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_category_group_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

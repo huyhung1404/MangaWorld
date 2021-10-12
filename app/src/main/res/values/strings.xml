@@ -94,4 +94,5 @@
     <string name="status">Trạng thái:</string>
     <string name="name_group">Tên nhóm:</string>
     <string name="seach_group">Tìm kiếm nhóm</string>
+    <string name="ch_n_th_lo_i">Chọn thể loại</string>
 </resources>

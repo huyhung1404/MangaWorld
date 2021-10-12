@@ -50,6 +50,20 @@ public class MyNotificationFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_notification, container, false);
+        APIClient.getAPICommunity().numberNotification("Bearer " + MainActivity.user.getToken()).enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(@NonNull Call<Integer> call, @NonNull Response<Integer> response) {
+                if(response.isSuccessful()){
+                    m_ISeenNotification.load(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Integer> call, @NonNull Throwable t) {
+
+            }
+        });
+
         APIClient.getAPICommunity().getNotification("Bearer " + MainActivity.user.getToken(),m_Page,SIZE).enqueue(new Callback<CallBackItems<Notification>>() {
             @Override
             public void onResponse(@NonNull Call<CallBackItems<Notification>> call, @NonNull Response<CallBackItems<Notification>> response) {

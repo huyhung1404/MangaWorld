@@ -26,9 +26,11 @@ import androidx.fragment.app.FragmentManager;
 import com.bumptech.glide.Glide;
 import com.example.mangaworld.API.APIClient;
 import com.example.mangaworld.API.RealPathUtil;
+import com.example.mangaworld.Interface.CallbackData;
 import com.example.mangaworld.Main.CommunityFragment.MyProfileFragment.MyGroupsFragment.MyGroupCreated.GroupsManager.PopupManager.PopUpDeleteGroup;
 import com.example.mangaworld.Main.CommunityFragment.MyProfileFragment.MyGroupsFragment.MyGroupCreated.GroupsManager.PopupManager.PopUpEditContentGroup;
 import com.example.mangaworld.Main.CommunityFragment.MyProfileFragment.MyGroupsFragment.MyGroupCreated.GroupsManager.PopupManager.PopUpEditNameGroup;
+import com.example.mangaworld.Main.CommunityFragment.MyProfileFragment.MyGroupsFragment.MyGroupCreated.GroupsManager.PopupManager.PopUpSelectCategoryGroup;
 import com.example.mangaworld.Main.MainActivity;
 import com.example.mangaworld.Model.Community.CreateGroup;
 import com.example.mangaworld.Model.Community.Groups;
@@ -44,7 +46,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SettingGroupFragment extends Fragment {
+public class SettingGroupFragment extends Fragment implements CallbackData.SelectCategoryChange {
     public static final String TAG = SettingGroupFragment.class.getName();
     private final long idGroup;
     private Groups m_Group;
@@ -53,6 +55,7 @@ public class SettingGroupFragment extends Fragment {
     private TextView m_PermissionGroup;
     private TextView m_DescriptionGroup;
     private TextView m_NumberMember;
+    private TextView m_NameCategoryGroup;
 
     public SettingGroupFragment(long idGroup) {
         this.idGroup = idGroup;
@@ -68,6 +71,7 @@ public class SettingGroupFragment extends Fragment {
         m_PermissionGroup = view.findViewById(R.id.permission_setting_group);
         m_DescriptionGroup = view.findViewById(R.id.content_setting_group);
         m_NumberMember = view.findViewById(R.id.number_member_setting_group);
+        m_NameCategoryGroup = view.findViewById(R.id.name_category_group_setting);
         APIClient.getAPICommunity().getGroupByID("Bearer " + MainActivity.user.getToken(), idGroup).enqueue(new Callback<Groups>() {
             @Override
             public void onResponse(@NonNull Call<Groups> call, @NonNull Response<Groups> response) {
@@ -85,6 +89,7 @@ public class SettingGroupFragment extends Fragment {
         m_AvatarGroup.setOnClickListener(v -> changeAvatarGroup());
         m_PermissionGroup.setOnClickListener(this::popupMenuPermissions);
         m_DescriptionGroup.setOnClickListener(v -> editContent());
+        m_NameCategoryGroup.setOnClickListener(v -> changeCategoryGroup());
         view.findViewById(R.id.delete_group_setting).setOnClickListener(v -> deleteGroup());
         initToolBar(view);
         return view;
@@ -114,6 +119,11 @@ public class SettingGroupFragment extends Fragment {
             m_PermissionGroup.setText("Công khai");
         } else {
             m_PermissionGroup.setText("Riêng tư");
+        }
+        if(_group.getCategoryId() == null){
+            m_NameCategoryGroup.setText("Chưa đặt");
+        }else {
+            m_NameCategoryGroup.setText(_group.getCategoryName());
         }
         m_DescriptionGroup.setText(m_Group.getDescription());
         m_NumberMember.setText(String.valueOf(m_Group.getNumberOfUsers()));
@@ -153,6 +163,11 @@ public class SettingGroupFragment extends Fragment {
     private void editContent() {
         new PopUpEditContentGroup(m_Group, this)
                 .show(requireActivity().getSupportFragmentManager(), PopUpEditContentGroup.TAG);
+    }
+
+    private void changeCategoryGroup(){
+        new PopUpSelectCategoryGroup(m_Group,this)
+                .show(requireActivity().getSupportFragmentManager(),PopUpSelectCategoryGroup.TAG);
     }
 
     @Override
@@ -270,5 +285,10 @@ public class SettingGroupFragment extends Fragment {
                 changeAvatarGroup();
             }
         }
+    }
+
+    @Override
+    public void setData(Groups groups) {
+        SetData(groups);
     }
 }

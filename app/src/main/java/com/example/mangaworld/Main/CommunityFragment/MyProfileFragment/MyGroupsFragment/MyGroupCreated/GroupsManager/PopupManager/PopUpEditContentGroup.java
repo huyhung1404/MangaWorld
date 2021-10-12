@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.example.mangaworld.API.APIClient;
+import com.example.mangaworld.Interface.CallbackData;
 import com.example.mangaworld.Main.CommunityFragment.MyProfileFragment.MyGroupsFragment.MyGroupCreated.GroupsManager.SettingGroupFragment;
 import com.example.mangaworld.Main.MainActivity;
 import com.example.mangaworld.Model.Community.CreateGroup;
@@ -29,11 +30,11 @@ import retrofit2.Response;
 public class PopUpEditContentGroup extends AppCompatDialogFragment {
     public static final String TAG = PopUpEditContentGroup.class.getName();
     private final Groups m_Group;
-    private final SettingGroupFragment m_SettingGroupFragment;
+    private final CallbackData.SelectCategoryChange m_SettingGroup;
 
-    public PopUpEditContentGroup(Groups _group, SettingGroupFragment _settingGroupFragment) {
-        this.m_Group = _group;
-        this.m_SettingGroupFragment = _settingGroupFragment;
+    public PopUpEditContentGroup(Groups _group, CallbackData.SelectCategoryChange _settingGroup) {
+        m_Group = _group;
+        m_SettingGroup = _settingGroup;
     }
 
     @SuppressLint("InflateParams")
@@ -71,7 +72,7 @@ public class PopUpEditContentGroup extends AppCompatDialogFragment {
             @Override
             public void onResponse(@NonNull Call<Groups> call, @NonNull Response<Groups> response) {
                 if (response.isSuccessful()) {
-                    m_SettingGroupFragment.SetData(response.body());
+                    m_SettingGroup.setData(response.body());
                     successful();
                 }
             }

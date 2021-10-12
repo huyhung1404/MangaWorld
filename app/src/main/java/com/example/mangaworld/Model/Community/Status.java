@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class Status {
-    private long id;
+    private Long id;
     private String creatorName;
     private String content;
     private Manga comicDto;

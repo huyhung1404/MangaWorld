@@ -2,6 +2,8 @@ package com.example.mangaworld.Main.CommunityFragment.MyNotificationFragment;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.os.Debug;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,7 +88,7 @@ public class MyNotificationAdapter extends RecyclerView.Adapter<MyNotificationAd
                 .load(notification.getAvatar())
                 .into(holder.avatar);
         holder.content.setText(notification.getTitle());
-        holder.time.setText(timeHandling(notification.getModifiedDate()));
+        holder.time.setText(timeHandling(notification.getCreatedDate()));
         if(notification.isSeen()){
             holder.card.setCardBackgroundColor(SEEN_COLOR);
             return;

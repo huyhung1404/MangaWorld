@@ -59,7 +59,7 @@
 
     <TextView
         android:id="@+id/permission_setting_group"
-        android:layout_width="120dp"
+        android:layout_width="80dp"
         android:layout_height="30dp"
         android:layout_below="@id/name_setting_group"
         android:layout_marginStart="92dp"
@@ -108,7 +108,7 @@
         android:layout_below="@id/content_setting_group"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginHorizontal="45dp"
+        android:layout_marginRight="120dp"
         android:layout_marginVertical="5dp"
         android:text="@string/manager"
         android:textColor="@color/startColor"
@@ -118,15 +118,34 @@
     <TextView
         android:id="@+id/delete_group_setting"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_below="@id/name_setting_group"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/content_setting_group"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="5dp"
         android:text="@string/delete_group"
         android:textColor="@color/red"
         android:gravity="center_vertical"
         android:textSize="18sp"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/name_category_group_setting"
+        android:layout_width="130dp"
+        android:layout_height="30dp"
+        android:background="@drawable/border_text_view_read_book"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/name_setting_group"
+        android:paddingHorizontal="10dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:paddingVertical="3dp"
+        android:textColor="@color/dark_yellow"
+        android:visibility="visible"/>
 </RelativeLayout>

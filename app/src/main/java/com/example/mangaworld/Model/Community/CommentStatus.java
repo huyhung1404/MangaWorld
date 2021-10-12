@@ -11,6 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CommentStatus {
     private String id;
-    private long postId;
+    private Long postId;
     private List<CommentValues> commentValues;
 }

@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class APIClient {
     private static final String URL = "http://192.168.1.7:8080/";
     private static final Gson gson = new GsonBuilder()
-            .setDateFormat("yyyy-MM-dd HH:mm:ss")
+            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
             .create();
     private static Retrofit getRetrofit(){
         OkHttpClient httpClient = new OkHttpClient.Builder().build();

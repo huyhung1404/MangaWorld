@@ -17,7 +17,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.mangaworld"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -58,4 +58,5 @@ dependencies {
     implementation 'com.github.smarteist:autoimageslider:1.4.0'
     implementation platform('com.google.firebase:firebase-bom:28.4.1')
     implementation 'com.google.firebase:firebase-messaging'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.23'
 }

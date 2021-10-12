@@ -20,8 +20,10 @@ import com.example.mangaworld.API.RealPathUtil;
 import com.example.mangaworld.Interface.DataReceivedListener;
 import com.example.mangaworld.Interface.IOpenGallery;
 import com.example.mangaworld.Main.CommunityFragment.CommunityFragment;
+import com.example.mangaworld.Main.CommunityFragment.GroupsFragment.CategoryGroup.CategoryGroupFragment;
 import com.example.mangaworld.Main.CommunityFragment.PostStatus.PostStatusFragment;
 import com.example.mangaworld.Main.CommunityFragment.PostStatus.SelectGroupsFragment;
+import com.example.mangaworld.Model.ListTagCategory;
 import com.example.mangaworld.R;
 import com.example.mangaworld.Main.HomeFragment.RankFragment.RankFragment;
 import com.example.mangaworld.Main.InfoUserFragment.AccountManager.LoginFragment;
@@ -155,7 +157,15 @@ public class MainActivity extends AppCompatActivity {
         goToScreen(postStatusFragment,PostStatusFragment.TAG);
     }
 
-    private void goToScreen(Fragment _fragment, String _tag) {
+    public void GoToCategoryGroup(String listTagCategories){
+        CategoryGroupFragment categoryGroupFragment = new CategoryGroupFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("listTagCategory",listTagCategories);
+        categoryGroupFragment.setArguments(bundle);
+        goToScreen(categoryGroupFragment,CategoryGroupFragment.TAG);
+    }
+
+    public void goToScreen(Fragment _fragment, String _tag) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main_frame, _fragment);
         fragmentTransaction.addToBackStack(_tag);

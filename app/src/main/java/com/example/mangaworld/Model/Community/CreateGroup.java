@@ -12,7 +12,7 @@ import lombok.Setter;
 public class CreateGroup {
     private Long id;
     private final String name;
-    private Long categoryId;
+    private final Long categoryId;
     private final String description;
     private final Long avatar_id;
     private final Integer publicGroup;

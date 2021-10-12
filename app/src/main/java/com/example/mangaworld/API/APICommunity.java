@@ -1,6 +1,5 @@
 package com.example.mangaworld.API;
 
-import androidx.cardview.widget.CardView;
 
 import com.example.mangaworld.Model.Community.CallBackItems;
 import com.example.mangaworld.Model.Community.CommentStatus;
@@ -118,4 +117,7 @@ public interface APICommunity {
 
     @GET("notification/yet")
     Call<Integer> numberNotification(@Header("Authorization") String token);
+
+    @GET("api/groups/category")
+    Call<CallBackItems<Groups>> getGroupByCategory(@Header("Authorization") String token, @Query("page") Long page, @Query("size") Long size,@Query("categoryIds") String categoryIds);
 }

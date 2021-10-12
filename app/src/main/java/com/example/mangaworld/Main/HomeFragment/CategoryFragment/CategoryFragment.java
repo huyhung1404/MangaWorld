@@ -71,6 +71,13 @@ public class CategoryFragment extends Fragment {
                     MainActivity.showBottomNav();
                 }
             });
+            view.findViewById(R.id.button_gif_group_category).setOnClickListener(v ->{
+                if(!MainActivity.isLogin){
+                    Toast.makeText(requireContext(),"Cần đăng nhập để sử dụng chức năng này",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                ((MainActivity) requireActivity()).GoToCategoryGroup(String.valueOf(idCategory));
+            });
             return view;
         }
         if (idCategory == 2) {
@@ -99,6 +106,7 @@ public class CategoryFragment extends Fragment {
                 MainActivity.showBottomNav();
             }
         });
+        view.findViewById(R.id.button_gif_group_category).setVisibility(View.GONE);
         return view;
     }
 
